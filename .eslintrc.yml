@@ -3,7 +3,10 @@ env:
   commonjs: true
   es6: true
   node: true
-extends: 'eslint:recommended'
+extends:
+  - 'eslint:recommended'
+  - 'airbnb'
+  - 'react'
 parserOptions:
   ecmaFeatures:
     experimentalObjectRestSpread: true
@@ -12,6 +15,7 @@ parserOptions:
 plugins:
   - react
 rules:
+  arrow-body-style: 0
   indent:
     - 1
     - 2
@@ -24,5 +28,10 @@ rules:
   semi:
     - 1
     - always
+  max-len: 0
   no-console: 0
+  no-prototype-builtins: 0
   no-unused-vars: 0
+  global-require: 0
+  react/prefer-stateless-function: 0
+  camelcase: 0

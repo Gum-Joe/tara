@@ -1,7 +1,26 @@
 @import "fonts";
 @import "theme";
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400');
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400");
 
 body {
   font-family: $font !important;
+}
+
+// Fix an issue where resizer for panes/panels was not shown
+.Resizer {
+  &.horizontal {
+    background-color: $panel-resizer-colour;
+    height: $panel-resizer-width;
+  }
+  &.horizontal:hover {
+    cursor: row-resize;
+  }
+
+  &.vertical {
+    background-color: $panel-resizer-colour;
+    width: $panel-resizer-width;
+  }
+  &.vertical:hover {
+    cursor: ew-resize;
+  }
 }

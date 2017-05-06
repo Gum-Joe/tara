@@ -2,6 +2,13 @@
  * @overview Theme for tara
  * Contains fonts & colours
  */
+@import "colours";
+// Import theme here
 
 // Font
 $font: 'Open Sans', sans-serif;
+
+// Panel resizer
+$panel-resizer-colour: $grey;
+$panel-resizer-style: solid;
+$panel-resizer-width: 1px;

@@ -20,7 +20,7 @@ export default class Logger {
       // Add prefix
       let prefix = "";
       if (this.args.hasOwnProperty("name")) {
-        prefix = chalk.magenta(this.args.name) + " ";
+        prefix = chalk.magenta(this.args.name) + " "; // eslint-disable-line prefer-template
       }
       console.log(`${prefix}${chalk[colour](level)} ${text}`);
     }
@@ -42,7 +42,7 @@ export default class Logger {
       // Add prefix
       let prefix = "";
       if (this.args.hasOwnProperty("name")) {
-        prefix = chalk.magenta(this.args.name) + " ";
+        prefix = chalk.magenta(this.args.name) + " "; // eslint-disable-line prefer-template
       }
       console.warn(`${prefix}${chalk.yellow("warn")} ${text}`);
     }
@@ -56,7 +56,7 @@ export default class Logger {
       // Add prefix
       let prefix = "";
       if (this.args.hasOwnProperty("name")) {
-        prefix = chalk.magenta(this.args.name) + " ";
+        prefix = chalk.magenta(this.args.name) + " "; // eslint-disable-line prefer-template
       }
       console.error(`${prefix}${chalk.red("err")} ${text}`);
     }

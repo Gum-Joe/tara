@@ -23,7 +23,7 @@ const createWindow = () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: DEFAULT_WIDTH,
-    height: DEFAULT_HEIGHT,
+    height: DEFAULT_HEIGHT
   });
 
   // and load the index.html of the app.
@@ -54,7 +54,7 @@ app.on("ready", createWindow);
 
 // Enable HMR
 if (process.env.NODE_ENV === DEV_ENV) {
-  enableLiveReload({strategy: "react-hmr"});
+  enableLiveReload({ strategy: "react-hmr" });
 }
 
 // Quit when all windows are closed.
