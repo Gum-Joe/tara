@@ -1,0 +1,16 @@
+{
+  "vertical": {
+    "left": {
+      "contents": {
+        "module": "tara-explorer",
+        "name": "explorer"
+      }
+    },
+    "right": {
+      "contents": {
+        "module": "tara",
+        "name": "tara"
+      }
+    }
+  }
+}

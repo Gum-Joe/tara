@@ -7,3 +7,5 @@ export const layout = {
   config: layoutConfig,
   rendered: {}
 };
+
+export const plugins = [];

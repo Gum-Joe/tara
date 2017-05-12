@@ -3,18 +3,46 @@
  */
 import React, { Component } from "react";
 import createFragment from "react-addons-create-fragment";
+import { join } from "path";
 import PropTypes from "prop-types";
 import Panel from "./panel";
-import { updateLayoutRender } from "../actions";
+import { updateLayoutRender, addPlugin } from "../actions";
+import { PLUGIN_CONFIG, PLUGIN_LOCATION } from "../renderer/constants";
+// Plugin config file
+const plugins = require(PLUGIN_CONFIG);
 
 /**
- * @overview Tara entry points
+ * Tara entry point
  */
 export default class Tara extends Component {
-  componentDidMount() {
+  async componentDidMount() {
+    // Load plugins
+    this.loadPlugins();
+    // Render layout
+    this.renderLayout();
+  }
+  /**
+   * @function Loads plugins into store
+   */
+  loadPlugins() {
+    // Grab each pkg.json and send to store
+    for (let plugin in plugins.dependencies) {
+      if (plugins.dependencies.hasOwnProperty(plugin)) {
+        // Require
+        const pluginJSON = require(join(PLUGIN_LOCATION, plugin, "package.json"));
+        // ...and store
+        this.props.dispatch(addPlugin(pluginJSON));
+      }
+    }
+  }
+
+  /**
+   * @function renders the layout
+   */
+  renderLayout() {
     // Init layout
     /**
-     * @overview Children function
+     * Children function
      * @description Reurns children to render (panels)
      * @param layout {Object} Layout config
      * @param type {String} Type of split
@@ -25,7 +53,7 @@ export default class Tara extends Component {
     const children = (layout, type) => {
       if (layout.hasOwnProperty("vertical") || layout.hasOwnProperty("horizontal")) {
         // Resplit as we have a panel that needs splitting
-        return { layout, children: this.getSplit(children, layout) };
+        return { layout, children: getSplit(children, layout) };
       } else if (layout.hasOwnProperty("module")) {
         // Get module as children
         return { params: layout.module, children: (<h1>Module needed: {layout.module}</h1>) };
@@ -41,24 +69,29 @@ export default class Tara extends Component {
         };
       }
     };
-    const render = this.getSplit(children, this.props.layout.config);
+
+    /**
+     * Gets split to do
+     * @param children {Function} Function that returns what to put in panel
+     * @param config {Object} Layout config
+     */
+    const getSplit = (children, config) => {
+      if (config.hasOwnProperty("vertical")) {
+        const renderedParams = children(config.vertical, "vertical");
+        return (<Panel direction="vertical" params={renderedParams.params}>{renderedParams.children}</Panel>);
+      } else if (config.hasOwnProperty("horizontal")) {
+        const renderedParams = children(config.vertical, "horizontal");
+        return (<Panel direction="horizontal" params={renderedParams.params}>{renderedParams.children}</Panel>);
+      } else {
+        const renderedParams = children(config, null);
+        return (renderedParams.children);
+      }
+    };
+
+    // Render
+    const render = getSplit(children, this.props.layout.config);
     // Dispatch
     this.props.dispatch(updateLayoutRender(render));
-  }
-
-  /**
-   * @overview Gets split to do
-   * @param children {Function} Function that returns what to put in panel
-   * @param config {Object} Layout config
-   */
-  getSplit(children, config) {
-    if (config.hasOwnProperty("vertical")) {
-      const renderedParams = children(config.vertical, "vertical");
-      return (<Panel direction="vertical" params={renderedParams.params}>{renderedParams.children}</Panel>);
-    } else {
-      const renderedParams = children(config.vertical, "horizontal");
-      return (<Panel direction="horizontal" params={renderedParams.params}>{renderedParams.children}</Panel>);
-    }
   }
 
   render() {

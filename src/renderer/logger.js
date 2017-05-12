@@ -1,4 +1,7 @@
-// Logging module for tara, from coapack
+/**
+ * @overview Logging module for tara, from coapack
+ * @module logger
+ */
 const chalk = require("chalk");
 
 export default class Logger {

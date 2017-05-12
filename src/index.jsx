@@ -1,6 +1,9 @@
 /**
  * @overview React entry point
  */
+// Polyfill
+import "babel-polyfill";
+
 // From electron-compile README.md
 import React from "react";
 import ReactDOM from "react-dom";

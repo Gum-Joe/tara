@@ -16,6 +16,7 @@ plugins:
   - react
 rules:
   arrow-body-style: 0
+  import/no-dynamic-require: 0
   indent:
     - 1
     - 2
@@ -31,7 +32,9 @@ rules:
   max-len: 0
   no-console: 0
   no-prototype-builtins: 0
+  no-restricted-syntax: 0
   no-unused-vars: 0
+  no-use-before-define: 1
   global-require: 0
   react/prefer-stateless-function: 0
   camelcase: 0

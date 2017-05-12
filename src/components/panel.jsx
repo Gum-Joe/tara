@@ -23,6 +23,6 @@ export default class Panel extends Component {
 
 Panel.propTypes = {
   direction: PropTypes.oneOf(["vertical", "horizontal"]).isRequired,
-  children: PropTypes.oneOfType(["object", "array"]).isRequired,
+  children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   params: PropTypes.object.isRequired
 };

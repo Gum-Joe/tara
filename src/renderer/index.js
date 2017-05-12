@@ -1,13 +1,15 @@
 /**
  * @overview Entry script for electron
- * @description Loads windows & starts services
+ * @description Loads windows & starts services.
  * From electron forge
+ * @module tara/renderer
  */
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow } from "electron"; // eslint-disable-line import/no-extraneous-dependencies
 import { enableLiveReload } from "electron-compile";
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEV_ENV } from "./constants";
 import installExtensions from "./install-extensions";
 import Logger from "./logger";
+import startup from "./startup";
 
 // Logger
 const logger = new Logger({
@@ -18,13 +20,20 @@ const logger = new Logger({
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
-const createWindow = () => {
+/**
+ * @function Creates the electron window
+ */
+const createWindow = async () => {
   logger.info("Creating window...");
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
   });
+
+  // Startup action
+  // that must be executed before render
+  await startup();
 
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/../html/index.html`);
