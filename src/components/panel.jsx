@@ -14,15 +14,20 @@ import PropTypes from "prop-types";
 export default class Panel extends Component {
   render() {
     return (
-      <SplitPane split={this.props.direction} defaultSize={this.props.params.width} minSize={this.props.params.minWidth} maxSize={this.props.params.maxWidth}>
+      <SplitPane split={this.props.direction} defaultSize={this.props.params.width} minSize={this.props.params.minWidth} maxSize={this.props.params.maxWidth} onChange={this.props.onSizeChange}>
         { this.props.children }
       </SplitPane>
     );
   }
 }
 
+Panel.defaultProps = {
+  onSizeChange: null
+};
+
 Panel.propTypes = {
   direction: PropTypes.oneOf(["vertical", "horizontal"]).isRequired,
   children: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  params: PropTypes.object.isRequired
+  params: PropTypes.object.isRequired,
+  onSizeChange: PropTypes.func
 };

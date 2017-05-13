@@ -93,24 +93,24 @@ class TaraLayoutClass {
           if (options.moveTo === "left") {
             this.config = {
               vertical: {
-                left: { contents: this.toSplit },
+                left: { ...this.toSplit, contents: this.toSplit.contents || this.toSplit },
                 right: {
                   contents: {}
                 }
               }
             };
-            this.select = this.config.vertical.right.contents;
+            this.select = this.config.vertical.right;
             resolve(this);
           } else if (options.moveTo === "right") {
             this.config = {
               vertical: {
-                right: { contents: this.toSplit },
+                right: { ...this.toSplit, contents: this.toSplit.contents || this.toSplit },
                 left: {
                   contents: {}
                 }
               }
             };
-            this.select = this.config.vertical.left.contents;
+            this.select = this.config.vertical.left;
             resolve(this);
           } else {
             throw new TypeError("Wrong moveTo specified to panel splitter.  Possible: vertical, horizontal");
@@ -119,24 +119,24 @@ class TaraLayoutClass {
           if (options.moveTo === "up") {
             this.config = {
               horizontal: {
-                up: { contents: this.toSplit },
+                up: { ...this.toSplit, contents: this.toSplit.contents || this.toSplit },
                 down: {
                   contents: {}
                 }
               }
             };
-            this.select = this.config.horizontal.down.contents;
+            this.select = this.config.horizontal.down;
             resolve(this);
           } else if (options.moveTo === "down") {
             this.config = {
               horizontal: {
-                down: { contents: this.toSplit },
+                down: { ...this.toSplit, contents: this.toSplit.contents || this.toSplit },
                 up: {
                   contents: {}
                 }
               }
             };
-            this.select = this.config.horizontal.up.contents;
+            this.select = this.config.horizontal.up;
             resolve(this);
           } else {
             throw new TypeError("Wrong moveTo specified to panel splitter.  Possible: up, down");
@@ -157,8 +157,34 @@ class TaraLayoutClass {
    */
   loadModule(moduleToLoad) {
     return new Promise((resolve, reject) => {
-      this.select.module = moduleToLoad;
+      this.select.contents.module = moduleToLoad;
       this.select.name = moduleToLoad;
+      resolve(this);
+    });
+  }
+
+  /**
+   * Sets a prop of a panel
+   * @param props {Object} Props and values to add
+   * @returns {Promise}
+   * @function set
+   * @todo Does not work yet
+   */
+  set(props) {
+    return new Promise((resolve, reject) => {
+      this.select = { ...this.select, ...props };
+      resolve(this);
+    });
+  }
+
+  /**
+   * Sets the width of the selected panel
+   * @param width {Number} Width to set
+   * @function width
+   */
+  width(width) {
+    return new Promise((resolve, reject) => {
+      this.select.width = width;
       resolve(this);
     });
   }
@@ -221,7 +247,7 @@ class TaraLayoutClass {
  */
 export default async (plugins) => {
   logger.debug("Searching for plugins...");
-  const pluginsToLayout = plugins.filter(plugin => plugin.tara.type === TYPE_PLUGIN && !setupDB.done.includes(plugin.name));
+  const pluginsToLayout = plugins.filter(plugin => (plugin.tara.type === TYPE_PLUGIN && !setupDB.done.includes(plugin.name)) || process.argv.includes("--regen-layout"));
   logger.debug(`Plugins to setup: ${JSON.stringify(pluginsToLayout)}`);
   // Init layout class
   const TaraLayout = new TaraLayoutClass({

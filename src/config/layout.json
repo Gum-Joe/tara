@@ -1,16 +1,19 @@
 {
   "vertical": {
-    "left": {
+    "right": {
+      "module": "tara-explorer",
+      "name": "explorer",
       "contents": {
         "module": "tara-explorer",
         "name": "explorer"
       }
     },
-    "right": {
+    "left": {
       "contents": {
-        "module": "tara",
-        "name": "tara"
-      }
+        "module": "tara"
+      },
+      "name": "tara",
+      "width": 220
     }
   }
 }

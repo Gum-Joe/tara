@@ -6,7 +6,7 @@ import createFragment from "react-addons-create-fragment";
 import { join } from "path";
 import PropTypes from "prop-types";
 import Panel from "./panel";
-import { updateLayoutRender, addPlugin } from "../actions";
+import { updateLayoutConfig, updateLayoutRender, addPlugin } from "../actions";
 import { PLUGIN_CONFIG, PLUGIN_LOCATION } from "../renderer/constants";
 // Plugin config file
 const plugins = require(PLUGIN_CONFIG);
@@ -51,12 +51,13 @@ export default class Tara extends Component {
      * @return params {Object} Params for panel
      */
     const children = (layout, type) => {
+      console.log(layout);
       if (layout.hasOwnProperty("vertical") || layout.hasOwnProperty("horizontal")) {
         // Resplit as we have a panel that needs splitting
         return { layout, children: getSplit(children, layout) };
       } else if (layout.hasOwnProperty("module")) {
         // Get module as children
-        return { params: layout.module, children: (<h1>Module needed: {layout.module}</h1>) };
+        return { params: layout, children: (<h1>Module needed: {layout.module}</h1>) };
         // return (<Module name={layout.module} />)
       } else {
         // Right or left logic here
@@ -65,7 +66,18 @@ export default class Tara extends Component {
           children: [
             children(layout.left.contents).children,
             children(layout.right.contents).children
-          ].map(element => <div>{element}</div>)
+          ].map(element => <div>{element}</div>),
+          // What to do if size changes
+          onSizeChange: (size) => {
+            this.props.dispatch(updateLayoutConfig({
+              ...this.props.layout.config,
+              vertical: { ...this.props.layout.config.vertical,
+                left: { ...this.props.layout.config.vertical.left,
+                  width: size
+                }
+              }
+            }));
+          }
         };
       }
     };
@@ -78,10 +90,10 @@ export default class Tara extends Component {
     const getSplit = (children, config) => {
       if (config.hasOwnProperty("vertical")) {
         const renderedParams = children(config.vertical, "vertical");
-        return (<Panel direction="vertical" params={renderedParams.params}>{renderedParams.children}</Panel>);
+        return (<Panel direction="vertical" params={renderedParams.params} onSizeChange={renderedParams.onSizeChange}>{renderedParams.children}</Panel>);
       } else if (config.hasOwnProperty("horizontal")) {
         const renderedParams = children(config.vertical, "horizontal");
-        return (<Panel direction="horizontal" params={renderedParams.params}>{renderedParams.children}</Panel>);
+        return (<Panel direction="horizontal" params={renderedParams.params} onSizeChange={renderedParams.onSizeChange}>{renderedParams.children}</Panel>);
       } else {
         const renderedParams = children(config, null);
         return (renderedParams.children);

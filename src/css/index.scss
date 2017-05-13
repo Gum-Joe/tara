@@ -1,8 +1,12 @@
-@import "fonts";
 @import "theme";
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400");
 
 body {
+  background-color: $background-colour;
+}
+
+// Apply defaults to everything
+body, h1, h2, h4, h5, h5, h6, p {
+  color: $text-colour;
   font-family: $font !important;
 }
 
@@ -10,6 +14,8 @@ body {
 .Resizer {
   &.horizontal {
     background-color: $panel-resizer-colour;
+    border-left: solid $background-colour 5px; // Increase hover area
+    border-right: solid $background-colour 5px; // Increase hover area
     height: $panel-resizer-width;
   }
   &.horizontal:hover {
@@ -18,6 +24,8 @@ body {
 
   &.vertical {
     background-color: $panel-resizer-colour;
+    border-left: solid $background-colour 5px; // Increase hover area
+    border-right: solid $background-colour 5px; // Increase hover area
     width: $panel-resizer-width;
   }
   &.vertical:hover {
