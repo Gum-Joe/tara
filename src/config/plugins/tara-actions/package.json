@@ -1,0 +1,7 @@
+{
+  "name": "tara-actions",
+  "main": "index.js",
+  "tara": {
+    "type": "plugin"
+  }
+}

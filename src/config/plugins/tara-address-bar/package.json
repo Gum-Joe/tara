@@ -1,0 +1,7 @@
+{
+  "name": "tara-address-bar",
+  "main": "index.js",
+  "tara": {
+    "type": "plugin"
+  }
+}

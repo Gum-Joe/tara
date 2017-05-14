@@ -2,12 +2,12 @@
  * @overview Generates layout for tara
  * @module layout
  */
+import { eachSeries } from "async";
 import fs from "fs";
 import { join } from "path";
 import Logger from "../logger";
 import { LAYOUT_LOCATION, LAYOUT_SETUP_DONE_LOCATION, PLUGIN_LOCATION, TYPE_PLUGIN } from "../constants";
 // Location of layout files
-const layout = require(LAYOUT_LOCATION);
 const setupDB = require(LAYOUT_SETUP_DONE_LOCATION);
 
 // Logger
@@ -28,6 +28,28 @@ class TaraLayoutClass {
     this.parantConfig = options.parantConfig;
     // Defaults
     this.toSplit = options.toSplit || this.config;
+    // Other stuff
+    this._loop_props = [];
+    // Setup this.config methods
+    /**
+     * Sets a prop using an array
+     * @param props {Array} List of objects to go through by depth
+     * @param val {Symbol} Value to set
+     */
+    this.config.setPropByArray = (props, val) => {
+      // Get prop
+      if (props.length !== 0) {
+        // Only do if props to loop by
+        let propstring = "";
+        props.map(prop => propstring += prop + ".");
+        // Fix issue where . is left over
+        propstring = propstring.slice(0, propstring.length - 1);
+        // now eval
+        eval(`this.config.${propstring} = val`);
+      } else {
+        this.config = val;
+      }
+    };
   }
 
   /**
@@ -47,6 +69,9 @@ class TaraLayoutClass {
         } else {
           // Loop to find
           this.toSplit = this._loop(this.config, "name", panel);
+          if (this.toSplit.hasOwnProperty("contents")) {
+            this.toSplit = this.toSplit.contents;
+          }
           return resolve(this);
         }
       } catch (e) {
@@ -67,6 +92,7 @@ class TaraLayoutClass {
   _loop(obj, prop, value) {
     logger.debug(`Looping through an object for prop "${prop}" with value "${value}"`);
     for (let property in obj) {
+      this._loop_props.push(property);
       if (obj.hasOwnProperty(property) && typeof obj[property] === "object" && obj[property].hasOwnProperty(prop) && obj[property][prop] === value) {
         // Found it!
         return obj[property];
@@ -91,7 +117,7 @@ class TaraLayoutClass {
         // Move
         if (options.direction === "vertical") {
           if (options.moveTo === "left") {
-            this.config = {
+            this.toSplit = {
               vertical: {
                 left: { ...this.toSplit, contents: this.toSplit.contents || this.toSplit },
                 right: {
@@ -99,10 +125,10 @@ class TaraLayoutClass {
                 }
               }
             };
-            this.select = this.config.vertical.right;
+            this.select = this.toSplit.vertical.right;
             resolve(this);
           } else if (options.moveTo === "right") {
-            this.config = {
+            this.toSplit = {
               vertical: {
                 right: { ...this.toSplit, contents: this.toSplit.contents || this.toSplit },
                 left: {
@@ -110,14 +136,14 @@ class TaraLayoutClass {
                 }
               }
             };
-            this.select = this.config.vertical.left;
+            this.select = this.toSplit.vertical.left;
             resolve(this);
           } else {
             throw new TypeError("Wrong moveTo specified to panel splitter.  Possible: vertical, horizontal");
           }
         } else if (options.direction === "horizontal") {
           if (options.moveTo === "up") {
-            this.config = {
+            this.toSplit = {
               horizontal: {
                 up: { ...this.toSplit, contents: this.toSplit.contents || this.toSplit },
                 down: {
@@ -125,10 +151,10 @@ class TaraLayoutClass {
                 }
               }
             };
-            this.select = this.config.horizontal.down;
+            this.select = this.toSplit.horizontal.down;
             resolve(this);
           } else if (options.moveTo === "down") {
-            this.config = {
+            this.toSplit = {
               horizontal: {
                 down: { ...this.toSplit, contents: this.toSplit.contents || this.toSplit },
                 up: {
@@ -136,7 +162,7 @@ class TaraLayoutClass {
                 }
               }
             };
-            this.select = this.config.horizontal.up;
+            this.select = this.toSplit.horizontal.up;
             resolve(this);
           } else {
             throw new TypeError("Wrong moveTo specified to panel splitter.  Possible: up, down");
@@ -190,6 +216,18 @@ class TaraLayoutClass {
   }
 
   /**
+   * Sets the height of the selected panel
+   * @param height {Number} Height to set
+   * @function width
+   */
+  height(height) {
+    return new Promise((resolve, reject) => {
+      this.select.height = height;
+      resolve(this);
+    });
+  }
+
+  /**
    * Updates setup database of plugins where layout has been made
    * @param plugin {String} Name of plugin
    * @static
@@ -225,7 +263,7 @@ class TaraLayoutClass {
    * @param config {Object} Config to update with
    * @static
    */
-  static updateConfig(config) {
+  static updateConfig(config, callback) {
     // Make config
     const updatedConfig = JSON.stringify(config, null, "  ");
     // Write out
@@ -234,6 +272,7 @@ class TaraLayoutClass {
         throw err;
       } else {
         logger.debug("New layout written");
+        callback();
       }
     });
   }
@@ -249,25 +288,28 @@ export default async (plugins) => {
   logger.debug("Searching for plugins...");
   const pluginsToLayout = plugins.filter(plugin => (plugin.tara.type === TYPE_PLUGIN && !setupDB.done.includes(plugin.name)) || process.argv.includes("--regen-layout"));
   logger.debug(`Plugins to setup: ${JSON.stringify(pluginsToLayout)}`);
-  // Init layout class
-  const TaraLayout = new TaraLayoutClass({
-    updateConfig: true,
-    configFile: LAYOUT_LOCATION,
-    config: layout,
-    parantConfig: layout
-  });
   // Filter those we don't need
   // Now we loop
-  for (let plugin of pluginsToLayout) {
+  eachSeries(pluginsToLayout, (plugin, callback) => {
     logger.debug(`Initialising plugin ${plugin.name}...`);
+    // Init layout class
+    // We have to re-require config each time
+    // or the layout will not update for each plugin
+    const layout = JSON.parse(fs.readFileSync(LAYOUT_LOCATION).toString("utf8"));
+    const TaraLayout = new TaraLayoutClass({
+      updateConfig: true,
+      configFile: LAYOUT_LOCATION,
+      config: layout,
+      parantConfig: layout
+    });
     // What file to use??
     if (plugin.tara.hasOwnProperty("init")) {
       logger.debug(`Using init script ${plugin.tara.init}...`);
       const init = require(join(PLUGIN_LOCATION, plugin.name, plugin.tara.init));
       // Run
-      init(TaraLayout, (config) => {
+      init(TaraLayout, (tara) => {
         // Update config
-        TaraLayoutClass.updateConfig(config);
+        TaraLayoutClass.updateConfig(tara.config);
         // Add to index
         TaraLayoutClass.updateSetupDone(plugin.name);
       });
@@ -276,12 +318,17 @@ export default async (plugins) => {
       logger.debug(`Using entry file ${plugin.main}...`);
       const { init } = require(join(PLUGIN_LOCATION, plugin.name, plugin.main));
       // Run
-      init(TaraLayout, (config) => {
+      init(TaraLayout, async (tara) => {
+        // Use JS's mutable objects
+        // To link looped object
+        // To this.toSplit
+        await tara.config.setPropByArray(tara._loop_props, tara.toSplit);
         // Update config
-        TaraLayoutClass.updateConfig(config);
+        TaraLayoutClass.updateConfig(tara.config, callback);
         // Add to index
         TaraLayoutClass.updateSetupDone(plugin.name);
+        //callback();
       });
     }
-  }
+  });
 };

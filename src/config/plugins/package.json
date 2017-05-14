@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "tara": "0.1.0"
+    "tara-toolbar": "0.1.0",
+    "tara-finder": "0.1.0",
+    "tara-address-bar": "0.1.0",
+    "tara-actions": "0.1.0"
   }
 }

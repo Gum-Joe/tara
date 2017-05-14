@@ -59,8 +59,8 @@ export default class Tara extends Component {
         // Get module as children
         return { params: layout, children: (<h1>Module needed: {layout.module}</h1>) };
         // return (<Module name={layout.module} />)
-      } else {
-        // Right or left logic here
+      } else if (layout.hasOwnProperty("left") || layout.hasOwnProperty("right")) {
+        // Right or left logic here, as layout is vertical
         return {
           params: layout.left,
           children: [
@@ -79,6 +79,26 @@ export default class Tara extends Component {
             }));
           }
         };
+      } else if (layout.hasOwnProperty("up") || layout.hasOwnProperty("down")) {
+        // Up or down logic here, as layout is horizontal
+        return {
+          params: layout.up,
+          children: [
+            children(layout.up.contents).children,
+            children(layout.down.contents).children
+          ].map(element => <div>{element}</div>),
+          // What to do if size changes
+          onSizeChange: (size) => {
+            this.props.dispatch(updateLayoutConfig({
+              ...this.props.layout.config,
+              horizontal: { ...this.props.layout.config.horizontal,
+                up: { ...this.props.layout.config.horizontal.up,
+                  height: size
+                }
+              }
+            }));
+          }
+        };
       }
     };
 
@@ -92,7 +112,7 @@ export default class Tara extends Component {
         const renderedParams = children(config.vertical, "vertical");
         return (<Panel direction="vertical" params={renderedParams.params} onSizeChange={renderedParams.onSizeChange}>{renderedParams.children}</Panel>);
       } else if (config.hasOwnProperty("horizontal")) {
-        const renderedParams = children(config.vertical, "horizontal");
+        const renderedParams = children(config.horizontal, "horizontal");
         return (<Panel direction="horizontal" params={renderedParams.params} onSizeChange={renderedParams.onSizeChange}>{renderedParams.children}</Panel>);
       } else {
         const renderedParams = children(config, null);

@@ -1,0 +1,7 @@
+{
+  "name": "tara-finder",
+  "main": "index.js",
+  "tara": {
+    "type": "plugin"
+  }
+}

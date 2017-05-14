@@ -1,9 +1,8 @@
 {
   "done": [
-    "tara",
-    "tara",
-    "tara",
-    "tara",
-    "tara"
+    "tara-toolbar",
+    "tara-finder",
+    "tara-address-bar",
+    "tara-actions"
   ]
 }

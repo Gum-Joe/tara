@@ -1,19 +1,52 @@
 {
-  "vertical": {
-    "right": {
-      "module": "tara-explorer",
-      "name": "explorer",
-      "contents": {
-        "module": "tara-explorer",
-        "name": "explorer"
+  "horizontal": {
+    "down": {
+      "vertical": {
+        "right": {
+          "horizontal": {
+            "down": {
+              "horizontal": {
+                "down": {
+                  "module": "tara-explorer",
+                  "name": "explorer",
+                  "contents": {
+                    "module": "tara-explorer",
+                    "name": "explorer"
+                  }
+                },
+                "up": {
+                  "contents": {
+                    "module": "tara-actions"
+                  },
+                  "name": "tara-actions",
+                  "height": 45
+                }
+              }
+            },
+            "up": {
+              "contents": {
+                "module": "tara-address-bar"
+              },
+              "name": "tara-address-bar",
+              "height": 45
+            }
+          }
+        },
+        "left": {
+          "contents": {
+            "module": "tara-finder"
+          },
+          "name": "tara-finder",
+          "width": 220
+        }
       }
     },
-    "left": {
+    "up": {
       "contents": {
-        "module": "tara"
+        "module": "tara-toolbar"
       },
-      "name": "tara",
-      "width": 220
+      "name": "tara-toolbar",
+      "height": 109
     }
   }
 }

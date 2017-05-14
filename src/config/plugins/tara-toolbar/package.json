@@ -1,0 +1,7 @@
+{
+  "name": "tara-toolbar",
+  "main": "index.js",
+  "tara": {
+    "type": "plugin"
+  }
+}
