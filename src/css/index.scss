@@ -14,8 +14,8 @@ body, h1, h2, h4, h5, h5, h6, p {
 .Resizer {
   &.horizontal {
     background-color: $panel-resizer-colour;
-    border-left: solid $background-colour 5px; // Increase hover area
-    border-right: solid $background-colour 5px; // Increase hover area
+    border-bottom: solid $background-colour 5px; // Increase hover area
+    border-top: solid $background-colour 5px; // Increase hover area
     height: $panel-resizer-width;
   }
   &.horizontal:hover {

@@ -16,7 +16,8 @@
         "plugins": [
           "transform-async-to-generator",
           "react-hot-loader/babel",
-          "transform-object-rest-spread"
+          "transform-object-rest-spread",
+          "transform-export-extensions"
         ],
         "sourceMaps": "inline"
       }
@@ -35,7 +36,9 @@
           "react"
         ],
         "plugins": [
-          "transform-async-to-generator"
+          "transform-async-to-generator",
+          "transform-object-rest-spread",
+          "transform-export-extensions"
         ],
         "sourceMaps": "none"
       }

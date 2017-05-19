@@ -9,4 +9,6 @@ export const PLUGIN_LOCATION = path.resolve(__dirname, path.join(TARA_CONFIG, "p
 export const PLUGIN_CONFIG = path.resolve(__dirname, path.join(PLUGIN_LOCATION, "package.json"));
 export const TYPE_PLUGIN = "plugin";
 export const LAYOUT_LOCATION = path.resolve(__dirname, path.join(TARA_CONFIG, "layout.json"));
+export const LAYOUT_LOCATION_DEFAULT = path.resolve(__dirname, path.join(TARA_CONFIG, "layout-default.json"));
 export const LAYOUT_SETUP_DONE_LOCATION = path.resolve(__dirname, path.join(TARA_CONFIG, "layout-setup.json"));
+export const REGEN_LAYOUT_ARGS = "--regen-layout";

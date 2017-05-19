@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 export default class Panel extends Component {
   render() {
     return (
-      <SplitPane split={this.props.direction} defaultSize={this.props.params.width} minSize={this.props.params.minWidth} maxSize={this.props.params.maxWidth} onChange={this.props.onSizeChange}>
+      <SplitPane split={this.props.direction} defaultSize={this.props.params.width || this.props.params.height} minSize={this.props.params.minWidth || this.props.params.minHeight} maxSize={this.props.params.maxWidth || this.props.params.maxHeight} onChange={this.props.onSizeChange}>
         { this.props.children }
       </SplitPane>
     );

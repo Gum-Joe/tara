@@ -15,7 +15,7 @@ const plugins = require(PLUGIN_CONFIG);
  * Tara entry point
  */
 export default class Tara extends Component {
-  async componentDidMount() {
+  componentDidMount() {
     // Load plugins
     this.loadPlugins();
     // Render layout
@@ -51,7 +51,6 @@ export default class Tara extends Component {
      * @return params {Object} Params for panel
      */
     const children = (layout, type) => {
-      console.log(layout);
       if (layout.hasOwnProperty("vertical") || layout.hasOwnProperty("horizontal")) {
         // Resplit as we have a panel that needs splitting
         return { layout, children: getSplit(children, layout) };
@@ -64,11 +63,11 @@ export default class Tara extends Component {
         return {
           params: layout.left,
           children: [
-            children(layout.left.contents).children,
-            children(layout.right.contents).children
-          ].map(element => <div>{element}</div>),
+            children(layout.left.contents || layout.left).children,
+            children(layout.right.contents || layout.right).children
+          ].map(element => <div>{element}</div>)
           // What to do if size changes
-          onSizeChange: (size) => {
+          /*onSizeChange: (size) => {
             this.props.dispatch(updateLayoutConfig({
               ...this.props.layout.config,
               vertical: { ...this.props.layout.config.vertical,
@@ -77,18 +76,18 @@ export default class Tara extends Component {
                 }
               }
             }));
-          }
+          }*/
         };
       } else if (layout.hasOwnProperty("up") || layout.hasOwnProperty("down")) {
         // Up or down logic here, as layout is horizontal
         return {
           params: layout.up,
           children: [
-            children(layout.up.contents).children,
-            children(layout.down.contents).children
-          ].map(element => <div>{element}</div>),
+            children(layout.up.contents || layout.up).children,
+            children(layout.down.contents || layout.down).children
+          ].map(element => <div>{element}</div>)
           // What to do if size changes
-          onSizeChange: (size) => {
+          /*onSizeChange: (size) => {
             this.props.dispatch(updateLayoutConfig({
               ...this.props.layout.config,
               horizontal: { ...this.props.layout.config.horizontal,
@@ -97,7 +96,7 @@ export default class Tara extends Component {
                 }
               }
             }));
-          }
+          }*/
         };
       }
     };

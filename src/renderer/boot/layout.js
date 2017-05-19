@@ -6,7 +6,8 @@ import { eachSeries } from "async";
 import fs from "fs";
 import { join } from "path";
 import Logger from "../logger";
-import { LAYOUT_LOCATION, LAYOUT_SETUP_DONE_LOCATION, PLUGIN_LOCATION, TYPE_PLUGIN } from "../constants";
+import { LAYOUT_LOCATION, LAYOUT_SETUP_DONE_LOCATION, PLUGIN_LOCATION, TYPE_PLUGIN, REGEN_LAYOUT_ARGS, LAYOUT_LOCATION_DEFAULT } from "../constants";
+import { copy } from "../utils";
 // Location of layout files
 const setupDB = require(LAYOUT_SETUP_DONE_LOCATION);
 
@@ -288,6 +289,14 @@ export default async (plugins) => {
   logger.debug("Searching for plugins...");
   const pluginsToLayout = plugins.filter(plugin => (plugin.tara.type === TYPE_PLUGIN && !setupDB.done.includes(plugin.name)) || process.argv.includes("--regen-layout"));
   logger.debug(`Plugins to setup: ${JSON.stringify(pluginsToLayout)}`);
+  // Apply default
+  // TODO: Move to cli parseing
+  /**if (process.argv.includes(REGEN_LAYOUT_ARGS)) {
+    logger.debug("Applying default config...");
+    //copy(LAYOUT_LOCATION_DEFAULT, LAYOUT_LOCATION);
+    fs.createReadStream(LAYOUT_LOCATION_DEFAULT)
+      .pipe(fs.createWriteStream(LAYOUT_LOCATION));
+  }*/
   // Filter those we don't need
   // Now we loop
   eachSeries(pluginsToLayout, (plugin, callback) => {

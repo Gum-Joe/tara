@@ -12,7 +12,7 @@ const init = async (tara, done) => {
     .catch((err) => { throw err; })
     .then(section => section.loadModule("tara-toolbar"))
     .catch((err) => { throw err; })
-    .then(section => section.height(109)) // Set height
+    .then(section => section.height(209)) // Set height
     .catch((err) => { throw err; })
     .then(layout => done(layout));
 };
