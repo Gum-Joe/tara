@@ -1,0 +1,31 @@
+{
+  "name": "tara-explorer",
+  "version": "0.1.0",
+  "description": "Tara's explorer module (core plugin)",
+  "main": "index.js",
+  "scripts": {
+    "test": "cd ../.. && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gum-Joe/tara.git"
+  },
+  "keywords": [
+    "tara",
+    "explorer",
+    "file-explorer"
+  ],
+  "author": "Gum-Joe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gum-Joe/tara/issues"
+  },
+  "homepage": "https://github.com/Gum-Joe/tara#readme",
+  "tara": {
+    "type": "plugin",
+    "client": "components/index.jsx"
+  },
+  "dependencies": {
+    "react": "^15.5.4"
+  }
+}

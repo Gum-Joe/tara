@@ -7,6 +7,7 @@ import { join } from "path";
 import PropTypes from "prop-types";
 import Panel from "./panel";
 import { updateLayoutConfig, updateLayoutRender, addPlugin } from "../actions";
+import Module from "./module";
 import { PLUGIN_CONFIG, PLUGIN_LOCATION } from "../renderer/constants";
 // Plugin config file
 const plugins = require(PLUGIN_CONFIG);
@@ -56,7 +57,7 @@ export default class Tara extends Component {
         return { layout, children: getSplit(children, layout) };
       } else if (layout.hasOwnProperty("module")) {
         // Get module as children
-        return { params: layout, children: (<h1>Module needed: {layout.module}</h1>) };
+        return { params: layout, children: (<Module module={layout.module} />) };
         // return (<Module name={layout.module} />)
       } else if (layout.hasOwnProperty("left") || layout.hasOwnProperty("right")) {
         // Right or left logic here, as layout is vertical

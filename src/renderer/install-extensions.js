@@ -1,6 +1,7 @@
 /**
  * @overview Install dev tools
  */
+import { blue } from "chalk";
 import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from "electron-devtools-installer";
 import { DEV_ENV } from "./constants";
 import Logger from "./logger";
@@ -15,10 +16,10 @@ export default function installExtensions() {
   if (process.env.NODE_ENV === DEV_ENV) {
     logger.info("Adding extensions...");
     installExtension(REACT_DEVELOPER_TOOLS)
-      .then((name) => logger.info(`Added Extension:  ${name}`))
+      .then((name) => logger.info(`Added Extension:  ${blue(name)}`))
       .catch((err) => logger.throw(err));
     installExtension(REDUX_DEVTOOLS)
-      .then((name) => logger.info(`Added Extension:  ${name}`))
+      .then((name) => logger.info(`Added Extension:  ${blue(name)}`))
       .catch((err) => logger.throw(err));
   }
 }

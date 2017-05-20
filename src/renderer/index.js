@@ -4,6 +4,7 @@
  * From electron forge
  * @module tara/renderer
  */
+import "babel-polyfill"; // ES6 Polyfill
 import { app, BrowserWindow } from "electron"; // eslint-disable-line import/no-extraneous-dependencies
 import { enableLiveReload } from "electron-compile";
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEV_ENV } from "./constants";
@@ -21,7 +22,8 @@ const logger = new Logger({
 let mainWindow;
 
 /**
- * @function Creates the electron window
+ * Creates the electron window
+ * @function createWindow
  */
 const createWindow = async () => {
   logger.info("Creating window...");

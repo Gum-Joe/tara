@@ -284,8 +284,10 @@ class TaraLayoutClass {
  * @function genLayout
  * @description Generates layout and stores it
  * @param plugins {Array} Array of plugins, from loadPlugins()
+ * @param location {String} Absoloute path to where plugins are stored
+ * @param callback {Function} Optional callback
  */
-export default async (plugins) => {
+export default async (plugins, location, callback) => {
   logger.debug("Searching for plugins...");
   const pluginsToLayout = plugins.filter(plugin => (plugin.tara.type === TYPE_PLUGIN && !setupDB.done.includes(plugin.name)) || process.argv.includes("--regen-layout"));
   logger.debug(`Plugins to setup: ${JSON.stringify(pluginsToLayout)}`);
@@ -300,7 +302,7 @@ export default async (plugins) => {
   // Filter those we don't need
   // Now we loop
   eachSeries(pluginsToLayout, (plugin, callback) => {
-    logger.debug(`Initialising plugin ${plugin.name}...`);
+    logger.debug(`Initialising plugin layout for ${plugin.name}...`);
     // Init layout class
     // We have to re-require config each time
     // or the layout will not update for each plugin
@@ -314,18 +316,23 @@ export default async (plugins) => {
     // What file to use??
     if (plugin.tara.hasOwnProperty("init")) {
       logger.debug(`Using init script ${plugin.tara.init}...`);
-      const init = require(join(PLUGIN_LOCATION, plugin.name, plugin.tara.init));
+      const init = require(join(location, plugin.name, plugin.tara.init));
       // Run
-      init(TaraLayout, (tara) => {
+      init(TaraLayout, async (tara) => {
         // Update config
-        TaraLayoutClass.updateConfig(tara.config);
+        // Use JS's mutable objects
+        // To link looped object
+        // To this.toSplit
+        await tara.config.setPropByArray(tara._loop_props, tara.toSplit);
+        // Update config
+        TaraLayoutClass.updateConfig(tara.config, callback);
         // Add to index
         TaraLayoutClass.updateSetupDone(plugin.name);
       });
-    } else {
+    } else if (require(join(location, plugin.name, plugin.main)).hasOwnProperty("init")) {
       // Use entry
       logger.debug(`Using entry file ${plugin.main}...`);
-      const { init } = require(join(PLUGIN_LOCATION, plugin.name, plugin.main));
+      const { init } = require(join(location, plugin.name, plugin.main));
       // Run
       init(TaraLayout, async (tara) => {
         // Use JS's mutable objects
@@ -336,8 +343,9 @@ export default async (plugins) => {
         TaraLayoutClass.updateConfig(tara.config, callback);
         // Add to index
         TaraLayoutClass.updateSetupDone(plugin.name);
-        //callback();
       });
+    } else {
+      callback();
     }
-  });
+  }, callback);
 };

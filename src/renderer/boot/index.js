@@ -1,9 +1,7 @@
 /**
- * @overview Index of startuo methods
+ * @overview Index of startup methods
  */
-import loadPluginsImport from "./plugins";
-import genLayoutImport from "./layout";
 
-// Exports
-export const loadPlugins = loadPluginsImport;
-export const genLayout = genLayoutImport;
+export loadPlugins from "./plugins";
+export genLayout from "./layout";
+export * as mainProcess from "./main-process";
