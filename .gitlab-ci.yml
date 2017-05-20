@@ -1,0 +1,36 @@
+image: nodejs:latest
+
+before_script:
+  # Install yarn
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+  - sudo apt-get update && sudo apt-get install -y yarn
+  # Install packages
+  - yarn global add eslint mocha istanbul coveralls electron-forge
+  - yarn
+
+stages:
+  - build
+  - test
+
+# Jobs
+build-development:
+  stage: build
+  script:
+    - echo No build script yet
+
+build-production:
+  stage: build
+  script:
+    - electron-forge make
+    - electron-forge package
+
+eslint:
+  stage: test
+  script:
+    - ./node_modules/.bin/eslint
+
+test:
+  stage: test
+  script:
+    - mocha

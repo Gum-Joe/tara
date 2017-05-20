@@ -2,12 +2,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Main Process",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceRoot}",
-      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
-      "program": "${workspaceRoot}/src/renderer/index.js"
+      "name": "Electron Main",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron-forge-vscode-nix",
+      "windows": {
+        "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron-forge-vscode-win.cmd"
+      },
+      // runtimeArgs will be passed directly to your Electron application
+      "runtimeArgs": [
+        "--color",
+        "--verbose"
+      ],
+      "cwd": "${workspaceRoot}"
     }
-  ]
+  ],
+  "compounds": []
 }
