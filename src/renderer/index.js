@@ -5,7 +5,7 @@
  * @module tara/renderer
  */
 import "babel-polyfill"; // ES6 Polyfill
-import { app, BrowserWindow } from "electron"; // eslint-disable-line import/no-extraneous-dependencies
+import { app, BrowserWindow } from "electron"; // eslint-disable-line
 import { enableLiveReload } from "electron-compile";
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEV_ENV } from "./constants";
 import installExtensions from "./install-extensions";
@@ -17,6 +17,10 @@ const logger = new Logger({
   name: "startup"
 });
 
+// Startup actions
+// that must be executed before render
+startup();
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -24,24 +28,23 @@ let mainWindow;
 /**
  * Creates the electron window
  * @function createWindow
+ * @returns {undefined} Nothing
  */
 const createWindow = async () => {
   logger.info("Creating window...");
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
   });
 
-  // Startup action
-  // that must be executed before render
-  await startup();
-
   // and load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/../html/index.html`);
+  mainWindow.maximize();
 
   // Open the DevTools.
-  if (process.env.NODE_ENV === DEV_ENV) {
+  if (process.env.NODE_ENV === DEV_ENV && !process.argv.includes("--no-devtools")) {
     mainWindow.webContents.openDevTools();
   }
 

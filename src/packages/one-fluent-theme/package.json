@@ -1,0 +1,25 @@
+{
+ "name": "one-fluent-theme",
+ "version": "0.1.0",
+ "description": "A theme for tara, based on Microsoft's fluent design guidelines",
+ "main": "index.js",
+ "scripts": {
+  "test": "cd ../.. && npm test"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/Gum-Joe/tara.git"
+ },
+ "keywords": "tara one-fluent-theme tara-themes themes fluent design fluent-design",
+ "author": "Gum-Joe",
+ "license": "MIT",
+ "bugs": {
+  "url": "https://github.com/Gum-Joe/tara/issues"
+ },
+ "homepage": "https://github.com/Gum-Joe/tara#readme",
+ "tara": {
+  "type": "theme",
+  "theme": "index.scss"
+ },
+ "dependencies": {}
+}

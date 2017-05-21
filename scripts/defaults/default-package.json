@@ -1,0 +1,24 @@
+{
+  "name": "",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "cd ../.. && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gum-Joe/tara.git"
+  },
+  "keywords": [
+    "tara"
+  ],
+  "author": "Gum-Joe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gum-Joe/tara/issues"
+  },
+  "homepage": "https://github.com/Gum-Joe/tara#readme",
+  "tara": {},
+  "dependencies": {}
+}

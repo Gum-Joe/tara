@@ -17,6 +17,8 @@ plugins:
 rules:
   arrow-body-style: 0
   import/no-dynamic-require: 0
+  import/no-extraneous-dependencies: 1
+  import/extensions: 1
   indent:
     - 1
     - 2

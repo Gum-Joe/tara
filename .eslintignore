@@ -1,1 +1,2 @@
 src/semantic/**/*.js
+src/packages/*/node_modules/**/*.js

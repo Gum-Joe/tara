@@ -2,6 +2,7 @@
  * @overview Starts main process tasks, both for tara and for plugins
  */
 import { cyan } from "chalk";
+import fs from "fs";
 import electron from "electron"; // eslint-disable-line
 import path from "path";
 import addEventListeners from "./event-listeners";
@@ -53,10 +54,16 @@ export const startMainProcessPlugins = (plugins, location) => {
       const main = require(path.join(location, plugin.name, plugin.tara.mainProcess));
       // Run
       main(taraPluginClass);
-    } else if (require(path.join(location, plugin.name, plugin.main)).hasOwnProperty("main")) {
-      const { main } = require(path.join(location, plugin.name, plugin.main));
-      // Run
-      main(taraPluginClass);
+    } else {
+      fs.access(plugin.main, (err) => {
+        if (!err && require(path.join(location, plugin.name, plugin.main)).hasOwnProperty("main")) {
+          const { main } = require(path.join(location, plugin.name, plugin.main));
+          // Run
+          main(taraPluginClass);
+        } else {
+          logger.debug(`Plugin ${cyan(plugin.name)} dosen't have an entry point.`);
+        }
+      });
     }
   }
 };
