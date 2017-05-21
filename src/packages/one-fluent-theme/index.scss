@@ -1,3 +1,8 @@
-body {
-  background-color: #212121;
-}
+/**
+ * Theme for tara, following Microsoft's fluent design guidelines
+ */
+// Vars
+@import "colours";
+
+// Styles
+@import "body";

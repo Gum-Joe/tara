@@ -1,5 +1,6 @@
 /**
  * @overview Loads theme
+ * @deprecated
  */
 import { blue, green, yellow } from "chalk";
 import fs from "fs";
