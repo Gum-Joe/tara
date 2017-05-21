@@ -3,7 +3,7 @@
  */
 import { series } from "async";
 import Logger from "./logger";
-import { genLayout, loadPlugins, mainProcess, updateTheme, loadProtocols } from "./boot";
+import { genLayout, loadPlugins, mainProcess, loadProtocols } from "./boot";
 import { PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION } from "./constants";
 
 const logger = new Logger({
@@ -30,8 +30,6 @@ export default async () => {
   // Start main process stuff from plugins
   mainProcess.startMainProcessPlugins(plugins_core, PLUGIN_CORE_LOCATION);
   mainProcess.startMainProcessPlugins(plugins_installed, PLUGIN_LOCATION);
-  // Update theme
-  updateTheme();
   // Create layout
   series([
     done => { logger.info("Generating core layout..."); genLayout(plugins_core, PLUGIN_CORE_LOCATION, done); },
