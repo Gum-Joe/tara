@@ -19,7 +19,7 @@
  "homepage": "https://github.com/Gum-Joe/tara#readme",
  "tara": {
   "type": "theme",
-  "theme": "index.scss"
+  "theme": "index.less"
  },
  "dependencies": {}
 }
