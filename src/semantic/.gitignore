@@ -1,0 +1,5 @@
+# Files to ignore for semantic
+dist
+tasks
+src/themes
+src/definitions
