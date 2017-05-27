@@ -35,6 +35,7 @@ rules:
   no-restricted-syntax: 0
   no-unused-vars: 0
   no-use-before-define: 1
+  no-confusing-arrow: 1
   global-require: 0
   react/prefer-stateless-function: 0
   camelcase: 0

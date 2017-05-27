@@ -26,6 +26,7 @@
     "client": "components/index.jsx"
   },
   "dependencies": {
+    "camelcase": "^4.1.0",
     "history": "^4.6.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",

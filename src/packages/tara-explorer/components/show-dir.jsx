@@ -3,6 +3,7 @@
  * @module explorer
  */
 import React, { Component } from "react";
+import camelcase from "camelcase";
 import PropTypes from "prop-types";
 import { join } from "path";
 import { readdir, statSync } from "fs";
@@ -48,22 +49,33 @@ export default class Dir extends Component {
       }
     });
   }
+  /**
+   * Handle the onClick event
+   * @param {String} id ID to look for
+   * @returns {Function} onClick Event handler
+   */
+  handleOnClick(id) {
+    return () => {
+      // Handle
+      document.getElementById(id).className += " file-highlighted";
+    };
+  }
   render() {
     return (
       <Grid className="files">
         <Grid.Row>
           <Grid.Column size={2}>
             {
-              this.state.contents.map(file => statSync(join(this.props.dir, file)).isDirectory() ? (
-                <div className="file-wrapper">
+              this.state.contents.map(file => statSync(join(this.props.dir, file)).isDirectory() ? ( // Check if path is dir
+                <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
                   <FontAwesome name="folder" />
                   <p>{getFileName(file)}</p>
                 </div>
               ) : null)
             }
             {
-              this.state.contents.map(file => !statSync(join(this.props.dir, file)).isDirectory() ? (
-                <div className="file-wrapper">
+              this.state.contents.map(file => !statSync(join(this.props.dir, file)).isDirectory() ? ( // Check if path is not dir
+                <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
                   <FontAwesome name="file" />
                   <p>{getFileName(file)}</p>
                 </div>

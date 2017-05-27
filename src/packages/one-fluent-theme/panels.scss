@@ -37,7 +37,30 @@ $file-width: map-get($file-wrapper-spacing, accross) * $zoom-level + $icon-base 
 
     // Text
     p {
+      display: table;
       font-size: $text-base * $zoom-level;
+      margin: 0 auto;
+    }
+  }
+
+  // If file is hightlighted
+  .file-highlighted {
+    .fa {
+      @include shadow(
+        map-get($explorer-icon-shadow, x) * $zoom-level,
+        map-get($explorer-icon-shadow, y) * $zoom-level,
+        23px * $zoom-level,
+        $accent-explorer,
+        1,
+        text
+        );
+      color: $accent-explorer-icon-shadow;
+    }
+    // text
+    p {
+      background-color: $accent;
+      border-radius: 20px;
+      padding: 0 10px;
     }
   }
 }
