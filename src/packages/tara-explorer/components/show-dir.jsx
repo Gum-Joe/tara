@@ -4,7 +4,8 @@
  */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { readdir } from "fs";
+import { join } from "path";
+import { readdir, statSync } from "fs";
 import { Grid } from "semantic-ui-react";
 import FontAwesome from "react-fontawesome";
 
@@ -53,12 +54,20 @@ export default class Dir extends Component {
         <Grid.Row>
           <Grid.Column size={2}>
             {
-              this.state.contents.map(file => (
+              this.state.contents.map(file => statSync(join(this.props.dir, file)).isDirectory() ? (
                 <div className="file-wrapper">
                   <FontAwesome name="folder" />
                   <p>{getFileName(file)}</p>
                 </div>
-              ))
+              ) : null)
+            }
+            {
+              this.state.contents.map(file => !statSync(join(this.props.dir, file)).isDirectory() ? (
+                <div className="file-wrapper">
+                  <FontAwesome name="file" />
+                  <p>{getFileName(file)}</p>
+                </div>
+              ) : null)
             }
           </Grid.Column>
         </Grid.Row>

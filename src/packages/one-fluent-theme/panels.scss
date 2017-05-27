@@ -16,9 +16,6 @@ $file-width: map-get($file-wrapper-spacing, accross) * $zoom-level + $icon-base 
     width: $file-width;
 
     // Icons
-    .fa-folder {
-      font-size: $icon-base * $zoom-level;
-    }
     .fa {
       // Shadow
       @include shadow(
@@ -28,7 +25,14 @@ $file-width: map-get($file-wrapper-spacing, accross) * $zoom-level + $icon-base 
         $accent-explorer-icon-shadow,
         map-get($explorer-icon-shadow, opacity),
         text
-      )
+      );
+      // Default font size
+      font-size: $icon-file-base * $zoom-level;
+    }
+
+    // Folder icon
+    .fa-folder {
+      font-size: $icon-base * $zoom-level;
     }
 
     // Text
