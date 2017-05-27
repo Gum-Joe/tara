@@ -9,3 +9,9 @@ body, h1, h2, h4, h5, h5, h6, p {
   color: $text-colour;
   font-family: $font !important;
 }
+
+// Make divs 100%
+#main, div[data-reactroot] {
+  height: 100%;
+  width: 100%;
+}

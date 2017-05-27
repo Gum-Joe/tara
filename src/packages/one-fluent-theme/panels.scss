@@ -1,0 +1,39 @@
+// Panel theme
+@import "mixins";
+@import "user";
+@import "variables/explorer";
+
+$file-width: map-get($file-wrapper-spacing, accross) * $zoom-level + $icon-base * $zoom-level;
+
+// Modules
+.tara-explorer {
+  @include background-opacity($accent-explorer, $explorer-opacity);
+  overflow: scroll;
+  .file-wrapper {
+    display: inline-block;
+    margin-top: map-get($file-wrapper-spacing, down) * $zoom-level;
+    text-align: center;
+    width: $file-width;
+
+    // Icons
+    .fa-folder {
+      font-size: $icon-base * $zoom-level;
+    }
+    .fa {
+      // Shadow
+      @include shadow(
+        map-get($explorer-icon-shadow, x) * $zoom-level,
+        map-get($explorer-icon-shadow, y) * $zoom-level,
+        map-get($explorer-icon-shadow, blur) * $zoom-level,
+        $accent-explorer-icon-shadow,
+        map-get($explorer-icon-shadow, opacity),
+        text
+      )
+    }
+
+    // Text
+    p {
+      font-size: $text-base * $zoom-level;
+    }
+  }
+}

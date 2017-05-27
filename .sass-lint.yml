@@ -15,3 +15,13 @@ rules:
   no-url-domains: 0
   no-url-protocols: 0
   single-line-per-selector: 0
+  leading-zero: 0
+  no-color-literals:
+    - 0
+    - allow-rgba: true
+  no-ids: 0
+  force-attribute-nesting: 0
+  no-qualifying-elements:
+    - 0
+    - allow-element-with-attribute: true
+  no-vendor-prefixes: 0

@@ -1,0 +1,13 @@
+// Mixins
+
+// Set a background opacity
+@mixin background-opacity($colour, $opacity) {
+  background: rgba($colour, $opacity);
+}
+
+// Create a shadow
+@mixin shadow($x, $y, $blur, $colour, $opacity, $type) {
+  -moz-#{$type}-shadow: $x $y $blur rgba($colour, $opacity);
+  -webkit-#{$type}-shadow: $x $y $blur rgba($colour, $opacity);
+  #{$type}-shadow: $x $y $blur rgba($colour, $opacity);
+}

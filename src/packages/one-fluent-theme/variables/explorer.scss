@@ -1,0 +1,21 @@
+// Variables for explorer
+$explorer-opacity: 0.6;
+$explorer-icon-shadow: (
+  x: 0,
+  y: 3px,
+  blur: 17px,
+  opacity: 0.44
+);
+
+// Icons
+// Set base number for icons and text
+// Mutiply both to get zoom
+// So, when the icon is 29 pixels, the text should be 8, and the spacing 30px accros and 12px down
+// Ratio: 29px:8px:30px:12px
+$icon-base: 29px;
+$icon-file-base: 23px; // For file icons
+$text-base: 8px;
+$file-wrapper-spacing: (
+  accross: 30px,
+  down: 4px
+);

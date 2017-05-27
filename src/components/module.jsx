@@ -37,7 +37,7 @@ export default class Module extends Component {
     }
   }
   render() {
-    return (<this.state.contents />);
+    return (<div className={`panel ${this.props.module}`}><this.state.contents /></div>);
   }
 }
 

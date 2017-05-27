@@ -5,6 +5,28 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { readdir } from "fs";
+import { Grid } from "semantic-ui-react";
+import FontAwesome from "react-fontawesome";
+
+/**
+ * Truncates a filename if needed
+ * @param {String} file Filename to truncate
+ * @returns {String} Filename, truncated
+ */
+function getFileName(file) {
+  const TRIM_LENGTH = 13;
+  const TRIM_CAPS_LENGTH = 10;
+  if (file.length > TRIM_LENGTH) {
+    if (file.substring(0, TRIM_LENGTH).toUpperCase() === file.substring(0, TRIM_LENGTH)) {
+      // Caps
+      return `${file.substring(0, TRIM_CAPS_LENGTH)}...`;
+    } else {
+      return `${file.substring(0, TRIM_LENGTH)}...`;
+    }
+  } else {
+    return file;
+  }
+}
 
 export default class Dir extends Component {
   constructor() {
@@ -27,9 +49,20 @@ export default class Dir extends Component {
   }
   render() {
     return (
-      <ul>
-        {this.state.contents.map(file => <li>{file}</li>)}
-      </ul>
+      <Grid className="files">
+        <Grid.Row>
+          <Grid.Column size={2}>
+            {
+              this.state.contents.map(file => (
+                <div className="file-wrapper">
+                  <FontAwesome name="folder" />
+                  <p>{getFileName(file)}</p>
+                </div>
+              ))
+            }
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     );
   }
 }
