@@ -10,7 +10,7 @@ import Dir from "../show-dir";
 export default class HomeDir extends Component {
   render() {
     return (
-      <Dir dir={homedir()} />
+      <Dir match={{ params: { dir: homedir() } }} />
     );
   }
 }

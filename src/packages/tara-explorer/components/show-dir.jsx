@@ -3,12 +3,19 @@
  * @module explorer
  */
 import React, { Component } from "react";
+import jquery from "jquery";
 import camelcase from "camelcase";
 import PropTypes from "prop-types";
 import { join } from "path";
 import { readdir, statSync } from "fs";
 import { Grid } from "semantic-ui-react";
 import FontAwesome from "react-fontawesome";
+import { Redirect } from "react-router-dom";
+
+// NOTE: From https://stackoverflow.com/questions/1828613/check-if-a-key-is-down
+const keys = {};
+window.onkeyup = function (event) { keys[event.keyCode] = false; };
+window.onkeydown = function (event) { keys[event.keyCode] = true; };
 
 /**
  * Truncates a filename if needed
@@ -34,18 +41,24 @@ export default class Dir extends Component {
   constructor() {
     super();
     this.state = {
-      contents: []
+      contents: [],
+      redirect: ""
     };
   }
   componentDidMount() {
     // Get dirs
-    readdir(this.props.dir, (err, files) => {
+    readdir(this.props.match.params.dir, (err, files) => {
       if (err) {
         throw err;
       } else {
         this.setState({
+          ...this.state,
           contents: files
         });
+        // Check for double click
+        for (let file of this.state.contents) {
+          jquery(`#${camelcase(file)}`).dblclick(() => this.setState({ ...this.state, redirect: `/dir/${join(this.props.match.params.dir, file)}` }));
+        }
       }
     });
   }
@@ -57,7 +70,18 @@ export default class Dir extends Component {
   handleOnClick(id) {
     return () => {
       // Handle
-      document.getElementById(id).className += " file-highlighted";
+      if (!document.getElementById(id).className.includes("file-highlighted")) {
+        document.getElementById(id).className += " file-highlighted";
+        document.body.addEventListener("click", (event) => {
+          // Check if this wasn't clicked
+          // TODO: Add multiselect by usage of ctrl / shift
+          if (event.path[0].id !== id && document.getElementById(id).className.includes("file-highlighted") && !keys[17] && !keys[16]) {
+            this.handleOnClick(id)();
+          }
+        }, true);
+      } else {
+        document.getElementById(id).className = document.getElementById(id).className.split(" file-highlighted").join("");
+      }
     };
   }
   render() {
@@ -66,28 +90,22 @@ export default class Dir extends Component {
         <Grid.Row>
           <Grid.Column size={2}>
             {
-              this.state.contents.map(file => statSync(join(this.props.dir, file)).isDirectory() ? ( // Check if path is dir
+              this.state.contents.map(file => ( // Check if path is dir
                 <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
-                  <FontAwesome name="folder" />
+                  <FontAwesome name={statSync(join(this.props.match.params.dir, file)).isDirectory() ? "folder" : "file"} />
                   <p>{getFileName(file)}</p>
                 </div>
-              ) : null)
-            }
-            {
-              this.state.contents.map(file => !statSync(join(this.props.dir, file)).isDirectory() ? ( // Check if path is not dir
-                <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
-                  <FontAwesome name="file" />
-                  <p>{getFileName(file)}</p>
-                </div>
-              ) : null)
+              ))
             }
           </Grid.Column>
         </Grid.Row>
+        {/* Redirects */}
+        { this.state.redirect !== "" ? <Redirect to={this.state.redirect} /> : null }
       </Grid>
     );
   }
 }
 
 Dir.propTypes = {
-  dir: PropTypes.string.isRequired
+  match: PropTypes.object.isRequired
 };
