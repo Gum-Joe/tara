@@ -34,7 +34,7 @@ export default class Module extends Component {
     if (pluginJSON.tara.hasOwnProperty("client")) {
       this.setState({ contents: require(join(plugin_location, pluginJSON.tara.client)).default });
     } else {
-      this.setState({ contents: require(join(plugin_location, pluginJSON.main)).default });
+      this.setState({ contents: require(join(plugin_location, pluginJSON.main)).client });
     }
   }
   render() {

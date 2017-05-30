@@ -24,6 +24,8 @@ export const REGEN_LAYOUT_ARGS = "--regen-layout";
 // IPC stuff
 export const GET_PLUGIN_CLIENT = "GET_PLUGIN_CLIENT";
 export const SEND_PLUGIN_CLIENT = "SEND_PLUGIN_CLIENT";
+export const IPC_GET_PLUGINS = "IPC_GET_PLUGINS";
+export const IPC_SEND_PLUGINS = "IPC_SEND_PLUGINS";
 // Theme stuff
 export const THEME_FILE_CONTENTS_DEFAULT = `// Theme file for tara
 // Contains theme name & import for theme file

@@ -2,6 +2,7 @@
  * @overview Tara's explorer entry point
  * @module tara/explorer
  */
+import actions from "./actions";
 import constants from "./constants";
 
 const api = {
@@ -10,7 +11,8 @@ const api = {
 
 const main = (tara) => {
   tara.addApi("explorer", {
-    constants
+    constants,
+    actions
   });
   tara.logger.info("Explorer started.");
 };

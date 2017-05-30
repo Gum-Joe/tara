@@ -21,6 +21,11 @@
     <!-- Bootstrap -->
     <!--<script async src="../../node_modules/bootstrap/dist/js/bootstrap.min.js" charset="utf-8"></script>-->
     <!-- Our stuff -->
+    <script type="text/javascript">
+      // Put tara into the global namespace
+      global.tara = require("../renderer/boot/plugin-init").default;
+    </script>
+    <!-- And now load tara UI -->
     <script async src="../index.jsx" charset="utf-8"></script>
   </body>
 </html>

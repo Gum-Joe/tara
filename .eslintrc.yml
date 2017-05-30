@@ -19,6 +19,8 @@ rules:
   import/no-dynamic-require: 0
   import/no-extraneous-dependencies: 1
   import/extensions: 1
+  import/prefer-default-export: 1
+  import/no-mutable-exports: 1
   indent:
     - 1
     - 2
