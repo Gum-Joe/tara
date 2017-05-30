@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import createFragment from "react-addons-create-fragment";
 import { join } from "path";
 import PropTypes from "prop-types";
+import jquery from "jquery";
 import Panel from "./panel";
 import { updateLayoutConfig, updateLayoutRender, addPlugin } from "../actions";
 import Module from "./module";

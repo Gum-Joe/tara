@@ -4,13 +4,13 @@
 import { join } from "path";
 
 /**
- * @function loadPlugins
- * @constant
- * @type {Function}
- * @description Loads plugins
+ * Loads plugins
+ * @param {String} config Location of config
+ * @param {String} location location of plugins
+ * @param {String} prop (optional) Prop to return in array
  * @returns {Array} Array of plugins
  */
-export default (config, location) => {
+export default (config, location, prop = null) => {
   // Plugin config file
   const plugins = require(config);
 
@@ -21,7 +21,11 @@ export default (config, location) => {
       // Require
       const pluginJSON = require(join(location, plugin, "package.json"));
       // ...and store
-      pluginArray.push(pluginJSON);
+      if (!prop) {
+        pluginArray.push(pluginJSON);
+      } else {
+        pluginArray.push(pluginJSON[prop]);
+      }
     }
   }
   // Return

@@ -2,6 +2,11 @@
   "name": "tara-address-bar",
   "main": "index.js",
   "tara": {
-    "type": "plugin"
+    "type": "plugin",
+    "client": "components/index.jsx"
+  },
+  "dependencies": {
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4"
   }
 }

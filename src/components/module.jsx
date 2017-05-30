@@ -1,11 +1,12 @@
 /**
  * @overview Contains module component to load a module with
  */
-import { ipcRenderer as ipc } from "electron"; // eslint-disable-line
+import electron from "electron"; // eslint-disable-line
 import { join } from "path";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_LOCATION } from "../renderer/constants";
+import TaraPlugin from "../renderer/boot/plugin-init";
 
 export default class Module extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ export default class Module extends Component {
     }
   }
   render() {
-    return (<div className={`panel ${this.props.module}`}><this.state.contents /></div>);
+    return (<div className={`panel ${this.props.module}`}><this.state.contents tara={new TaraPlugin(this.props.module, electron)} /></div>);
   }
 }
 

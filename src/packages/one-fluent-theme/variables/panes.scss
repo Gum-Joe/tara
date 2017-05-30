@@ -1,0 +1,7 @@
+// Panes variables
+@import "../colours";
+@import "../user";
+
+$panel-resizer-colour: #95989a;
+$panel-resizer-width: 0;
+$panel-resizer-hover-area: 1px * $zoom-level / 2;

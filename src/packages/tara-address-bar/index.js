@@ -12,7 +12,8 @@ const init = async (tara, done) => {
     .catch((err) => { throw err; })
     .then(section => section.loadModule("tara-address-bar"))
     .catch((err) => { throw err; })
-    .then(section => section.height(45)) // Set height
+    .then(section => section.height(45)) // Set height#
+    .then(section => section.minHeight(45)) // Set minHeight
     .catch((err) => { throw err; })
     .then(layout => done(layout));
 };
@@ -21,10 +22,7 @@ const main = (tara) => {
   // server.start();
 };
 
-const client = "<JSX />";
-
 module.exports = {
-  client,
   main,
   init
 };

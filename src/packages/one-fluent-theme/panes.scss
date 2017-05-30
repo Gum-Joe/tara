@@ -1,0 +1,32 @@
+// Panes
+@import "variables/panes";
+@import "mixins";
+
+// Resizers
+.Resizer {
+  &.horizontal {
+    border-bottom: solid $panel-resizer-colour $panel-resizer-hover-area; // Increase hover area
+    border-top: solid $panel-resizer-colour $panel-resizer-hover-area; // Increase hover area
+    height: $panel-resizer-width;
+  }
+  &.horizontal:hover {
+    cursor: row-resize;
+  }
+
+  &.vertical {
+    border-left: solid $panel-resizer-colour $panel-resizer-hover-area; // Increase hover area
+    border-right: solid $panel-resizer-colour $panel-resizer-hover-area; // Increase hover area
+    width: $panel-resizer-width;
+  }
+  &.vertical:hover {
+    cursor: ew-resize;
+  }
+}
+
+// Maximise issue
+.Pane {
+  @include maximise;
+  > div {
+    @include maximise;
+  }
+}

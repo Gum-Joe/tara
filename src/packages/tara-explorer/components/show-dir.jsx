@@ -47,17 +47,29 @@ export default class Dir extends Component {
   }
   componentDidMount() {
     // Get dirs
-    readdir(this.props.match.params.dir, (err, files) => {
+    this.getFiles(this.props.match.params.dir);
+  }
+  /**
+   * Gets files in a dir & sets it to state
+   * @param {String} dir dir to look
+   * @returns {undefined} Nothing
+   */
+  getFiles(dir) {
+    readdir(dir, (err, files) => {
       if (err) {
         throw err;
       } else {
         this.setState({
           ...this.state,
-          contents: files
+          contents: files,
+          dir: dir
         });
+        // Send dir message
+        global.tara.getPlugin("tara-explorer")
+          .then(api => global.tara.send("explorer", api.constants.EXPLORER_SEND_DIR, this.state.dir));
         // Check for double click
         for (let file of this.state.contents) {
-          jquery(`#${camelcase(file)}`).dblclick(() => this.setState({ ...this.state, redirect: `/dir/${join(this.props.match.params.dir, file)}` }));
+          jquery(`#${camelcase(file)}`).dblclick(() => this.getFiles(`${join(this.state.dir, file)}`));
         }
       }
     });
@@ -90,12 +102,20 @@ export default class Dir extends Component {
         <Grid.Row>
           <Grid.Column size={2}>
             {
-              this.state.contents.map(file => ( // Check if path is dir
+              this.state.contents.map(file => (statSync(join(this.state.dir, file)).isDirectory() ? // Check if path is dir
                 <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
-                  <FontAwesome name={statSync(join(this.props.match.params.dir, file)).isDirectory() ? "folder" : "file"} />
+                  <FontAwesome name="folder" />
                   <p>{getFileName(file)}</p>
                 </div>
-              ))
+              : null))
+            }
+            {
+              this.state.contents.map(file => (!statSync(join(this.state.dir, file)).isDirectory() ? // Check if path is file
+                <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
+                  <FontAwesome name="file" />
+                  <p>{getFileName(file)}</p>
+                </div>
+              : null))
             }
           </Grid.Column>
         </Grid.Row>

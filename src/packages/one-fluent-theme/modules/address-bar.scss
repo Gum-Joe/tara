@@ -1,0 +1,13 @@
+// Panel theme
+@import "../mixins";
+@import "../user";
+@import "../variables/address-bar";
+
+// Address bar
+.tara-address-bar {
+  @include background-opacity($accent-address-bar, $address-bar-opacity);
+  text-align: center;
+  p {
+    font-size: $address-bar-font-size * $zoom-level;
+  }
+}

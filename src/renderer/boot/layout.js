@@ -229,6 +229,30 @@ class TaraLayoutClass {
   }
 
   /**
+   * Sets the minHeight of the selected panel
+   * @param height {Number} Height to set
+   * @function width
+   */
+  minHeight(height) {
+    return new Promise((resolve, reject) => {
+      this.select.minHeight = height;
+      resolve(this);
+    });
+  }
+
+  /**
+   * Sets the maxHeight of the selected panel
+   * @param height {Number} Height to set
+   * @function width
+   */
+  maxHeight(height) {
+    return new Promise((resolve, reject) => {
+      this.select.maxHeight = height;
+      resolve(this);
+    });
+  }
+
+  /**
    * Updates setup database of plugins where layout has been made
    * @param plugin {String} Name of plugin
    * @static

@@ -12,6 +12,11 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "../reducers"; // eslint-disable-line
 
+// Add global tara object
+import Tara from "../renderer/boot/plugin-init"; // eslint-disable-line
+
+global.tara = Tara;
+
 const store = createStore(
   reducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() // Redux dev tools

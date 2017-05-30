@@ -5,11 +5,20 @@
 import React, { Component } from "react";
 import { HashRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
+import PropTypes from "prop-types";
 import { DefaultPage, HomeDir } from "./pages";
 import ShowDir from "./show-dir";
 
 // Export
 export default class Explorer extends Component {
+  componentDidMount() {
+    const tara = global.tara;
+    tara.getPlugin("tara-explorer")
+      .then(api => tara.addEventListener("explorer", api.constants.TARA_UPDATE_DIR, (event, dir) => {
+        console.log("chdir");
+        console.log(dir);
+      }));
+  }
   render() {
     return (
       <Router basename="/explorer">
