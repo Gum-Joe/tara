@@ -1,9 +1,5 @@
-// Sample plugin
-// Should contain 3 props:
-//  init: function to export layout for plugin
-//  client: property containing react jsx
-//  main: main process function to run on startup
-// Can be written in ES6
+import { App } from "./containers";
+
 const init = async (tara, done) => {
   // Get a panel
   tara.getPanelByName("explorer")
@@ -22,7 +18,10 @@ const main = (tara) => {
   // server.start();
 };
 
+const client = App;
+
 module.exports = {
   main,
-  init
+  init,
+  client
 };

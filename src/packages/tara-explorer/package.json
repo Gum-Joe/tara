@@ -23,7 +23,8 @@
   "homepage": "https://github.com/Gum-Joe/tara#readme",
   "tara": {
     "type": "plugin",
-    "client": "components/index.jsx"
+    "client": "components/index.jsx",
+    "reducers": "reducers/index.js"
   },
   "dependencies": {
     "camelcase": "^4.1.0",

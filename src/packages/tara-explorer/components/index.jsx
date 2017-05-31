@@ -7,7 +7,7 @@ import { HashRouter as Router, Route, Redirect, Switch } from "react-router-dom"
 import { Provider } from "react-redux";
 import PropTypes from "prop-types";
 import { DefaultPage, HomeDir } from "./pages";
-import ShowDir from "./show-dir";
+import ShowDir from "../containers/show-dir";
 
 // Export
 export default class Explorer extends Component {

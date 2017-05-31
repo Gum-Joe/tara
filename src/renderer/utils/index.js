@@ -3,3 +3,4 @@
  * @module utils
  */
 export copy from "./copy";
+export getPluginPath from "./get-plugin-path";

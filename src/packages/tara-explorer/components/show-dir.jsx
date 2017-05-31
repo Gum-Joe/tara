@@ -11,6 +11,7 @@ import { readdir, statSync } from "fs";
 import { Grid } from "semantic-ui-react";
 import FontAwesome from "react-fontawesome";
 import { Redirect } from "react-router-dom";
+import { updateDir as chdir } from "../actions";
 
 // NOTE: From https://stackoverflow.com/questions/1828613/check-if-a-key-is-down
 const keys = {};
@@ -66,10 +67,13 @@ export default class Dir extends Component {
         });
         // Send dir message
         global.tara.getPlugin("tara-explorer")
-          .then(api => global.tara.send("explorer", api.constants.EXPLORER_SEND_DIR, this.state.dir));
+          .then(api => global.tara.send("explorer", api.constants.EXPLORER_SEND_DIR, this.props.dir.dir));
         // Check for double click
         for (let file of this.state.contents) {
-          jquery(`#${camelcase(file)}`).dblclick(() => this.getFiles(`${join(this.state.dir, file)}`));
+          jquery(`#${camelcase(file)}`).dblclick(() => {
+            this.getFiles(`${join(this.props.dir.dir, file)}`);
+            this.props.dispatch(chdir(join(this.props.dir.dir, file)));
+          });
         }
       }
     });
@@ -102,7 +106,7 @@ export default class Dir extends Component {
         <Grid.Row>
           <Grid.Column size={2}>
             {
-              this.state.contents.map(file => (statSync(join(this.state.dir, file)).isDirectory() ? // Check if path is dir
+              this.state.contents.map(file => (statSync(join(this.props.dir.dir, file)).isDirectory() ? // Check if path is dir
                 <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
                   <FontAwesome name="folder" />
                   <p>{getFileName(file)}</p>
@@ -110,7 +114,7 @@ export default class Dir extends Component {
               : null))
             }
             {
-              this.state.contents.map(file => (!statSync(join(this.state.dir, file)).isDirectory() ? // Check if path is file
+              this.state.contents.map(file => (!statSync(join(this.props.dir.dir, file)).isDirectory() ? // Check if path is file
                 <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
                   <FontAwesome name="file" />
                   <p>{getFileName(file)}</p>
@@ -127,5 +131,7 @@ export default class Dir extends Component {
 }
 
 Dir.propTypes = {
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  dir: PropTypes.object.isRequired
 };

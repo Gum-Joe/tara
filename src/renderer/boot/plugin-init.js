@@ -11,15 +11,20 @@ import { PLUGIN_LOCATION, PLUGIN_CORE_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_CONFI
  * @class TaraPlugin
  * @param {Object} plugin Plugin that the class is bewing used for
  * @param {Object} electron Electron
+ * @param {Logger} logger (optional) Logger to use
  */
 export default class TaraPlugin {
-  constructor(plugin, electron) {
+  constructor(plugin, electron, logger) {
     this.plugin = plugin;
-    this.logger = new Logger({
+    this.logger = logger || new Logger({
       name: `plugin:${this.plugin.name}`
     });
     // Electron to use
     this.electron = electron;
+    // Bind static methods to this
+    this.addEventListener = TaraPlugin.addEventListener.bind(this);
+    this.send = TaraPlugin.send.bind(this);
+    this.getPlugin = TaraPlugin.getPlugin.bind(this);
   }
 
   /**
@@ -58,7 +63,7 @@ export default class TaraPlugin {
    * @returns {undefined} Nothing
    * @static
    */
-  static send(module, channel, data) {
+  static send(module, channel, data = "") {
     if (typeof window === "undefined") {
       const ipc = require("electron").ipcMain; // eslint-disable-line
       ipc.send(`${module}::${channel}`, data);

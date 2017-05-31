@@ -3,10 +3,11 @@
   "main": "index.js",
   "tara": {
     "type": "plugin",
-    "client": "components/index.jsx"
+    "client": "containers/index.jsx"
   },
   "dependencies": {
     "prop-types": "^15.5.10",
-    "react": "^15.5.4"
+    "react": "^15.5.4",
+    "react-redux": "^5.0.5"
   }
 }
