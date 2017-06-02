@@ -74,6 +74,7 @@
     "redux": "^3.6.0",
     "sass-lint": "^1.10.2",
     "scss-to-json": "^1.1.0",
+    "semantic-ui": "^2.2.10",
     "semantic-ui-react": "^0.68.3"
   },
   "devDependencies": {
