@@ -5,12 +5,12 @@
  */
 import React, { Component } from "react";
 import { homedir } from "os";
-import Dir from "../../containers/show-dir";
+import Browser from "../browser";
 
 export default class HomeDir extends Component {
   render() {
     return (
-      <Dir match={{ params: { dir: homedir() } }} />
+      <Browser match={{ params: { dir: homedir() } }} />
     );
   }
 }

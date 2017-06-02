@@ -32,10 +32,11 @@
     "jquery": "^3.2.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
+    "react-font-awesome": "^1.0.3",
     "react-fontawesome": "^1.6.1",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
-    "react-router-redux": "next",
+    "react-router-redux": "^4.0.8",
     "react-scroll-box": "^0.3.3-beta",
     "redux": "^3.6.0",
     "semantic-ui-react": "^0.68.3"
