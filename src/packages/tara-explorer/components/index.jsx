@@ -4,10 +4,16 @@
  */
 import React, { Component } from "react";
 import { HashRouter as Router, Route, Redirect, Switch } from "react-router-dom";
+import { syncHistoryWithStore } from "react-router-redux";
 import { Provider } from "react-redux";
 import PropTypes from "prop-types";
+import createHistory from "history/createHashHistory";
 import { DefaultPage, HomeDir } from "./pages";
-import ShowDir from "../containers/show-dir";
+import Browser from "./browser";
+
+// Store
+const history = syncHistoryWithStore(createHistory(), global.store);
+global.explorerHistory = history;
 
 // Export
 export default class Explorer extends Component {
@@ -21,15 +27,15 @@ export default class Explorer extends Component {
   }
   render() {
     return (
-      <Router basename="/explorer">
+      <Router basename="/explorer" history={history}>
         <div>
           <Route path="/">
-            <Redirect to="/default-page" />
+            <Redirect push to="/default-page" />
           </Route>
           <Switch>
             <Route path="/default-page"><DefaultPage /></Route>
             <Route path="/dir/home"><HomeDir /></Route>
-            <Route path="/dir/:dir" component={ShowDir} />
+            <Route path="/dir/:dir" component={Browser} />
           </Switch>
         </div>
       </Router>

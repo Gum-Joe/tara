@@ -9,7 +9,7 @@ export default class DefaultPage extends Component {
   render() {
     return (
       /* For now we go to /dir/home (home dir) */
-      <Redirect to="/dir/home" />
+      <Redirect push to="/dir/home" />
     );
   }
 }

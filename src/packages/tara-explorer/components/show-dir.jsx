@@ -38,13 +38,47 @@ function getFileName(file) {
   }
 }
 
+/**
+ * Normalises a Filename
+ * @param {String} filename File path to normalize
+ * @returns {String} Normalised file name
+ */
+function normalise(filename) {
+  const camelcased = camelcase(filename);
+  const specialChars = [
+    ".",
+    "'",
+    "#",
+    ":",
+    ";",
+    "{",
+    "}",
+    " ",
+    "(",
+    ")",
+    "@",
+    "%",
+    "$",
+    "*"
+  ];
+  const replaceWith = ""; // Replace special Chars with this
+  let fileNormal = camelcased;
+  for (let char of specialChars) {
+    fileNormal = fileNormal.split(char).join(replaceWith);
+    if (char === specialChars[specialChars.length - 1]) {
+      return fileNormal;
+    }
+  }
+}
+
 export default class Dir extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       contents: [],
       redirect: ""
     };
+    props.dispatch(chdir(props.match.params.dir));
   }
   componentDidMount() {
     // Get dirs
@@ -56,6 +90,7 @@ export default class Dir extends Component {
    * @returns {undefined} Nothing
    */
   getFiles(dir) {
+    console.log(dir);
     readdir(dir, (err, files) => {
       if (err) {
         throw err;
@@ -65,14 +100,18 @@ export default class Dir extends Component {
           contents: files,
           dir: dir
         });
-        // Send dir message
-        global.tara.getPlugin("tara-explorer")
-          .then(api => global.tara.send("explorer", api.constants.EXPLORER_SEND_DIR, this.props.dir.dir));
         // Check for double click
         for (let file of this.state.contents) {
-          jquery(`#${camelcase(file)}`).dblclick(() => {
-            this.getFiles(`${join(this.props.dir.dir, file)}`);
-            this.props.dispatch(chdir(join(this.props.dir.dir, file)));
+          jquery(`#${normalise(file)}`).dblclick(() => {
+            // HACK: Rerender the <Dir /> component.  Should work for now
+            const DirContainer = require("../containers/show-dir").default;
+            const newDir = join(this.props.dir.dir, file);
+            global.explorerHistory.push(`/dir/${newDir}`);
+            this.setState({
+              ...this.state,
+              redirect: (<DirContainer match={{ params: { dir: newDir } }} />),
+              contents: []
+            });
           });
         }
       }
@@ -93,6 +132,7 @@ export default class Dir extends Component {
           // TODO: Add multiselect by usage of ctrl / shift
           if (event.path[0].id !== id && document.getElementById(id).className.includes("file-highlighted") && !keys[17] && !keys[16]) {
             this.handleOnClick(id)();
+            document.body.removeEventListener("click", this, true);
           }
         }, true);
       } else {
@@ -102,30 +142,35 @@ export default class Dir extends Component {
   }
   render() {
     return (
-      <Grid className="files">
-        <Grid.Row>
-          <Grid.Column size={2}>
-            {
-              this.state.contents.map(file => (statSync(join(this.props.dir.dir, file)).isDirectory() ? // Check if path is dir
-                <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
-                  <FontAwesome name="folder" />
-                  <p>{getFileName(file)}</p>
-                </div>
-              : null))
-            }
-            {
-              this.state.contents.map(file => (!statSync(join(this.props.dir.dir, file)).isDirectory() ? // Check if path is file
-                <div id={camelcase(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(camelcase(file))}>
-                  <FontAwesome name="file" />
-                  <p>{getFileName(file)}</p>
-                </div>
-              : null))
-            }
-          </Grid.Column>
-        </Grid.Row>
+      <div>
         {/* Redirects */}
-        { this.state.redirect !== "" ? <Redirect to={this.state.redirect} /> : null }
-      </Grid>
+        { this.state.redirect !== "" ?
+          this.state.redirect
+          :
+          <Grid className="files">
+            <Grid.Row>
+              <Grid.Column size={2}>
+                {
+                  this.state.contents.map(file => (statSync(join(this.props.dir.dir, file)).isDirectory() ? // Check if path is dir
+                    <div id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
+                      <FontAwesome name="folder" />
+                      <p>{getFileName(file)}</p>
+                    </div>
+                  : null))
+                }
+                {
+                  this.state.contents.map(file => (!statSync(join(this.props.dir.dir, file)).isDirectory() ? // Check if path is file
+                    <div id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
+                      <FontAwesome name="file" />
+                      <p>{getFileName(file)}</p>
+                    </div>
+                  : null))
+                }
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        }
+      </div>
     );
   }
 }

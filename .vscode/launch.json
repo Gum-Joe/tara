@@ -14,7 +14,8 @@
         "--color",
         "--verbose"
       ],
-      "cwd": "${workspaceRoot}"
+      "cwd": "${workspaceRoot}",
+      "timeout": 60000
     }
   ],
   "compounds": []
