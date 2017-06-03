@@ -90,7 +90,6 @@ export default class Dir extends Component {
    * @returns {undefined} Nothing
    */
   getFiles(dir) {
-    console.log(dir);
     readdir(dir, (err, files) => {
       if (err) {
         throw err;
@@ -102,17 +101,21 @@ export default class Dir extends Component {
         });
         // Check for double click
         for (let file of this.state.contents) {
-          jquery(`#${normalise(file)}`).dblclick(() => {
-            // HACK: Rerender the <Dir /> component.  Should work for now
-            const DirContainer = require("../containers/show-dir").default;
-            const newDir = join(this.props.dir.dir, file);
-            global.explorerHistory.push(`/dir/${newDir}`);
-            this.setState({
-              ...this.state,
-              redirect: (<DirContainer match={{ params: { dir: newDir } }} />),
-              contents: []
+          if (statSync(join(dir, file)).isDirectory()) {
+            jquery(`#${normalise(file)}`).dblclick(() => {
+              // HACK: Rerender the <Dir /> component.  Should work for now
+              const DirContainer = require("../containers/show-dir").default;
+              const newDir = join(this.props.dir.dir, file);
+              global.explorerHistory.push(`/dir/${newDir}`);
+              this.setState({
+                ...this.state,
+                redirect: (<DirContainer match={{ params: { dir: newDir } }} />),
+                contents: []
+              });
             });
-          });
+          } else {
+            // Handle file opening
+          }
         }
       }
     });
