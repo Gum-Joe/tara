@@ -6,7 +6,8 @@ import actions from "./actions";
 import constants from "./constants";
 
 const api = {
-  constants: constants
+  constants,
+  actions
 };
 
 const main = (tara) => {

@@ -1,4 +1,5 @@
 // Panel theme
+@import "../colours";
 @import "../mixins";
 @import "../user";
 @import "../variables/address-bar";
@@ -18,6 +19,7 @@
     left: 9px;
     padding: 7px;
     position: absolute;
+    top: 8px;
     width: 30px;
   }
   .fa:hover {
@@ -28,5 +30,35 @@
   }
   span:nth-child(2) {
     margin-left: 35px;
+  }
+
+  // Address bar picker styles
+  .address-bar-picker {
+    height: 30px;
+    margin-top: -2px;
+    width: 80%;
+    input {
+      @include background-opacity($accent-address-bar, $address-bar-picker-opacity);
+      color: $accent-text-colour;
+    }
+    input:active, input:focus {
+      @include background-opacity($accent-address-bar, $address-bar-picker-opacity-active);
+      color: $accent-text-colour;
+    }
+    input::selection {
+      @include background-opacity($address-bar-picker-highlight, $address-bar-picker-highlight-opacity);
+      color: $accent-text-colour;
+    }
+    .address-bar-button {
+      @include background-opacity($accent, $address-bar-picker-button-opacity);
+      color: $accent-text-colour;
+      padding-top: 8.5px !important;
+    }
+    .address-bar-button:hover {
+      @include background-opacity($accent, $address-bar-picker-button-opacity-hover);
+    }
+    .address-bar-button:active {
+      @include background-opacity($accent, $address-bar-picker-button-opacity-active);
+    }
   }
 }

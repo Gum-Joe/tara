@@ -1,15 +1,17 @@
 /**
  * Defines body styles, such as background
  */
-body, #background-fluent {
+@import "variables/body";
+
+body, #background-filter {
   // Background from https://wallpaperbrowse.com/media/images/html-color-codes-color-tutorials-hero-00e10b1f.jpg
-  background: url("tara://plugin/one-fluent-theme/file/assets/background-4.jpg");
+  background: url("tara://plugin/one-fluent-theme/file/assets/background-#{$background-number}#{$background-file-ext}");
   background-size: 100% 100%;
 }
 
 #background-fluent {
   bottom: 0;
-  filter: blur(50px);
+  filter: blur($background-blur);
   left: 0;
   position: absolute;
   right: 0;

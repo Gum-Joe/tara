@@ -25,6 +25,7 @@ rules:
     - 1
     - 2
   linebreak-style: 0
+  jsx-a11y/no-noninteractive-element-interactions: 1
   quotes:
     - error
     - double

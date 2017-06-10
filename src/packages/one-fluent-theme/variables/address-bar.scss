@@ -1,6 +1,16 @@
 // Address bar vars
+@import "../colours";
+@import "../user";
+
 $address-bar-opacity: 0.4;
 $address-bar-font-size: 7px;
 $address-bar-icons-opacity: 0.2;
 $address-bar-icons-opacity-hover: 0.5;
 $address-bar-icons-opacity-active: 0.8;
+$address-bar-picker-button-opacity: 0.6;
+$address-bar-picker-button-opacity-hover: 0.8;
+$address-bar-picker-button-opacity-active: 0.9;
+$address-bar-picker-opacity: 0.2;
+$address-bar-picker-opacity-active: 0.4;
+$address-bar-picker-highlight: lighten($accent-address-bar, $lighten-by * 5);
+$address-bar-picker-highlight-opacity: 0.2;
