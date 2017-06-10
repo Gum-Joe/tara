@@ -8,8 +8,9 @@ const init = async (tara, done) => {
     .catch((err) => { throw err; })
     .then(section => section.loadModule("tara-address-bar"))
     .catch((err) => { throw err; })
-    .then(section => section.height(45)) // Set height#
+    .then(section => section.height(45)) // Set height
     .then(section => section.minHeight(45)) // Set minHeight
+    .then(section => section.maxHeight(45)) // Set maxHeight
     .catch((err) => { throw err; })
     .then(layout => done(layout));
 };

@@ -7,7 +7,26 @@
 .tara-address-bar {
   @include background-opacity($accent-address-bar, $address-bar-opacity);
   text-align: center;
-  p {
+  .current-dir {
+    display: inline-block;
     font-size: $address-bar-font-size * $zoom-level;
+  }
+  .fa {
+    @include background-opacity($accent-address-bar, $address-bar-icons-opacity);
+    @include circle;
+    border: solid 1px;
+    left: 9px;
+    padding: 7px;
+    position: absolute;
+    width: 30px;
+  }
+  .fa:hover {
+    @include background-opacity($accent-address-bar, $address-bar-icons-opacity-hover);
+  }
+  .fa:active {
+    @include background-opacity($accent-address-bar, $address-bar-icons-opacity-active);
+  }
+  span:nth-child(2) {
+    margin-left: 35px;
   }
 }

@@ -17,3 +17,8 @@
   height: 100%;
   width: 100%;
 }
+
+// Border-radius
+@mixin circle {
+  border-radius: 100px;
+}
