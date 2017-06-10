@@ -1,8 +1,18 @@
 /**
  * Defines body styles, such as background
  */
-body {
+body, #background-fluent {
   // Background from https://wallpaperbrowse.com/media/images/html-color-codes-color-tutorials-hero-00e10b1f.jpg
-  background: url("tara://plugin/one-fluent-theme/file/assets/background.jpg");
+  background: url("tara://plugin/one-fluent-theme/file/assets/background-4.jpg");
   background-size: 100% 100%;
+}
+
+#background-fluent {
+  bottom: 0;
+  filter: blur(50px);
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: -1;
 }
