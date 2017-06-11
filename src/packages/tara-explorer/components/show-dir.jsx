@@ -80,9 +80,13 @@ export default class Dir extends Component {
     };
     props.dispatch(chdir(props.match.params.dir));
   }
-  componentDidMount() {
+  componentWillReceiveProps(props) {
+    // Update dir
+    if (props.dir.dir !== props.match.params.dir) {
+      props.dispatch(chdir(props.match.params.dir));
+    }
     // Get dirs
-    this.getFiles(this.props.match.params.dir);
+    this.getFiles(props.match.params.dir);
   }
   /**
    * Gets files in a dir & sets it to state
@@ -100,18 +104,12 @@ export default class Dir extends Component {
           dir: dir
         });
         // Check for double click
-        for (let file of this.state.contents) {
+        for (let file of files) {
           if (statSync(join(dir, file)).isDirectory()) {
             jquery(`#${normalise(file)}`).dblclick(() => {
-              // HACK: Rerender the <Dir /> component.  Should work for now
-              const DirContainer = require("../containers/show-dir").default;
               const newDir = join(this.props.dir.dir, file);
               global.explorerHistory.push(`/dir/${newDir}`);
-              this.setState({
-                ...this.state,
-                redirect: (<DirContainer match={{ params: { dir: newDir } }} />),
-                contents: []
-              });
+              this.props.dispatch(chdir(newDir));
             });
           } else {
             // Handle file opening
@@ -154,7 +152,7 @@ export default class Dir extends Component {
             <Grid.Row>
               <Grid.Column size={2}>
                 {
-                  this.state.contents.map(file => (statSync(join(this.props.dir.dir, file)).isDirectory() ? // Check if path is dir
+                  this.state.contents.map(file => (statSync(join(this.props.match.params.dir, file)).isDirectory() ? // Check if path is dir
                     <div id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
                       <FontAwesome name="folder" />
                       <p>{getFileName(file)}</p>
@@ -162,7 +160,7 @@ export default class Dir extends Component {
                   : null))
                 }
                 {
-                  this.state.contents.map(file => (!statSync(join(this.props.dir.dir, file)).isDirectory() ? // Check if path is file
+                  this.state.contents.map(file => (!statSync(join(this.props.match.params.dir, file)).isDirectory() ? // Check if path is file
                     <div id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
                       <FontAwesome name="file" />
                       <p>{getFileName(file)}</p>

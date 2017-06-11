@@ -32,9 +32,9 @@ export default class TaraAddressBar extends Component {
    * @returns {undefined} Nothing
    */
   changeDir(dir) {
-    global.explorerHistory.push(`/dir/${dir}`);
     this.props.tara.getPlugin("tara-explorer")
-      .then((explorer) => explorer.actions.updateDir(dir));
+      .then((explorer) => this.props.dispatch(explorer.actions.updateDir(dir)));
+    global.explorerHistory.push(`/dir/${dir}`);
     this.setState({
       picker: null
     });
@@ -55,9 +55,9 @@ export default class TaraAddressBar extends Component {
         <FontAwesome name="arrow-right" />
         {
           this.state.picker === null ?
-          <p className="current-dir" onClick={this.handleDirClick}>{this.props.dir.dir}</p>
-          :
-          this.state.picker
+            <p className="current-dir" onClick={this.handleDirClick}>{this.props.dir.dir}</p>
+            :
+            this.state.picker
         }
       </div>
     );
@@ -66,5 +66,6 @@ export default class TaraAddressBar extends Component {
 
 TaraAddressBar.propTypes = {
   dir: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired,
   tara: PropTypes.object.isRequired
 };
