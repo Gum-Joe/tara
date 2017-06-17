@@ -20,6 +20,13 @@
           "transform-export-extensions"
         ],
         "sourceMaps": "inline"
+      },
+      "text/typescript": {
+        "module": "CommonJS",
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "sourceMap": true
       }
     },
     "production": {
@@ -41,6 +48,13 @@
           "transform-export-extensions"
         ],
         "sourceMaps": "none"
+      },
+      "text/typescript": {
+        "module": "CommonJS",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": false
       }
     }
   }
