@@ -1,10 +1,12 @@
 /**
  * @overview Plugin init class for plugin
  */
+import * as Electron from "electron";
 import { join } from "path";
 import Logger from "../logger";
 import getPlugins from "./plugins";
 import { PLUGIN_LOCATION, PLUGIN_CORE_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_CONFIG } from "../constants";
+import { PackageJSON } from "../interfaces";
 
 /**
  * Plugin init class
@@ -14,10 +16,20 @@ import { PLUGIN_LOCATION, PLUGIN_CORE_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_CONFI
  * @param {Logger} logger (optional) Logger to use
  */
 export default class TaraPlugin {
-  constructor(plugin, electron, logger) {
+
+  public plugin: PackageJSON;
+  public logger: Logger;
+  public electron: Electron.AllElectron;
+  public addEventListener: (module: string, event: string, listener: (event: Electron.EventEmitter, data: any) => void) => void;
+  public send: (module: string, channel: string, data: any) => void;
+  public getPlugin: (plugin: PackageJSON) => Promise<any>;
+  public getPluginPath: (plugin: string, callback: (err: Error, path: string) => void) => void;
+  public getPluginPathSync: (plugin: string) => string;
+
+  constructor(plugin: PackageJSON, electron: Electron.AllElectron, logger: Logger) {
     this.plugin = plugin;
     this.logger = logger || new Logger({
-      name: `plugin:${this.plugin.name}`
+      name: `plugin:${this.plugin.name}`,
     });
     // Electron to use
     this.electron = electron;
@@ -25,6 +37,8 @@ export default class TaraPlugin {
     this.addEventListener = TaraPlugin.addEventListener.bind(this);
     this.send = TaraPlugin.send.bind(this);
     this.getPlugin = TaraPlugin.getPlugin.bind(this);
+    this.getPluginPath = TaraPlugin.getPluginPath.bind(this);
+    this.getPluginPathSync = TaraPlugin.getPluginPathSync.bind(this);
   }
 
   /**
@@ -32,9 +46,20 @@ export default class TaraPlugin {
    * @param {String} name name of API
    * @param {Object} api API to add
    * @returns {undefined} Nothing
+   * @public
    */
-  addApi(name = this.plugin.name, api) {
+  public addApi(name = this.plugin.name, api) {
     TaraPlugin.addApi(name, api);
+  }
+
+  /**
+   * Gets client API
+   * @returns {Client} Client API
+   * @public
+   */
+  public getClient() {
+    const Client = require("./plugin-client.ts").default;
+    return new Client(this.plugin, this.electron, this.logger);
   }
 
   /**
@@ -44,8 +69,9 @@ export default class TaraPlugin {
    * @param {Function} listener Listener for event
    * @returns {undefined} nothing
    * @static
+   * @public
    */
-  static addEventListener(module, event, listener) {
+  public static addEventListener(module: string, event: string, listener: (event: Electron.EventEmitter, data: any) => void) {
     if (typeof window === "undefined") {
       const ipc = require("electron").ipcMain; // eslint-disable-line
       ipc.on(`${module}::${event}`, listener);
@@ -63,7 +89,7 @@ export default class TaraPlugin {
    * @returns {undefined} Nothing
    * @static
    */
-  static send(module, channel, data = "") {
+  public static send(module: string, channel: string, data: any = "") {
     if (typeof window === "undefined") {
       const ipc = require("electron").ipcMain; // eslint-disable-line
       ipc.send(`${module}::${channel}`, data);
@@ -78,8 +104,9 @@ export default class TaraPlugin {
    * @param {String} plugin Plugin to look for
    * @returns {Object} Plugin API
    * @static
+   * @public
    */
-  static async getPlugin(plugin) {
+  public static async getPlugin(plugin: string) {
     let location;
     // HACK: I know it is bad to repeat, but it has to be done here
     if (getPlugins(PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION, "name").includes(plugin)) {
@@ -116,13 +143,49 @@ export default class TaraPlugin {
   }
 
   /**
+   * Gets a plugin path
+   * @param {String} plugin Plugin to get
+   * @param {Function} callback Callback with args (err, path)
+   * @returns {void} Nothing
+   * @static
+   * @public
+   */
+  public static getPluginPath(plugin: string, callback: (err: Error, path: string) => void) {
+    if (getPlugins(PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION, "name").includes(plugin)) {
+      callback(null, join(PLUGIN_CORE_LOCATION, plugin));
+    } else if (getPlugins(PLUGIN_CONFIG, PLUGIN_LOCATION, "name").includes(plugin)) {
+      callback(null, join(PLUGIN_LOCATION, plugin));
+    } else {
+      callback(new Error(`ENOENT: Could not find plugin ${plugin}.`), null);
+    }
+  }
+
+  /**
+   * Gets a plugin path (sync)
+   * @param {String} plugin Plugin to get
+   * @returns {String|Error} Path to plugin or error if not found
+   * @static
+   * @public
+   */
+  public static getPluginPathSync(plugin: string) {
+    if (getPlugins(PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION, "name").includes(plugin)) {
+      return join(PLUGIN_CORE_LOCATION, plugin);
+    } else if (getPlugins(PLUGIN_CONFIG, PLUGIN_LOCATION, "name").includes(plugin)) {
+      return join(PLUGIN_LOCATION, plugin);
+    } else {
+      return new Error(`ENOENT: Could not find plugin ${plugin}.`);
+    }
+  }
+
+  /**
    * Add an API method for other plugins to use (used by prototype.addApi)
    * @param {String} name name of API
    * @param {Object} api API to add
    * @returns {undefined} Nothing
    * @static
+   * @public
    */
-  static addApi(name, api) {
+  public static addApi(name: string, api: any) {
     TaraPlugin.prototype[name] = api;
   }
 
