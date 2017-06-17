@@ -14,3 +14,10 @@ export interface PackageJSON {
     type: string;
   };
 }
+
+export interface Config {
+  theme: string;
+  window: {
+    scripts: string[];
+  };
+}

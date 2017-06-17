@@ -5,7 +5,8 @@ import * as Electron from "electron";
 import { join } from "path";
 import Logger from "../logger";
 import getPlugins from "./plugins";
-import { PLUGIN_LOCATION, PLUGIN_CORE_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_CONFIG } from "../constants";
+import { TARA_CONFIG, CONFIG_FILE, PLUGIN_LOCATION, PLUGIN_CORE_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_CONFIG } from "../constants";
+import Config from "../../shared/config";
 import { PackageJSON } from "../interfaces";
 
 /**
@@ -19,6 +20,7 @@ export default class TaraPlugin {
 
   public plugin: PackageJSON;
   public logger: Logger;
+  public config: Config;
   public electron: Electron.AllElectron;
   public addEventListener: (module: string, event: string, listener: (event: Electron.EventEmitter, data: any) => void) => void;
   public send: (module: string, channel: string, data: any) => void;
@@ -31,6 +33,7 @@ export default class TaraPlugin {
     this.logger = logger || new Logger({
       name: `plugin:${this.plugin.name}`,
     });
+    this.config = new Config(join(TARA_CONFIG, CONFIG_FILE));
     // Electron to use
     this.electron = electron;
     // Bind static methods to this

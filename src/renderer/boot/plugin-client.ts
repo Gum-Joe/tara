@@ -24,9 +24,13 @@ export default class Client extends TaraPlugin {
   }
   /**
    * Loads a script on the windows
-   * @param {String} script Script to load
+   * @param {String} script Absolute path to script to load
    */
-  public loadScript(path: string) {
-    this.logger.debug(`Loading script ${cyan(path)}...`);
+  public loadScript(script: string) {
+    if (!this.config.config.window.scripts.includes(script)) {
+      this.logger.debug(`Loading script ${cyan(script)}...`);
+      this.config.config.window.scripts.push(script);
+      this.config.update();
+    }
   }
 }

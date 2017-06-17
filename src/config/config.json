@@ -1,3 +1,8 @@
 {
-  "theme": "one-fluent-theme"
+  "theme": "one-fluent-theme",
+  "window": {
+    "scripts": [
+      "D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-right-click-menu\\lib\\menu.js"
+    ]
+  }
 }
