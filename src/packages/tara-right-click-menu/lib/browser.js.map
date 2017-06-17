@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "browser.js",
+  "sourceRoot": "",
+  "sources": [
+    "..\\src\\browser.coffee"
+  ],
+  "names": [],
+  "mappings": ";AACA;;;;;AAAA;EAKA,MAAM,CAAC,OAAP,GAAiB,SAAC,IAAD;WACf,IAAI,CAAC,MAAM,CAAC,IAAZ,CAAiB,qCAAjB;EADe;AALjB"
+}

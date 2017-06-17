@@ -2,7 +2,7 @@
  "name": "tara-right-click-menu",
  "version": "0.1.0",
  "description": "Tara package to allow for right click context menus",
- "main": "index.js",
+ "main": "lib/index.js",
  "scripts": {
   "test": "cd ../.. && npm test"
  },

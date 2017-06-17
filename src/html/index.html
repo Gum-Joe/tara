@@ -26,6 +26,8 @@
       // Put tara into the global namespace
       global.tara = require("../renderer/boot/plugin-init").default;
     </script>
+    <!-- Load scripts -->
+    <script async src="../renderer/load-scripts.js" charset="utf-8"></script>
     <!-- And now load tara UI -->
     <script async src="../index.jsx" charset="utf-8"></script>
   </body>

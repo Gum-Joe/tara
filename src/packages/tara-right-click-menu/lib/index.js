@@ -11,7 +11,7 @@
 
   module.exports.main = function(tara) {
     tara.logger.debug("Loaded tara-right-click-menu");
-    return tara.getClient().loadScript(join(tara.getPluginPathSync(tara.plugin.name), "lib/menu.js"));
+    return tara.getClient().loadScript(join(tara.getPluginPathSync(tara.plugin.name), "lib/browser.js"));
   };
 
 }).call(this);
