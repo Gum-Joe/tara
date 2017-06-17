@@ -39,6 +39,8 @@
     "react-router-redux": "^4.0.8",
     "react-scroll-box": "^0.3.3-beta",
     "redux": "^3.6.0",
-    "semantic-ui-react": "^0.68.3"
+    "regedit": "^2.2.7",
+    "semantic-ui-react": "^0.68.3",
+    "windows-registry": "^0.1.3"
   }
 }

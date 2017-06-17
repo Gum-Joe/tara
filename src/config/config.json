@@ -2,7 +2,7 @@
   "theme": "one-fluent-theme",
   "window": {
     "scripts": [
-      "D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-right-click-menu\\lib\\browser.js"
+      "D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-explorer\\browser\\index.js"
     ]
   }
 }

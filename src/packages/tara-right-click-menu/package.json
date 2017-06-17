@@ -4,28 +4,21 @@
  "description": "Tara package to allow for right click context menus",
  "main": "lib/index.js",
  "scripts": {
-  "test": "cd ../.. && npm test"
+   "test": "cd ../.. && npm test"
  },
  "repository": {
-  "type": "git",
-  "url": "git+https://github.com/Gum-Joe/tara.git"
+   "type": "git",
+   "url": "git+https://github.com/Gum-Joe/tara.git"
  },
  "keywords": "tara registry right click context menu right-click-menu",
  "author": "Gum-Joe",
  "license": "MIT",
  "bugs": {
-  "url": "https://github.com/Gum-Joe/tara/issues"
+   "url": "https://github.com/Gum-Joe/tara/issues"
  },
  "homepage": "https://github.com/Gum-Joe/tara#readme",
  "tara": {
-  "type": "plugin"
- },
- "dependencies": {
-  "windows-registry": "^0.1.3"
- },
- "devDependencies": {
-  "codo": "^2.1.2",
-  "coffeelint": "^1.16.0",
-  "coffeescript": "next"
+   "type": "plugin",
+   "api": "lib/api"
  }
 }

@@ -11,7 +11,7 @@ import Logger from "../renderer/logger";
 const config = new Config(join(TARA_CONFIG, CONFIG_FILE));
 
 for (let script of config.config.window.scripts) {
-  const scriptToRun = require(script);
+  const scriptToRun = require(script).default;
   scriptToRun(new Client(
     {},
     electron,

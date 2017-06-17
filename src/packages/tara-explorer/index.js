@@ -2,6 +2,7 @@
  * @overview Tara's explorer entry point
  * @module tara/explorer
  */
+import { join } from "path";
 import actions from "./actions";
 import constants from "./constants";
 
@@ -15,6 +16,7 @@ const main = (tara) => {
     constants,
     actions
   });
+  tara.getClient().loadScript(join(tara.getPluginPathSync(tara.plugin.name), "browser/index.js"));
   tara.logger.info("Explorer started.");
 };
 
