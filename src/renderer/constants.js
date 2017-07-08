@@ -9,6 +9,8 @@ export const DEV_ENV = "development";
 export const TYPE_PLUGIN = "plugin";
 // File locations
 export const TARA_CONFIG = path.resolve(__dirname, "../config"); // Should be $HOME/.tara
+export const TARA_CONFIG_DBS = path.join(TARA_CONFIG, "db");
+export const TARA_TMP_DB = path.join(TARA_CONFIG_DBS, "tara", "tmp");
 export const CONFIG_FILE = "config.json";
 export const TARA_PACKAGES = path.resolve(__dirname, "../packages");
 export const THEME_FILE = path.resolve(__dirname, "../css/get-theme.scss");

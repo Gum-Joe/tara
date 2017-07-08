@@ -8,7 +8,8 @@ Menu = require "./menu"
 module.exports = {
   ###
   # Create a menu
+  # @param {String} name Name of menu
   # @returns {Menu} Tara Menu class
   ###
-  createMenu: () => new Menu()
+  createMenu: (name) => new Menu(name)
 }

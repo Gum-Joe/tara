@@ -6,8 +6,8 @@ import fs from "fs";
 import electron from "electron"; // eslint-disable-line
 import path from "path";
 import addEventListeners from "./event-listeners";
-import Logger from "../logger";
-import TaraPlugin from "./plugin-init";
+import Logger from "../logger.ts";
+import TaraPlugin from "./plugin-init.ts";
 
 const logger = new Logger({
   name: "startup"

@@ -6,10 +6,8 @@
     "jsRules": {},
     "rules": {
       "interface-name": false,
-      "max-line-length": false,
-      "ordered-imports": false,
-      "member-ordering": true,
-      "no-console": false
+      "no-console": false,
+      "object-literal-sort-keys": false
     },
     "rulesDirectory": []
 }

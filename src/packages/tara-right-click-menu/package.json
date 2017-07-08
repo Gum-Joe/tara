@@ -1,24 +1,29 @@
 {
- "name": "tara-right-click-menu",
- "version": "0.1.0",
- "description": "Tara package to allow for right click context menus",
- "main": "lib/index.js",
- "scripts": {
-   "test": "cd ../.. && npm test"
- },
- "repository": {
-   "type": "git",
-   "url": "git+https://github.com/Gum-Joe/tara.git"
- },
- "keywords": "tara registry right click context menu right-click-menu",
- "author": "Gum-Joe",
- "license": "MIT",
- "bugs": {
-   "url": "https://github.com/Gum-Joe/tara/issues"
- },
- "homepage": "https://github.com/Gum-Joe/tara#readme",
- "tara": {
-   "type": "plugin",
-   "api": "lib/api"
- }
+  "name": "tara-right-click-menu",
+  "version": "0.1.0",
+  "description": "Tara package to allow for right click context menus",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "cd ../.. && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gum-Joe/tara.git"
+  },
+  "keywords": "tara registry right click context menu right-click-menu",
+  "author": "Gum-Joe",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gum-Joe/tara/issues"
+  },
+  "homepage": "https://github.com/Gum-Joe/tara#readme",
+  "tara": {
+    "type": "plugin",
+    "api": "lib/api"
+  },
+  "dependencies": {
+    "async": "^2.5.0",
+    "nedb": "^1.8.0",
+    "rimraf": "^2.6.1"
+  }
 }

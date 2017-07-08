@@ -21,3 +21,7 @@ export interface Config {
     scripts: string[];
   };
 }
+
+export interface Logger {
+  name: string;
+}

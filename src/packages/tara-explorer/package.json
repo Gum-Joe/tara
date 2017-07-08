@@ -29,6 +29,7 @@
   "dependencies": {
     "camelcase": "^4.1.0",
     "history": "^4.6.1",
+    "icon-extractor": "^1.0.3",
     "jquery": "^3.2.1",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",

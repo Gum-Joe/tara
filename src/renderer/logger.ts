@@ -2,9 +2,14 @@
  * @overview Logging module for tara, from coapack
  * @module logger
  */
-const chalk = require("chalk");
+import * as chalk from "chalk";
+import { Logger as LoggerArgs } from "./interfaces";
 
 export default class Logger {
+  private args: LoggerArgs;
+  private argv: string[];
+  private isDebug: boolean;
+
   constructor(args) {
     this.args = args || {};
     this.argv = process.argv;
@@ -17,8 +22,9 @@ export default class Logger {
    * @param level {String} Log Level
    * @param colour {String} colour of string
    * @param text {String} Text to log
+   * @private
    */
-  _log(level, colour, text) {
+  private _log(level, colour, text) {
     if (!this.argv.includes("--silent")) {
       // Add prefix
       let prefix = "";
@@ -30,17 +36,19 @@ export default class Logger {
   }
   /*
    * Info method
+   * @public
    * @color green
    */
-  info(text) {
+  public info(text) {
     this._log("info", "green", text);
   }
 
   /*
    * Warn method
+   * @public
    * @color green
    */
-  warn(text) {
+  public warn(text) {
     if (!this.argv.includes("--silent")) {
       // Add prefix
       let prefix = "";
@@ -53,8 +61,9 @@ export default class Logger {
   /*
    * Error method
    * @color green
+   * @public
    */
-  err(text) {
+  public err(text) {
     if (!this.argv.includes("--silent")) {
       // Add prefix
       let prefix = "";
@@ -68,8 +77,9 @@ export default class Logger {
   /*
    * Debug/verbose method
    * @color green
+   * @public
    */
-  debug(text) {
+  public debug(text) {
     if (this.isDebug) {
       this._log("debug", "cyan", text);
     }
@@ -79,8 +89,9 @@ export default class Logger {
    * Throw an Error
    * @param err {Error} Error to throw
    * @throw Error
+   * @public
    */
-  throw(err) {
+  public throw(err) {
     this.throw_noexit(err);
     process.exit(1);
   }
@@ -90,8 +101,9 @@ export default class Logger {
    * @colour red
    * @param err {Error} error to throw
    * From Bedel
+   * @public
    */
-  throw_noexit(err) {
+  public throw_noexit(err) {
     if (!this.argv.includes("--silent")) {
       this.err("");
       this.err(`${err.stack.split("\n")[0]}`);

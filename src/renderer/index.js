@@ -9,7 +9,7 @@ import { app, BrowserWindow } from "electron"; // eslint-disable-line
 import { enableLiveReload } from "electron-compile";
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEV_ENV } from "./constants";
 import installExtensions from "./install-extensions";
-import Logger from "./logger";
+import Logger from "./logger.ts";
 import startup from "./startup";
 
 // Logger
@@ -24,6 +24,9 @@ startup();
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+// Handle promise rejects
+process.on("unhandledRejection", (reason, promise) => { throw reason; });
 
 /**
  * Creates the electron window

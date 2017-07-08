@@ -24,7 +24,7 @@ export default class TaraPlugin {
   public electron: Electron.AllElectron;
   public addEventListener: (module: string, event: string, listener: (event: Electron.EventEmitter, data: any) => void) => void;
   public send: (module: string, channel: string, data: any) => void;
-  public getPlugin: (plugin: PackageJSON) => Promise<any>;
+  public getPlugin: (plugin: string) => Promise<any>;
   public getPluginPath: (plugin: string, callback: (err: Error, path: string) => void) => void;
   public getPluginPathSync: (plugin: string) => string;
 
@@ -95,7 +95,7 @@ export default class TaraPlugin {
   public static send(module: string, channel: string, data: any = "") {
     if (typeof window === "undefined") {
       const ipc = require("electron").ipcMain; // eslint-disable-line
-      ipc.send(`${module}::${channel}`, data);
+      ipc.emit(`${module}::${channel}`, data);
     } else {
       const ipc = require("electron").ipcRenderer; // eslint-disable-line
       ipc.send(`${module}::${channel}`, data);
@@ -117,7 +117,7 @@ export default class TaraPlugin {
 
       // Load
       const pluginJSON = require(join(location, plugin, "package.json"));
-      let pluginFile;
+      let pluginFile: string;
       if (pluginJSON.hasOwnProperty("tara") && pluginJSON.tara.hasOwnProperty("api")) {
         pluginFile = join(location, plugin, pluginJSON.tara.api);
         // Require it & return
@@ -132,7 +132,7 @@ export default class TaraPlugin {
 
       // Load
       const pluginJSON = require(join(location, plugin, "package.json"));
-      let pluginFile;
+      let pluginFile: string;
       if (pluginJSON.hasOwnProperty("tara") && pluginJSON.tara.hasOwnProperty("api")) {
         pluginFile = join(location, plugin, pluginJSON.tara.api);
         // Require it & return
