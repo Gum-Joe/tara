@@ -4,11 +4,11 @@
  "description": "Tara plugin for file operations, such as move, copy and delete",
  "main": "src/index.ts",
  "scripts": {
-   "test": "cd ../.. && npm test"
+  "test": "cd ../.. && npm test"
  },
  "repository": {
-   "type": "git",
-   "url": "git+https://github.com/Gum-Joe/tara.git"
+  "type": "git",
+  "url": "git+https://github.com/Gum-Joe/tara.git"
  },
  "keywords": "tara copy paste fs move rename organise delete remove",
  "author": "Gum-Joe",
@@ -20,5 +20,7 @@
  "tara": {
   "type": "plugin"
  },
- "dependencies": {}
+ "dependencies": {
+  "nedb": "^1.8.0"
+ }
 }

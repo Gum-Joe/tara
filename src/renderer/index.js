@@ -14,7 +14,8 @@ import startup from "./startup";
 
 // Logger
 const logger = new Logger({
-  name: "startup"
+  name: "startup",
+  windowLogger: true,
 });
 
 // Startup actions

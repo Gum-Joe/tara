@@ -53,7 +53,7 @@ class TaraMenu
         throw err if err
         # Insert
         if docs.length == 0
-          db.insert({ item, id: count[0].idCount || item.id });
+          db.insert({ item, id: count[0].idCount || item.id })
           # Update ID count
           tmp.update({ idCount: /.*/ }, { $set: { idCount: count[0].idCount++ || item.id++  } }, {}, (err) -> throw err if err)
       )
@@ -66,26 +66,32 @@ class TaraMenu
   listen: () ->
     console.log "Now listenning (menu)"
     that = @
-    window.addEventListener('contextmenu', (event) ->
+    window.addEventListener("contextmenu", (event) ->
       event.preventDefault()
       # Remake menu from db
       db = new DB({ filename: join(TARA_CONFIG_DBS, "right-click-context-menu", "#{that.name}.db"), autoload: true })
       db.find({}, (err, docs) ->
         throw err if err
-        menu = new Menu()
-        toAppend = [];
+        template = []
         for item in docs
           # Resolve click & append to to append array (in order)
           item.item.click = require item.item.click if item.item.hasOwnProperty "click"
-          toAppend[item.id] = new MenuItem(item.item)
+          item.item.id = item.item.id
+          item.item = new MenuItem item.item
+          template[item.item.id] = item.item
+        menu = Menu.buildFromTemplate(template)
+        menu.popup(remote.getCurrentWindow())
         # Add to menu add popup when done
-        eachSeries(toAppend, (item, callback) ->
-          menu.append(item)
+        ###
+        eachSeries(docs, (item, callback) ->
+          console.log item
+          menu.append(item.item)
           callback()
         , () ->
           menu.popup(remote.getCurrentWindow())
         )
+        ###
       )
     , false)
 
-module.exports = TaraMenu;
+module.exports = TaraMenu

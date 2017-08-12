@@ -314,7 +314,8 @@ class TaraLayoutClass {
 export default async (plugins, location, callback) => {
   logger.debug("Searching for plugins...");
   const pluginsToLayout = plugins.filter(plugin => (plugin.tara.type === TYPE_PLUGIN && !setupDB.done.includes(plugin.name)) || process.argv.includes("--regen-layout"));
-  logger.debug(`Plugins to setup: ${JSON.stringify(pluginsToLayout)}`);
+  const pluginsToLayoutString = pluginsToLayout.map(item => item.name);
+  logger.debug(`Plugins to setup: ${JSON.stringify(pluginsToLayoutString)}`);
   // Apply default
   // TODO: Move to cli parseing
   /**if (process.argv.includes(REGEN_LAYOUT_ARGS)) {

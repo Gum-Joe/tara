@@ -24,4 +24,5 @@ export interface Config {
 
 export interface Logger {
   name: string;
+  windowLogger?: boolean;
 }

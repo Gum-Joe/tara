@@ -3,17 +3,39 @@
  * @module logger
  */
 import * as chalk from "chalk";
+import { ipcRenderer as ipc } from "electron";
 import { Logger as LoggerArgs } from "./interfaces";
+
+const WINDOW_TYPE = "WINDOW";
+const WINDOW_SENT_TYPE = "WINDOW_SENT";
+const PROCESS_TYPE = "PROCESS";
+const LOGGER_WINDOW = "LOGGER_WINDOW";
+const DEBUG = "debug";
 
 export default class Logger {
   private args: LoggerArgs;
   private argv: string[];
   private isDebug: boolean;
+  private type: "WINDOW" | "PROCESS" | "WINDOW_SENT";
 
-  constructor(args) {
-    this.args = args || {};
+  constructor(args: LoggerArgs) {
+    this.args = args || { name: "logger" };
     this.argv = process.argv;
     this.isDebug = this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v") || process.env.DEBUG;
+    // Get type
+    if (typeof window !== "undefined") {
+      this.type = WINDOW_TYPE;
+    } else {
+      this.type = PROCESS_TYPE;
+      // Start listening
+      if (args.windowLogger) {
+        const { ipcMain } = require("electron");
+        ipcMain.on(LOGGER_WINDOW, (event, log) => {
+          event.preventDefault();
+          this._log(log.level, log.colour, log.text, WINDOW_SENT_TYPE, log.args);
+        });
+      }
+    }
   }
 
   // Logger methods
@@ -22,16 +44,36 @@ export default class Logger {
    * @param level {String} Log Level
    * @param colour {String} colour of string
    * @param text {String} Text to log
+   * @param type {WINDOW_TYPE|PROCESS_TYPE} What sent the log (window or main process)
+   * @param args {LoggerArgs} Logger args
    * @private
    */
-  private _log(level, colour, text) {
+  private _log(level, colour, text, type = this.type, args = this.args) {
     if (!this.argv.includes("--silent")) {
       // Add prefix
       let prefix = "";
-      if (this.args.hasOwnProperty("name")) {
-        prefix = chalk.magenta(this.args.name) + " "; // eslint-disable-line prefer-template
+      if (args.hasOwnProperty("name")) {
+        prefix = chalk.magenta(args.name) + " "; // eslint-disable-line prefer-template
       }
-      console.log(`${prefix}${chalk[colour](level)} ${text}`);
+      switch (type) {
+        case PROCESS_TYPE:
+          prefix = `[${chalk.grey(PROCESS_TYPE)}] ${prefix}`;
+          if (level !== DEBUG || this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v")) {
+            console.log(`${prefix}${chalk[colour](level)} ${text}`);
+          }
+          break;
+        case WINDOW_SENT_TYPE:
+          // From render window
+          prefix = `[${chalk.grey(WINDOW_TYPE)}] ${prefix}`;
+          if (level !== DEBUG || this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v")) {
+            console.log(`${prefix}${chalk[colour](level)} ${text}`);
+          }
+          break;
+        // Handle sending -> process
+        default:
+          ipc.send(LOGGER_WINDOW, { level, colour, text, args: this.args });
+          break;
+      }
     }
   }
   /*
@@ -80,9 +122,7 @@ export default class Logger {
    * @public
    */
   public debug(text) {
-    if (this.isDebug) {
-      this._log("debug", "cyan", text);
-    }
+    this._log(DEBUG, "cyan", text);
   }
 
   /*

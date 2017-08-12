@@ -153,7 +153,7 @@ export default class Dir extends Component {
               <Grid.Column size={2}>
                 {
                   this.state.contents.map(file => (statSync(join(this.props.match.params.dir, file)).isDirectory() ? // Check if path is dir
-                    <div id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
+                    <div id={normalise(file)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file))} onClick={this.handleOnClick(normalise(file))}>
                       <FontAwesome name="folder" />
                       <p>{getFileName(file)}</p>
                     </div>
