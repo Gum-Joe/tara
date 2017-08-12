@@ -1,0 +1,12 @@
+// Css for file opts
+@import "../mixins";
+@import "../user";
+@import "../variables/file-operations";
+
+.background-filter-file-ops {
+  background-color: #616161;
+  min-height: 100%;
+  min-width: 100%;
+  opacity: 0.5;
+  position: absolute;
+}

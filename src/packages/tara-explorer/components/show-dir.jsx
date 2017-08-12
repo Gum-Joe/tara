@@ -11,7 +11,7 @@ import { readdir, statSync } from "fs";
 import { Grid } from "semantic-ui-react";
 import FontAwesome from "react-fontawesome";
 import { Redirect } from "react-router-dom";
-import { updateDir as chdir } from "../actions";
+import { updateDir as chdir, selectFile, deselectFile } from "../actions";
 
 // NOTE: From https://stackoverflow.com/questions/1828613/check-if-a-key-is-down
 const keys = {};
@@ -108,6 +108,7 @@ export default class Dir extends Component {
           if (statSync(join(dir, file)).isDirectory()) {
             jquery(`#${normalise(file)}`).dblclick(() => {
               const newDir = join(this.props.dir.dir, file);
+              this.props.dispatch(deselectFile(normalise(file)));
               global.explorerHistory.push(`/dir/${newDir}`);
               this.props.dispatch(chdir(newDir));
             });
@@ -128,6 +129,7 @@ export default class Dir extends Component {
       // Handle
       if (!document.getElementById(id).className.includes("file-highlighted")) {
         document.getElementById(id).className += " file-highlighted";
+        this.props.dispatch(selectFile(id));
         document.body.addEventListener("click", (event) => {
           // Check if this wasn't clicked
           // TODO: Add multiselect by usage of ctrl / shift
@@ -138,6 +140,7 @@ export default class Dir extends Component {
         }, true);
       } else {
         document.getElementById(id).className = document.getElementById(id).className.split(" file-highlighted").join("");
+        this.props.dispatch(deselectFile(id));
       }
     };
   }
@@ -153,7 +156,7 @@ export default class Dir extends Component {
               <Grid.Column size={2}>
                 {
                   this.state.contents.map(file => (statSync(join(this.props.match.params.dir, file)).isDirectory() ? // Check if path is dir
-                    <div id={normalise(file)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file))} onClick={this.handleOnClick(normalise(file))}>
+                    <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file))} onClick={this.handleOnClick(normalise(file))}>
                       <FontAwesome name="folder" />
                       <p>{getFileName(file)}</p>
                     </div>
@@ -161,7 +164,7 @@ export default class Dir extends Component {
                 }
                 {
                   this.state.contents.map(file => (!statSync(join(this.props.match.params.dir, file)).isDirectory() ? // Check if path is file
-                    <div id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
+                    <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
                       <FontAwesome name="file" />
                       <p>{getFileName(file)}</p>
                     </div>

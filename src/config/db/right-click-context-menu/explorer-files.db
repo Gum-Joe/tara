@@ -1,7 +1,0 @@
-{"item":{"label":"Open","click":"D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-file-operations\\src\\open.ts","id":1},"id":0,"_id":"QJwUqLS6Mu0JW5tp"}
-{"item":{"type":"separator","id":3},"id":2,"_id":"XL4kQhrIpbz5n2FN"}
-{"item":{"label":"Copy","click":"D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-file-operations\\src\\copy.ts","id":5},"id":4,"_id":"XTgvU5eyFHLarSz7"}
-{"item":{"label":"Cut","click":"D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-file-operations\\src\\cut.ts","id":4},"id":3,"_id":"dypzomX0U9K2lavC"}
-{"item":{"label":"Delete","click":"D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-file-operations\\src\\delete.ts","id":7},"id":6,"_id":"gJNJbGESIVxayKyd"}
-{"item":{"label":"Paste","click":"D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-file-operations\\src\\paste.ts","id":6},"id":5,"_id":"goykw0pvo9RUlyEQ"}
-{"item":{"label":"Open in new window","click":"D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-file-operations\\src\\open-window.ts","id":2},"id":1,"_id":"qUBAkFT0sdM301V5"}

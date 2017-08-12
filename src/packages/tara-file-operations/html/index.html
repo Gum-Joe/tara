@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Running operations...</title>
+    <!-- Bootstrap -->
+    <!--<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">-->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../../../node_modules/font-awesome/css/font-awesome.min.css">
+    <!-- Our styles, inc. semantic UI -->
+    <link rel="stylesheet" href="../../../semantic/dist/semantic.min.css">
+    <link rel="stylesheet" href="../../../css/index.scss">
+    <link rel="stylesheet" href="tara://theme.scss">
+  </head>
+  <body>
+    <div id="background-filter"></div>
+    <div class="background-filter-file-ops"></div>
+    <div id="main">
+      <!-- React stuff here -->
+    </div>
+    <!-- JQuery -->
+    <script src="../../../../node_modules/jquery/dist/jquery.min.js" charset="utf-8"></script>
+    <!-- Bootstrap -->
+    <!--<script async src="../../node_modules/bootstrap/dist/js/bootstrap.min.js" charset="utf-8"></script>-->
+    <!-- Our stuff -->
+    <script type="text/javascript">
+      // Put tara into the global namespace
+      global.tara = require("../../../renderer/boot/plugin-init").default;
+    </script>
+    <!-- Load scripts -->
+    <!--<script async src="../../renderer/load-scripts.js" charset="utf-8"></script>-->
+    <!-- And now load operation UI -->
+    <script async src="../src/components/index.jsx" charset="utf-8"></script>
+  </body>
+</html>

@@ -8,9 +8,8 @@ extends:
   - 'airbnb'
   - 'react'
 parserOptions:
-  ecmaFeatures:
-    experimentalObjectRestSpread: true
-    jsx: true
+  experimentalObjectRestSpread: true
+  jsx: true
   sourceType: module
 plugins:
   - react

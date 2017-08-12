@@ -1,7 +1,7 @@
 /**
  * @overview Index of actions
  */
-import { TARA_UPDATE_DIR } from "../constants";
+import { TARA_UPDATE_DIR, EXPLORER_SELECT_FILE, EXPLORER_DESELECT_FILE } from "../constants";
 
 /**
  * Updates dir
@@ -15,7 +15,33 @@ export const updateDir = (dir) => {
   };
 };
 
+/**
+ * Selects a file
+ * @param {String} file to select
+ * @returns {Object} Action for reducer
+ */
+export const selectFile = (file) => {
+  return {
+    type: EXPLORER_SELECT_FILE,
+    file
+  };
+};
+
+/**
+ * Deselects a file
+ * @param {String} file to deselect
+ * @returns {Object} Action for reducer
+ */
+export const deselectFile = (file) => {
+  return {
+    type: EXPLORER_DESELECT_FILE,
+    file
+  };
+};
+
 // Put them all together and export
 export default {
-  updateDir
+  updateDir,
+  selectFile,
+  deselectFile,
 };

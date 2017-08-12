@@ -6,3 +6,5 @@ import { homedir } from "os";
 export const dir = {
   dir: homedir()
 };
+
+export const selectedFiles = [];

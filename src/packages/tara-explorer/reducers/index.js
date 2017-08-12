@@ -4,9 +4,11 @@
 import { routerReducer } from "react-router-redux";
 import { combineReducers } from "redux";
 import dir from "./dir";
+import selectedFiles from "./selected-files";
 
 // Export
 export default {
   dir,
-  routing: routerReducer
+  selectedFiles,
+  routing: routerReducer,
 };
