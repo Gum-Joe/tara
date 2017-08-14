@@ -3,10 +3,60 @@
 @import "../user";
 @import "../variables/file-operations";
 
+#tara-file-operations {
+  color: $accent-text-colour;
+  font-family: "Open Sans" !important;
+}
+
 .background-filter-file-ops {
   background-color: #616161;
   min-height: 100%;
   min-width: 100%;
   opacity: 0.5;
   position: absolute;
+  z-index: -1;
+}
+
+// Status area
+.file-ops-status {
+  padding-top: 27px;
+}
+
+.file-ops-status-head {
+  color: map-get($file-ops-progress-header, font-colour);
+  font-family: "Open Sans" !important;
+  font-size: map-get($file-ops-progress-header, font-size);
+  padding-left: 18px;
+}
+
+.file-ops-status-overall {
+  height: 130px;
+  margin-left: 16px;
+  width: 130px;
+  svg {
+    path {
+      stroke: map-get($file-ops-progress-overall, colour);
+      stroke-width: map-get($file-ops-progress-overall, width);
+    }
+  }
+  .progressbar-text {
+    color: $accent-text-colour;
+    text-align: center;
+    .file-ops-status-overall-percent {
+      font-size: 42.5px;
+      margin-bottom: 0;
+    }
+    .file-ops-status-overall-done {
+      font-size: 13px;
+    }
+  }
+}
+
+.file-ops-status-overall-speed {
+  color: map-get($file-ops-progress-speed, colour);
+  font-size: map-get($file-ops-progress-speed, width);
+  margin-left: 13px;
+  margin-top: 5px;
+  text-align: center;
+  width: 130px;
 }

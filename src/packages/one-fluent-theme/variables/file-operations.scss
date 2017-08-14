@@ -1,1 +1,19 @@
 // Css for file operations
+$file-ops-header: (
+  font-size: calc(46px / 2)
+);
+
+$file-ops-progress-header: (
+  font-size: calc(35px / 2),
+  font-colour: #00e676
+);
+
+$file-ops-progress-overall: (
+  colour: map-get($file-ops-progress-header, font-colour),
+  width: 2
+);
+
+$file-ops-progress-speed: (
+  width: 19px,
+  colour: #82b1ff
+);

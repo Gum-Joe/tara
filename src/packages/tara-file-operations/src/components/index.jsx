@@ -4,11 +4,15 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
+import Header from "../src/components/header";
+import Progress from "../src/components/progress";
 
 class FileOps extends Component {
   render() {
     return (
-      <h1>Copying files...</h1>
+      <div id="tara-file-operations">
+        <Progress />
+      </div>
     )
   }
 }
