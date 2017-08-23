@@ -18,6 +18,7 @@
 }
 
 // Status area
+// Where % done & speed are shown
 .file-ops-status {
   padding-top: 27px;
 }
@@ -59,4 +60,49 @@
   margin-top: 5px;
   text-align: center;
   width: 130px;
+}
+
+.file-ops-status-perc {
+  width: auto !important;
+}
+
+// The message part
+// "Copying files...", etc
+
+.file-ops-message {
+  padding: 0 !important;
+  padding-top: 60px !important;
+  text-align: center;
+  width: 40% !important;
+  .file-ops-message-head {
+    font-size: 30px;
+    margin: 0;
+  }
+  .file-ops-message-state {
+    font-size: 13px;
+    margin: 5px 0;
+  }
+
+  // Action buttons (pause, stop, continue)
+  .file-ops-message-actions {
+    span, i {
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 10px;
+    }
+  }
+}
+
+// Individual file status
+// "File x is 50% done"
+
+.file-ops-ind {
+  padding-top: 60px !important;
+  text-align: center;
+  width: 31% !important;
+  .file-ops-ind-head {
+    color: map-get($file-ops-ind-head, colour);
+    font-size: 25px;
+    margin: 0;
+  }
 }

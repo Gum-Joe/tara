@@ -27,8 +27,8 @@ export default (tara: TaraPlugin) => {
 
     // Create the browser window.
     mainWindow = new BrowserWindow({
-      width: 640,
-      height: 305,
+      width: 857,
+      height: 325,
     });
 
     // and load the index.html of the app.
