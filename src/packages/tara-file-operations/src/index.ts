@@ -5,7 +5,8 @@
 import { ipcMain } from "electron";
 import { join } from "path";
 import Tara from "../../../renderer/boot/plugin-init";
-import { FILE_OPT_OPEN_WINDOW } from "./constants";
+import { FILE_OPS_GET_FILES, FILE_OPS_SEND_FILE_LIST_ITEM, FILE_OPT_OPEN_WINDOW } from "./constants";
+import getFiles from "./get-files";
 import load_window from "./window";
 
 // Items
@@ -34,4 +35,15 @@ export function main(tara: Tara) {
     event.preventDefault();
     load_window(tara);
   });
+
+  ipcMain.on(FILE_OPS_GET_FILES, (event, files) => {
+    event.preventDefault();
+    getFiles(event, files.files, files.dest, "", (filesIndex, totalSizeBytes) => {
+      event.sender.send(FILE_OPS_SEND_FILE_LIST_ITEM, {
+        index: filesIndex,
+        sizeBytes: totalSizeBytes,
+      });
+    });
+  });
+
 }

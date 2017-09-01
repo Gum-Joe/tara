@@ -105,4 +105,9 @@
     font-size: 25px;
     margin: 0;
   }
+  .progress {
+    .label {
+      color: $accent-text-colour;
+    }
+  }
 }

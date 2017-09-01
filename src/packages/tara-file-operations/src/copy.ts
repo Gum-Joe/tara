@@ -42,7 +42,7 @@ module.exports = () => {
     }
     tara.logger.debug(`Cleared db (numRemoved: ${numRemoved})`);
   });
-  db.insert({ action: "copy", files, timeAdded: Date.now() }, (err, docs) => {
+  db.insert({ action: "copy", files, timeAdded: Date.now(), dest: "" }, (err, docs) => {
     if (err) {
       throw err;
     }

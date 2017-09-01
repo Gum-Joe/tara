@@ -108,6 +108,7 @@ export default class Dir extends Component {
           if (statSync(join(dir, file)).isDirectory()) {
             jquery(`#${normalise(file)}`).dblclick(() => {
               const newDir = join(this.props.dir.dir, file);
+              process.chdir(newDir);
               this.props.dispatch(deselectFile(normalise(file)));
               global.explorerHistory.push(`/dir/${newDir}`);
               this.props.dispatch(chdir(newDir));
