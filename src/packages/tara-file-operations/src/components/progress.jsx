@@ -8,7 +8,7 @@ import { Circle } from "react-progressbar.js";
 import { ipcRenderer } from "electron";
 import * as fs from "fs";
 import mkdirp from "mkdirp";
-import { join, relative } from "path";
+import { join, parse, relative } from "path";
 import { Grid, Progress as ProgressBar } from "semantic-ui-react";
 import DB from "nedb";
 import { FILE_OPS_GET_FILES, FILE_OPS_SEND_FILE_LIST_ITEM } from "../constants";
@@ -19,9 +19,10 @@ const PREPARING_ICON = "<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>";
 
 /**
  * Handy function to determine best units to use for size by checking if current size < MAX_SIZE)
- * @param {String} sizeRAW Size in bytes or with units (MB, GB, TB, PB)
+ * @param {Number} size Size in bytes
+ * @param {String} units units (MB, GB, TB, PB, etc). Default: B (bytes)
  */
-function determineSizeUnits(sizeRAW) {
+function determineSizeUnits(size, units = "B") {
   // Just in case
   const MAX_SIZE = 1024;
   const UNITS = [
@@ -37,17 +38,6 @@ function determineSizeUnits(sizeRAW) {
     "ZoB", //Zotabyte
     "BB", // Brontbyte
   ]
-  const size = parseInt(sizeRAW);
-
-  // Determine current units
-  let units = sizeRAW.split(size); // Size with "" on one end and units on other
-  units = units[1].split(" "); // Either just units or ["", units]
-  // Check for space ( )
-  if (units.length > 1) {
-    units = units[1];
-  } else {
-    units = units[0];
-  }
 
   // Check size
   if (size < MAX_SIZE) {
@@ -56,7 +46,7 @@ function determineSizeUnits(sizeRAW) {
     // 1 of bigger unit or more. Recall function with next units
     const newSize = size / MAX_SIZE // Divide to get bigger unit
     const newUnits = UNITS[UNITS.indexOf(units) + 1]; // Get new units by getting index of old ones and going one up
-    return determineSizeUnits(`${newSize} ${newUnits}`); // Recall function
+    return determineSizeUnits(newSize, newUnits); // Recall function
   }
 }
 
@@ -97,6 +87,25 @@ export default class Progress extends Component {
   }
 
   /**
+   * Estimates write speed every 100 ms
+   * by dividing no. of bytes done by seconds running
+   * @param {Number} start UNIX time when action was started
+   */
+  startSpeedEstimater(start) {
+    setInterval(() => {
+      const currentBytes = this.state.doneBytes;
+      const currentTimeUNIX = Date.now();
+      const deltaTime = currentTimeUNIX - start;
+      let speed = currentBytes / deltaTime;  // Bytes per second
+      speed = `${determineSizeUnits(speed)}/s`;
+      this.setState({
+        ...this.state,
+        speed
+      })
+    }, 100)
+  }
+
+  /**
    * Handles the copy action
    * @param {Object} action Files to copy
    */
@@ -109,6 +118,7 @@ export default class Progress extends Component {
     ipcRenderer.send(FILE_OPS_GET_FILES, { files: action.files, dest });
     ipcRenderer.on(FILE_OPS_SEND_FILE_LIST_ITEM, (event, files) => {
       logger.debug("Got file list from main process.  Starting copy...");
+      this.startSpeedEstimater.bind(this)(Date.now());
       this.setState({
         ...this.state,
         message: "Copying files...",
@@ -116,7 +126,7 @@ export default class Progress extends Component {
         eta: "Estimating time remaining...",
         numberOfFiles: files.index.length,
         totalSizeBytes: files.sizeBytes,
-        totalSize: determineSizeUnits(`${files.sizeBytes.toString()} B`), // Convert Bytes -> smaller number, bigger units (i.e. bytes -> kilobytes)
+        totalSize: determineSizeUnits(files.sizeBytes), // Convert Bytes -> smaller number, bigger units (i.e. bytes -> kilobytes)
       });
 
       // Begin copy
@@ -138,7 +148,7 @@ export default class Progress extends Component {
           // Copy file
           logger.debug(`Copying file ${file.from} -> ${file.to}`);
           this.setState({
-            currentFile: `${relative(dest, file.from)} -> ${relative(dest, file.to)}`,
+            currentFile: `${parse(file.from).base} -> ${relative(dest, file.to)}`,
           });
           const read = fs.createReadStream(file.from);
           let bytesCopied = 0; // Keep a record of bytes done
@@ -154,7 +164,7 @@ export default class Progress extends Component {
               ...this.state,
               percentDoneFile: (bytesCopied / file.size).toFixed(2),
               doneBytes: this.state.doneBytes + buffer.length,
-              done: determineSizeUnits(`${this.state.doneBytes + buffer.length} B`),
+              done: determineSizeUnits(this.state.doneBytes + buffer.length),
               percentDone: ((this.state.doneBytes + buffer.length) / this.state.totalSizeBytes).toFixed(2)
             });
           })
