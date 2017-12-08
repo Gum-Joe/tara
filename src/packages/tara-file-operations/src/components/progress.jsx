@@ -17,6 +17,7 @@ import Logger from "../../../../renderer/logger";
 
 const PREPARING_ICON = "<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>";
 
+// TODO: Refactor next two functions into one
 /**
  * Handy function to determine best units to use for size by checking if current size < MAX_SIZE)
  * @param {Number} size Size in bytes
@@ -50,6 +51,62 @@ function determineSizeUnits(size, units = "B") {
   }
 }
 
+/**
+ * Handy function to determine best units to use for size by checking if current size < MAX_SIZE)
+ * @param {Number} size Size in seconds
+ * @param {String} units. Default: seconds
+ */
+function determineSizeUnitsTime(size, units = "seconds") {
+  // Just in case
+  const MAX_SIZE = 60;
+  const UNITS = [
+    // Units in order of increasing size
+    { units: "seconds", max: 60 },
+    { units: "minutes", max: 60 },
+    { units: "hours", max: 24 },
+    { units: "days", max: 7 },
+    { units: "weeks", max: 4.34524 } /* From Google */,
+    { units: "months", max: 12 },
+    { units: "years", max: Infinity }
+  ];
+
+  /**
+   * Round function (to 0.d.p)
+   * @param {Number} n Number to round
+   * @return n.toLowerCase()
+   */
+  function round(n) {
+    return n.toLowerCase();
+  }
+
+  // Decapitalise units to ensure consistency
+  unitsToUse = units.lowercase();
+
+  // First off, if units is UNITS[UNITS.length - 1].units (years) then just return rounded
+  if (unitsToUse === UNITS[UNITS.length - 1].units) {
+    return `${round(size)} ${unitsToUse}`;
+  }
+
+  // New Size
+  let newSize = size;
+  
+  // Then loop and check
+  // NOTE: Might want to use binary search instead
+  // TODO: Sort out relooping
+  for (let unit of UNITS) {
+    // If it's the right unit, check if it is greater than or equal to unit.max
+    if (unit.unit === unitsToUse && size >= unit.max) {
+      newUnitOBJ = UNITS[UNITS.indexOf(unit) + 1];
+      unitsToUse = newUnitOBJ.unit;
+      newSize = round(newSize / unit.max);
+      break; // Loop not needed anymore
+    }
+  }
+
+  // Return
+  return `${newSize} ${unitsToUse}`;
+}
+
 export default class Progress extends Component {
   constructor() {
     super();
@@ -57,7 +114,7 @@ export default class Progress extends Component {
       message: "Preparing...",
       state: "Discovering files...", // Show below message
       currentFile: "Generating file list...", // Show below "File status"
-      eta: "",
+      eta: 0, // in secs
       speed: "0 MB/s",
       totalSize: "0 MB",
       totalSizeBytes: 0,
@@ -83,31 +140,50 @@ export default class Progress extends Component {
           this.handleCopy(action)
         }
       }
-    })
+    });
   }
 
   /**
-   * Estimates write speed every 100 ms
-   * by dividing no. of bytes done by seconds running
+   * Estimates write speed every 500 ms
+   * by getting of bytes done in last 500ms
    * @param {Number} start UNIX time when action was started
    */
   startSpeedEstimater(start) {
+    const startTime = Date.now();
     setInterval(() => {
-      const currentBytes = this.state.doneBytes;
-      const currentTimeUNIX = Date.now();
-      const deltaTime = currentTimeUNIX - start;
-      let speed = currentBytes / deltaTime;  // Bytes per second
-      speed = `${determineSizeUnits(speed)}/s`;
-      this.setState({
-        ...this.state,
-        speed
-      })
-    }, 100)
+      // store bytes
+      let initialBytes = this.state.doneBytes;
+      // WAIT 500ms
+      setTimeout(() => {
+        const newBytes = this.state.doneBytes; // New bytes
+        const deltaBytes = 2 * (newBytes - initialBytes); // Speed is file/s
+        // Replace initialBytes with newBytes
+        initialBytes = newBytes;
+        // Set state
+        this.setState({
+          ...this.state,
+          speed: `${determineSizeUnits(deltaBytes)}/s`
+        });
+        // Get ETA with average
+        const nowTime = Date.now();
+        const deltaTime = nowTime - startTime;
+        const averageSpeed = newBytes / deltaTime;
+        // deltaBytes (currentSpeed) / averageSpeed -> times
+        const remainingBytes = this.state.totalSizeBytes - this.state.doneBytes;
+        const eta = deltaBytes / averageSpeed;
+        // Set State
+        this.setState({
+          ...this.state,
+          eta: determineSizeUnitsTime(eta)
+        });
+      }, 500);
+    }, 100);
   }
 
   /**
    * Handles the copy action
    * @param {Object} action Files to copy
+   * @returns {void} Nothing
    */
   handleCopy(action) {
     const logger = new Logger({ name: "copy" });
@@ -127,6 +203,7 @@ export default class Progress extends Component {
         numberOfFiles: files.index.length,
         totalSizeBytes: files.sizeBytes,
         totalSize: determineSizeUnits(files.sizeBytes), // Convert Bytes -> smaller number, bigger units (i.e. bytes -> kilobytes)
+        startTime: Date.now(),
       });
 
       // Begin copy
@@ -139,7 +216,7 @@ export default class Progress extends Component {
         // Check if we are making dir or copying
         if (file.hasOwnProperty("mkdir")) {
           // Make dir
-          logger.debug(`Making dir ${relative(dest, file.mkdir)}`);
+          logger.debug(`Making dir ${file.mkdir}`);
           this.setState({
             currentFile: `mkdir ${relative(dest, file.mkdir)}`,
           });
@@ -153,7 +230,7 @@ export default class Progress extends Component {
           const read = fs.createReadStream(file.from);
           let bytesCopied = 0; // Keep a record of bytes done
           read.on("error", (err) => {
-            logger.err("ERROR copying file!")
+            logger.err("ERROR copying file!");
             logger.throw_noexit(err);
           });
           read.on("data", (buffer) => {
@@ -194,7 +271,7 @@ export default class Progress extends Component {
           {/* Second column: Messages, such as file being copied & ETA */}
           <Grid.Column className="file-ops-message">
             <p className="file-ops-message-head">{this.state.message}</p>
-            <p className="file-ops-message-state">{this.state.eta}</p>
+            <p className="file-ops-message-state">About {this.state.eta ? this.state.eta : ""} remaining</p>
             <p className="file-ops-message-state">{this.state.state}</p>
             <div className="file-ops-message-actions">
               {/* Pause & stop got here */}
