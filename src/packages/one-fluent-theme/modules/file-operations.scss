@@ -44,11 +44,13 @@
     color: $accent-text-colour;
     text-align: center;
     .file-ops-status-overall-percent {
-      font-size: 42.5px;
+      font-size: $file-ops-status-overall-percent-size;
       margin-bottom: 0;
+      margin-top: -5px;
     }
     .file-ops-status-overall-done {
-      font-size: 13px;
+      font-size: $file-ops-status-overall-done-size;
+      margin-top: -5px;
     }
   }
 }
