@@ -11,6 +11,7 @@ import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "../reducers"; // eslint-disable-line
+import { App } from "../containers/app.jsx";
 
 // Add global tara object
 import Tara from "../renderer/boot/plugin-init"; // eslint-disable-line
@@ -25,17 +26,18 @@ const store = createStore(
 // Keep global reference
 global.store = store;
 
-const render = () => {
+const render = Component => {
   // NB: We have to re-require MyApp every time or else this won't work
   // We also need to wrap our app in the AppContainer class
   // eslint-disable-next-line
-  const { App } = require("../containers/app.jsx"); // This has to be like this as it is required in ./renderer
   ReactDOM.render(
     <AppContainer>
-      <Provider store={store}><App /></Provider>
+      <Provider store={store}><Component /></Provider>
     </AppContainer>
-  , document.getElementById("main"));
+    , document.getElementById("main"));
 };
 
-render();
-if (module.hot) { module.hot.accept(render); }
+render(App);
+if (module.hot) {
+  module.hot.accept("../containers/app.jsx", () => render(App));
+}
