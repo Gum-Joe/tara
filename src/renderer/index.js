@@ -4,7 +4,7 @@
  * From electron forge
  * @module tara/renderer
  */
-import "babel-polyfill"; // ES6 Polyfill
+import "@babel/polyfill"; // ES6 Polyfill
 import { app, BrowserWindow } from "electron"; // eslint-disable-line
 import { enableLiveReload } from "electron-compile";
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEV_ENV } from "./constants";

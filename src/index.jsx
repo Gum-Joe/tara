@@ -2,7 +2,7 @@
  * @overview React entry point
  */
 // Polyfill
-import "babel-polyfill";
+import "@babel/polyfill";
 
 // From electron-compile README.md
 import React from "react";
