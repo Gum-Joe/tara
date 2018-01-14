@@ -5,7 +5,7 @@
 import { blue, green, yellow } from "chalk";
 import fs from "fs";
 import { join, resolve } from "path";
-import Logger from "../logger";
+import Logger from "../logger.ts";
 import { TARA_CONFIG, CONFIG_FILE, THEME_FILE, PLUGIN_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_LOCATION, PLUGIN_CORE_CONFIG, THEME_FILE_CONTENTS_DEFAULT } from "../constants";
 import getPluginPath from "../utils/get-plugin-path";
 

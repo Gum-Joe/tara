@@ -33,3 +33,10 @@ export const THEME_FILE_CONTENTS_DEFAULT = `// Theme file for tara
 // Contains theme name & import for theme file
 // DO NOT EDIT
 $theme:`;
+
+// Logger
+export const WINDOW_TYPE = "WINDOW";
+export const WINDOW_SENT_TYPE = "WINDOW_SENT";
+export const PROCESS_TYPE = "PROCESS";
+export const LOGGER_WINDOW = "LOGGER_WINDOW";
+export const DEBUG = "debug";

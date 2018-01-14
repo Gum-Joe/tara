@@ -22,7 +22,7 @@ const logger = new Logger({
  * @param {Function} callback callback
  * @returns {Array<Object>} Array of object { to: x, from: y } in callback
  */
-export default function getFiles(event: Electron.Event, files: string[], dest: string, append: string = "", callback: (filesArray: Array, totalSizeBytes: number) => void) {
+export default function getFiles(event: Electron.Event, files: string[], dest: string, append: string = "", callback: (filesArray: FileToFrom[], totalSizeBytes: number) => void) {
   logger.debug("Generating list of files...");
   logger.debug(`Files: ${files}`);
   let filesArray: FileToFrom[] = [];
@@ -53,7 +53,7 @@ export default function getFiles(event: Electron.Event, files: string[], dest: s
               // Destiation: original destination + append + parent dir
               // Append is parent dir
               getFiles(event, filesInFolder, join(dest, fileName), "", (filesList, totalSubSize) => {
-                filesArray = Array.concat(filesArray, filesList);
+                filesArray = new Array().concat(filesArray, filesList);
                 totalSizeBytes += totalSubSize;
                 cb();
               });

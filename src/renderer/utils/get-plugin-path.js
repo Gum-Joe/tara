@@ -3,7 +3,7 @@
  */
 import { yellow } from "chalk";
 import { join, resolve, normalize } from "path";
-import Logger from "../logger";
+import Logger from "../logger.ts";
 import { PLUGIN_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_LOCATION, PLUGIN_CORE_CONFIG } from "../constants";
 
 const logger = new Logger({

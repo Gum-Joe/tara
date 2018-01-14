@@ -1,6 +1,7 @@
 /**
  * @overview Interfaces for typescript
  */
+import { DEBUG } from "./constants.js";
 
 export interface PackageJSON {
   name: string;
@@ -25,4 +26,11 @@ export interface Config {
 export interface Logger {
   name: string;
   windowLogger?: boolean;
+}
+
+export interface LoggerTypes {
+  level: "info" | "warn" | "error" | "debug";
+  colour: string;
+  text: string;
+  args: Logger;
 }

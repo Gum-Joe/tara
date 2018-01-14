@@ -1,10 +1,12 @@
 /**
  * @overview Client API for tara
  */
-import { cyan } from "chalk";
+import chalk from "chalk";
 import { PackageJSON } from "../interfaces";
 import TaraPlugin from "./plugin-init";
 import Logger from "../logger";
+
+const cyan = chalk.cyan;
 
 /**
  * Client API class

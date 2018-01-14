@@ -2,15 +2,10 @@
  * @overview Logging module for tara, from coapack
  * @module logger
  */
-import * as chalk from "chalk";
+import chalk from "chalk";
 import { ipcRenderer as ipc } from "electron";
-import { Logger as LoggerArgs } from "./interfaces";
-
-const WINDOW_TYPE = "WINDOW";
-const WINDOW_SENT_TYPE = "WINDOW_SENT";
-const PROCESS_TYPE = "PROCESS";
-const LOGGER_WINDOW = "LOGGER_WINDOW";
-const DEBUG = "debug";
+import { Logger as LoggerArgs, LoggerTypes } from "./interfaces";
+import { DEBUG, WINDOW_TYPE, WINDOW_SENT_TYPE, PROCESS_TYPE, LOGGER_WINDOW } from "./constants.js";
 
 export default class Logger {
   private args: LoggerArgs;
@@ -30,7 +25,7 @@ export default class Logger {
       // Start listening
       if (args.windowLogger) {
         const { ipcMain } = require("electron");
-        ipcMain.on(LOGGER_WINDOW, (event, log) => {
+        ipcMain.on(LOGGER_WINDOW, (event: Event, log: LoggerTypes) => {
           event.preventDefault();
           this._log(log.level, log.colour, log.text, WINDOW_SENT_TYPE, log.args);
         });
@@ -48,7 +43,7 @@ export default class Logger {
    * @param args {LoggerArgs} Logger args
    * @private
    */
-  private _log(level, colour, text, type = this.type, args = this.args) {
+  private _log(level: string, colour: string, text: string, type: string = this.type, args: LoggerArgs = this.args) {
     if (!this.argv.includes("--silent")) {
       // Add prefix
       let prefix = "";
@@ -81,7 +76,7 @@ export default class Logger {
    * @public
    * @color green
    */
-  public info(text) {
+  public info(text: string) {
     this._log("info", "green", text);
   }
 
@@ -90,7 +85,7 @@ export default class Logger {
    * @public
    * @color green
    */
-  public warn(text) {
+  public warn(text: string) {
     if (!this.argv.includes("--silent")) {
       // Add prefix
       let prefix = "";
@@ -105,7 +100,7 @@ export default class Logger {
    * @color green
    * @public
    */
-  public err(text) {
+  public err(text: string) {
     if (!this.argv.includes("--silent")) {
       // Add prefix
       let prefix = "";
@@ -121,7 +116,7 @@ export default class Logger {
    * @color green
    * @public
    */
-  public debug(text) {
+  public debug(text: string) {
     this._log(DEBUG, "cyan", text);
   }
 
@@ -131,7 +126,7 @@ export default class Logger {
    * @throw Error
    * @public
    */
-  public throw(err) {
+  public throw(err: Error) {
     this.throw_noexit(err);
     process.exit(1);
   }
@@ -143,7 +138,7 @@ export default class Logger {
    * From Bedel
    * @public
    */
-  public throw_noexit(err) {
+  public throw_noexit(err: Error) {
     if (!this.argv.includes("--silent")) {
       this.err("");
       this.err(`${err.stack.split("\n")[0]}`);
@@ -151,7 +146,7 @@ export default class Logger {
       if (this.isDebug || process.env.NODE_ENV !== "production") {
         this.err("Full error:");
         this.err("");
-        let e = 0;
+        let e: any = 0;
         for (e of err.stack.split("\n")) {
           this.err(e);
         }

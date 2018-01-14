@@ -10,22 +10,27 @@ import { join } from "path";
 import Logger from "../../../renderer/logger";
 import Tara from "../../../renderer/boot/plugin-client";
 import { TARA_CONFIG_DBS } from "../../../renderer/constants";
-import pkgJSON from "../package.json";
+const pkgJSON = require("../package.json");
 
 // Logger
 const logger = new Logger({
   name: "copy",
 });
 
+interface Global extends NodeJS.Global {
+  store?: any; // Should be Object
+}
+
 module.exports = () => {
   // Start by making a tara object to use
+  const globalNew: Global = global;
   logger.debug("Copying files...");
   logger.debug("Creating tara object...");
   const tara: Tara = new Tara(pkgJSON, electron, logger);
   // Open copy db & add files
   mkdirp.sync(join(TARA_CONFIG_DBS, "file-operations"));
   // Get files
-  const filesID: string[] = global.store.getState().selectedFiles;
+  const filesID: string[] = globalNew.store.getState().selectedFiles;
   const files: string[] = [];
   for (let id of filesID) {
     // Get file names

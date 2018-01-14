@@ -9,6 +9,11 @@ import { FILE_OPS_GET_FILES, FILE_OPS_SEND_FILE_LIST_ITEM, FILE_OPT_OPEN_WINDOW 
 import getFiles from "./get-files";
 import load_window from "./window";
 
+interface FilesOBJ {
+  files: string[];
+  dest: string;
+}
+
 // Items
 const items = [
   { label: "Open", click: join(__dirname, "open.ts"), id: 0 },
@@ -31,12 +36,12 @@ export function main(tara: Tara) {
     });
 
   // Listeners
-  ipcMain.on(FILE_OPT_OPEN_WINDOW, (event) => {
+  ipcMain.on(FILE_OPT_OPEN_WINDOW, (event: Event) => {
     event.preventDefault();
     load_window(tara);
   });
 
-  ipcMain.on(FILE_OPS_GET_FILES, (event, files) => {
+  ipcMain.on(FILE_OPS_GET_FILES, (event: Electron.Event, files: FilesOBJ) => {
     event.preventDefault();
     getFiles(event, files.files, files.dest, "", (filesIndex, totalSizeBytes) => {
       event.sender.send(FILE_OPS_SEND_FILE_LIST_ITEM, {

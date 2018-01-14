@@ -51,7 +51,7 @@ export default class TaraPlugin {
    * @returns {undefined} Nothing
    * @public
    */
-  public addApi(name = this.plugin.name, api) {
+  public addApi(name = this.plugin.name, api = Object) {
     TaraPlugin.addApi(name, api);
   }
 
@@ -188,7 +188,7 @@ export default class TaraPlugin {
    * @static
    * @public
    */
-  public static addApi(name: string, api: any) {
+  public static addApi(name: string, api: object) {
     TaraPlugin.prototype[name] = api;
   }
 

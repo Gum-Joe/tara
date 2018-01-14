@@ -8,8 +8,8 @@ import { join } from "path";
 import Tara from "../../../../renderer/boot/plugin-client";
 import { TARA_CONFIG_DBS } from "../../../../renderer/constants";
 import Logger from "../../../../renderer/logger";
-import pkgJSON from "../../package.json";
 import { FILE_OPT_OPEN_WINDOW } from "../constants";
+const pkgJSON = require("../../package.json");
 
 module.exports = () => {
   const logger = new Logger({

@@ -10,11 +10,11 @@ import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import reducers from "../reducers"; // eslint-disable-line
-import { App } from "../containers/app.jsx";
+import reducers from "./reducers"; // eslint-disable-line
+import { App } from "./containers/app.jsx";
 
 // Add global tara object
-import Tara from "../renderer/boot/plugin-init"; // eslint-disable-line
+import Tara from "./renderer/boot/plugin-init.ts"; // eslint-disable-line
 
 global.tara = Tara;
 

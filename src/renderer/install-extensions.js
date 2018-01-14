@@ -4,7 +4,7 @@
 import { blue } from "chalk";
 import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from "electron-devtools-installer";
 import { DEV_ENV } from "./constants";
-import Logger from "./logger";
+import Logger from "./logger.ts";
 
 // Logger
 const logger = new Logger({

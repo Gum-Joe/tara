@@ -5,7 +5,7 @@
 import { eachSeries } from "async";
 import fs from "fs";
 import { join } from "path";
-import Logger from "../logger";
+import Logger from "../logger.ts";
 import { LAYOUT_LOCATION, LAYOUT_SETUP_DONE_LOCATION, PLUGIN_LOCATION, TYPE_PLUGIN, REGEN_LAYOUT_ARGS, LAYOUT_LOCATION_DEFAULT } from "../constants";
 import { copy } from "../utils";
 // Location of layout files
