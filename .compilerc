@@ -4,14 +4,14 @@
       "application/javascript": {
         "presets": [
           [
-            "@babel/preset-env",
+            "env",
             {
               "targets": {
-                "electron": "1.8.1"
+                "electron": "1.6.11"
               }
             }
           ],
-          "@babel/preset-react"
+          "react"
         ],
         "plugins": [
           "@babel/plugin-transform-async-to-generator",
@@ -33,14 +33,14 @@
       "application/javascript": {
         "presets": [
           [
-            "@babel/preset-env",
+            "env",
             {
               "targets": {
-                "electron": "1.8.1"
+                "electron": "1.6.11"
               }
             }
           ],
-          "@babel/preset-react"
+          "react"
         ],
         "plugins": [
           "@babel/plugin-transform-async-to-generator",

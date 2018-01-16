@@ -66,8 +66,6 @@
     "bootstrap": "^3.3.7",
     "chalk": "^2.3.0",
     "detect-indent": "^5.0.0",
-    "electron": "^1.8.1",
-    "electron-compile": "^6.4.2",
     "electron-devtools-installer": "^2.2.3",
     "env-paths": "^1.0.0",
     "external-editor": "^2.1.0",
@@ -89,7 +87,8 @@
     "sass-lint": "^1.12.1",
     "scss-to-json": "^2.0.0",
     "semantic-ui": "^2.2.13",
-    "semantic-ui-react": "^0.77.2"
+    "semantic-ui-react": "^0.77.2",
+    "source-map-support": "^0.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.37",
@@ -99,9 +98,14 @@
     "@babel/preset-react": "^7.0.0-beta.37",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
     "coffeelint": "^2.0.7",
+    "electron": "^1.8.1",
+    "electron-builder": "^19.53.7",
+    "electron-compile": "^6.4.2",
+    "electron-compilers": "^5.9.0",
     "electron-forge": "^4.2.0",
-    "electron-prebuilt-compile": "1.8.1",
+    "electron-prebuilt-compile": "^1.6.11",
     "electron-rebuild": "^1.6.1",
     "electron-webpack": "^1.11.0",
     "eslint": "^4.15.0",
@@ -115,6 +119,7 @@
     "lerna": "^2.6.0",
     "mkdirp": "^0.5.1",
     "mocha": "^4.1.0",
+    "source-map": "^0.6.1",
     "ts-loader": "^3.2.0",
     "tslint": "^5.9.1",
     "webpack": "^3.10.0"

@@ -6,7 +6,7 @@
  */
 import "@babel/polyfill"; // ES6 Polyfill
 import { app, BrowserWindow } from "electron"; // eslint-disable-line
-import { enableLiveReload } from "electron-compile";
+//import { enableLiveReload } from "electron-compile";
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEV_ENV } from "./constants";
 import installExtensions from "./install-extensions";
 import Logger from "./logger.ts";
@@ -71,7 +71,7 @@ app.on("ready", createWindow);
 
 // Enable HMR
 if (process.env.NODE_ENV === DEV_ENV) {
-  enableLiveReload({ strategy: "react-hmr" });
+  //enableLiveReload({ strategy: "react-hmr" });
 }
 
 // Quit when all windows are closed.
