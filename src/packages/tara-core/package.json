@@ -2,7 +2,8 @@
  "name": "tara-core",
  "version": "0.1.0",
  "description": "Core modules for all of tara & 3rd party plugins.",
- "main": "index.js",
+ "main": "./lib/index",
+ "types": "./lib/index.d.ts",
  "scripts": {
   "test": "cd ../.. && npm test"
  },
@@ -11,9 +12,9 @@
   "url": "git+https://github.com/Gum-Joe/tara.git"
  },
  "keywords": [
-    "tara",
-    "core",
-    "plugins"
+  "tara",
+  "core",
+  "plugins"
  ],
  "author": "Gum-Joe",
  "license": "MIT",
@@ -24,5 +25,10 @@
  "tara": {
   "type": "plugin"
  },
- "dependencies": {}
+ "dependencies": {
+  "chalk": "^2.3.0",
+  "electron": "^1.7.10",
+  "electron-devtools-installer": "^2.2.3",
+  "require-fool-webpack": "^1.0.0"
+ }
 }

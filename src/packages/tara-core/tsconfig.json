@@ -1,0 +1,8 @@
+{
+    "extends": "../../../tsconfig.json",
+    "compilerOptions": {
+        "declaration": true, /* Generates corresponding '.d.ts' file. */
+        "allowJs": false,
+        "outDir": "lib"
+    },
+}
