@@ -4,6 +4,7 @@
 import { writeFile } from "fs";
 import { Config } from "../renderer/interfaces";
 import Logger from "../renderer/logger";
+const requireFoolWebpack = require("require-fool-webpack");
 
 /**
  * Config class
@@ -31,7 +32,7 @@ export default class ConfigClass {
    * @private
    */
   private _getConfig() {
-    this.config = require(this.configFile);
+    this.config = requireFoolWebpack(this.configFile);
   }
 
   /**

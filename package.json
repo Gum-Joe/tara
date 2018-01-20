@@ -5,9 +5,10 @@
   "description": "An electron based file explorer.",
   "main": "src/renderer/index.js",
   "scripts": {
-    "start": "./node_modules/.bin/electron . --color -v",
+    "start": "./node_modules/.bin/electron-webpack dev",
     "package": "electron-forge package",
     "make": "electron-forge make",
+    "build": "electron-webpack",
     "lint": "eslint src"
   },
   "keywords": [],
@@ -84,6 +85,7 @@
     "react-redux": "^5.0.6",
     "react-split-pane": "^0.1.74",
     "redux": "^3.7.2",
+    "require-fool-webpack": "^1.0.0",
     "sass-lint": "^1.12.1",
     "scss-to-json": "^2.0.0",
     "semantic-ui": "^2.2.13",

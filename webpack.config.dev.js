@@ -8,5 +8,5 @@ module.exports = {
     ]
   },
   stats: "minimal",
-  devtool: "eval-source-map"
+  devtool: "source-map"
 };

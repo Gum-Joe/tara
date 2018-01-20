@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # File to contain electron build vars
 # Electron's version.
-export npm_config_target=1.7.6
+export npm_config_target=1.8.1
 # The architecture of Electron, can be ia32 or x64.
 export npm_config_arch=x64
 export npm_config_target_arch=x64
@@ -12,6 +12,6 @@ export npm_config_runtime=electron
 # Tell node-pre-gyp to build module from source code.
 export npm_config_build_from_source=true
 # Electron's node ID
-export electron_id=54
+export electron_id=57
 # Package dir
 export PACKAGE_DIR=src/packages

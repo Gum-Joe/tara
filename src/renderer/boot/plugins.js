@@ -2,6 +2,7 @@
  * @overview File to load plugins
  */
 import { join } from "path";
+const requireFoolWebpack = require("require-fool-webpack");
 
 /**
  * Loads plugins
@@ -12,14 +13,14 @@ import { join } from "path";
  */
 export default (config, location, prop = null) => {
   // Plugin config file
-  const plugins = require(config);
+  const plugins = requireFoolWebpack(config);
 
   // Grab each pkg.json and send to store
   const pluginArray = [];
   for (let plugin in plugins.dependencies) {
     if (plugins.dependencies.hasOwnProperty(plugin)) {
       // Require
-      const pluginJSON = require(join(location, plugin, "package.json"));
+      const pluginJSON = requireFoolWebpack(join(location, plugin, "package.json"));
       // ...and store
       if (!prop) {
         pluginArray.push(pluginJSON);

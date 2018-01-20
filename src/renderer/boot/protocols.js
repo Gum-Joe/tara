@@ -6,12 +6,13 @@ import fs from "fs";
 import { join, resolve, normalize } from "path";
 import { app, protocol } from "electron"; // eslint-disable-line
 import sass from "node-sass";
+const requireFoolWebpack = require("require-fool-webpack");
 import { TARA_CONFIG, CONFIG_FILE } from "../constants";
 import Logger from "../logger.ts";
 import getPluginPath from "../utils/get-plugin-path";
 
 // Config
-const config = require(join(TARA_CONFIG, CONFIG_FILE));
+const config = requireFoolWebpack(join(TARA_CONFIG, CONFIG_FILE));
 
 const logger = new Logger({
   name: "protocol"
@@ -37,7 +38,7 @@ function registerTara() {
         logger.debug("Theme requested.  Sending...");
         const pluginPath = getPluginPath(config.theme);
         // Get theme entry
-        const pluginPkgJSON = require(join(pluginPath, "package.json"));
+        const pluginPkgJSON = requireFoolWebpack(join(pluginPath, "package.json"));
         const themeFile = join(pluginPath, pluginPkgJSON.tara.theme);
         logger.debug(`Using theme file ${blue(join(themeFile))}.`);
         // Compile

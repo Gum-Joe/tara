@@ -5,11 +5,12 @@
 import { eachSeries } from "async";
 import fs from "fs";
 import { join } from "path";
+const requireFoolWebpack = require("require-fool-webpack");
 import Logger from "../logger.ts";
 import { LAYOUT_LOCATION, LAYOUT_SETUP_DONE_LOCATION, PLUGIN_LOCATION, TYPE_PLUGIN, REGEN_LAYOUT_ARGS, LAYOUT_LOCATION_DEFAULT } from "../constants";
 import { copy } from "../utils";
 // Location of layout files
-const setupDB = require(LAYOUT_SETUP_DONE_LOCATION);
+const setupDB = requireFoolWebpack(LAYOUT_SETUP_DONE_LOCATION);
 
 // Logger
 const logger = new Logger({
@@ -280,7 +281,7 @@ class TaraLayoutClass {
    */
   static getConfig(file) {
     // Requires file
-    return require(LAYOUT_LOCATION);
+    return requireFoolWebpack(LAYOUT_LOCATION);
   }
 
   /**
@@ -341,7 +342,7 @@ export default async (plugins, location, callback) => {
     // What file to use??
     if (plugin.tara.hasOwnProperty("init")) {
       logger.debug(`Using init script ${plugin.tara.init}...`);
-      const init = require(join(location, plugin.name, plugin.tara.init));
+      const init = requireFoolWebpack(join(location, plugin.name, plugin.tara.init));
       // Run
       init(TaraLayout, async (tara) => {
         // Update config
@@ -354,10 +355,10 @@ export default async (plugins, location, callback) => {
         // Add to index
         TaraLayoutClass.updateSetupDone(plugin.name);
       });
-    } else if (require(join(location, plugin.name, plugin.main)).hasOwnProperty("init")) {
+    } else if (requireFoolWebpack(join(location, plugin.name, plugin.main)).hasOwnProperty("init")) {
       // Use entry
       logger.debug(`Using entry file ${plugin.main}...`);
-      const { init } = require(join(location, plugin.name, plugin.main));
+      const { init } = requireFoolWebpack(join(location, plugin.name, plugin.main));
       // Run
       init(TaraLayout, async (tara) => {
         // Use JS's mutable objects

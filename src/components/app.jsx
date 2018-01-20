@@ -6,12 +6,13 @@ import createFragment from "react-addons-create-fragment";
 import { join } from "path";
 import PropTypes from "prop-types";
 import jquery from "jquery";
+const requireFoolWebpack = require("require-fool-webpack");
 import Panel from "./panel";
 import { updateLayoutConfig, updateLayoutRender, addPlugin } from "../actions";
 import Module from "./module";
 import { PLUGIN_CONFIG, PLUGIN_LOCATION } from "../renderer/constants";
 // Plugin config file
-const plugins = require(PLUGIN_CONFIG);
+const plugins = requireFoolWebpack(PLUGIN_CONFIG);
 
 /**
  * Tara entry point
@@ -31,7 +32,7 @@ export default class Tara extends Component {
     for (let plugin in plugins.dependencies) {
       if (plugins.dependencies.hasOwnProperty(plugin)) {
         // Require
-        const pluginJSON = require(join(PLUGIN_LOCATION, plugin, "package.json"));
+        const pluginJSON = requireFoolWebpack(join(PLUGIN_LOCATION, plugin, "package.json"));
         // ...and store
         this.props.dispatch(addPlugin(pluginJSON));
       }

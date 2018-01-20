@@ -3,6 +3,7 @@
  */
 import * as Electron from "electron";
 import { join } from "path";
+const requireFoolWebpack = require("require-fool-webpack");
 import Logger from "../logger";
 import getPlugins from "./plugins";
 import { TARA_CONFIG, CONFIG_FILE, PLUGIN_LOCATION, PLUGIN_CORE_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_CONFIG } from "../constants";
@@ -116,31 +117,31 @@ export default class TaraPlugin {
       location = PLUGIN_CORE_LOCATION;
 
       // Load
-      const pluginJSON = require(join(location, plugin, "package.json"));
+      const pluginJSON = requireFoolWebpack(join(location, plugin, "package.json"));
       let pluginFile: string;
       if (pluginJSON.hasOwnProperty("tara") && pluginJSON.tara.hasOwnProperty("api")) {
         pluginFile = join(location, plugin, pluginJSON.tara.api);
         // Require it & return
-        return await require(pluginFile);
+        return await requireFoolWebpack(pluginFile);
       } else {
         pluginFile = join(location, plugin, pluginJSON.main);
         // Require it & return
-        return await require(pluginFile).api;
+        return await requireFoolWebpack(pluginFile).api;
       }
     } else if (getPlugins(PLUGIN_CONFIG, PLUGIN_LOCATION, "name").includes(plugin)) {
       location = PLUGIN_LOCATION;
 
       // Load
-      const pluginJSON = require(join(location, plugin, "package.json"));
+      const pluginJSON = requireFoolWebpack(join(location, plugin, "package.json"));
       let pluginFile: string;
       if (pluginJSON.hasOwnProperty("tara") && pluginJSON.tara.hasOwnProperty("api")) {
         pluginFile = join(location, plugin, pluginJSON.tara.api);
         // Require it & return
-        return await require(pluginFile);
+        return await requireFoolWebpack(pluginFile);
       } else {
         pluginFile = join(location, plugin, pluginJSON.main);
         // Require it & return
-        return await require(pluginFile).api;
+        return await requireFoolWebpack(pluginFile).api;
       }
     }
   }

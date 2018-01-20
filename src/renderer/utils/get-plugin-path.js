@@ -3,6 +3,7 @@
  */
 import { yellow } from "chalk";
 import { join, resolve, normalize } from "path";
+const requireFoolWebpack = require("require-fool-webpack");
 import Logger from "../logger.ts";
 import { PLUGIN_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_LOCATION, PLUGIN_CORE_CONFIG } from "../constants";
 
@@ -18,8 +19,8 @@ const logger = new Logger({
   */
 export default (plugin) => {
   // Check config
-  const pluginsConfig = require(PLUGIN_CONFIG);
-  const pluginsConfigCore = require(PLUGIN_CORE_CONFIG);
+  const pluginsConfig = requireFoolWebpack(PLUGIN_CONFIG);
+  const pluginsConfigCore = requireFoolWebpack(PLUGIN_CORE_CONFIG);
   if (pluginsConfig.dependencies.hasOwnProperty(plugin)) {
     logger.debug(`Plugin ${yellow(plugin)} is user installed`);
     return join(PLUGIN_LOCATION, plugin);
