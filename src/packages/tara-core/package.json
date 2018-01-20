@@ -1,0 +1,28 @@
+{
+ "name": "tara-core",
+ "version": "0.1.0",
+ "description": "Core modules for all of tara & 3rd party plugins.",
+ "main": "index.js",
+ "scripts": {
+  "test": "cd ../.. && npm test"
+ },
+ "repository": {
+  "type": "git",
+  "url": "git+https://github.com/Gum-Joe/tara.git"
+ },
+ "keywords": [
+    "tara",
+    "core",
+    "plugins"
+ ],
+ "author": "Gum-Joe",
+ "license": "MIT",
+ "bugs": {
+  "url": "https://github.com/Gum-Joe/tara/issues"
+ },
+ "homepage": "https://github.com/Gum-Joe/tara#readme",
+ "tara": {
+  "type": "plugin"
+ },
+ "dependencies": {}
+}

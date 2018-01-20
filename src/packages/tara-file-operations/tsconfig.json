@@ -3,17 +3,22 @@
     "target": "ES2017",
     "module": "commonjs",
     "jsx": "react",
-    //"declaration": true,                   /* Generates corresponding '.d.ts' file. */
-    "sourceMap": true,                     /* Generates corresponding '.map' file. */
-    "outDir": "./lib",
-    "removeComments": true,                /* Do not emit comments to output. */
+    // "declaration": true,                   /* Generates corresponding '.d.ts' file. */
+    "sourceMap": true, /* Generates corresponding '.map' file. */
+    "removeComments": true, /* Do not emit comments to output. */
     // "noEmit": true,                        /* Do not emit outputs. */
     // "importHelpers": true,                 /* Import emit helpers from 'tslib'. */
-    "downlevelIteration": true,            /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
+    "downlevelIteration": true, /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
     "allowJs": true,
     "strict": false,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "preserveConstEnums": true,
+    "outDir": "./lib",
+    "rootDir": "./src"
   },
+  "exclude": [
+    "node_modules/**/*",
+  ],
   "include": [
     "src/**/*"
   ]
