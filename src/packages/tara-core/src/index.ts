@@ -1,23 +1,14 @@
 /**
  * @overview Index of tara-core
  */
-
-import config from "./config";
-import * as constants from "../../tara-explorer/lib/constants";
-import installExtensions from "./install-extensions";
+import * as constants from "./constants";
 import * as interfaces from "./interfaces";
-import logger from "./logger";
-import pluginClient from "./plugin-client";
-import pluginInit from "./plugin-init";
-import plugins from "./plugins";
 
-export default {
-    config,
-    constants,
-    installExtensions,
-    interfaces,
-    logger,
-    pluginClient,
-    pluginInit,
-    plugins,
-};
+export { default as config } from "./config";
+export { default as installExtensions } from "./install-extensions";
+export { default as Logger } from "./logger";
+export { default as PluginClient } from "./plugin-client";
+export { default as PluginInit } from "./plugin-init";
+export { default as plugins } from "./plugins";
+
+export { constants, interfaces };

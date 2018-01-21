@@ -7,7 +7,16 @@ import fs from "fs";
 import { join, resolve } from "path";
 const requireFoolWebpack = require("require-fool-webpack");
 import Logger from "../logger.ts";
-import { TARA_CONFIG, CONFIG_FILE, THEME_FILE, PLUGIN_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_LOCATION, PLUGIN_CORE_CONFIG, THEME_FILE_CONTENTS_DEFAULT } from "../constants";
+import { 
+  TARA_CONFIG, 
+  CONFIG_FILE, 
+  THEME_FILE, 
+  PLUGIN_LOCATION, 
+  PLUGIN_CONFIG, 
+  PLUGIN_CORE_LOCATION, 
+  PLUGIN_CORE_CONFIG, 
+  THEME_FILE_CONTENTS_DEFAULT
+} from "../../packages/tara-core/src/constants";
 import getPluginPath from "../utils/get-plugin-path";
 
 // Config

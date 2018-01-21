@@ -4,7 +4,8 @@
   "description": "Tara package to allow for right click context menus",
   "main": "lib/index.js",
   "scripts": {
-    "test": "cd ../.. && npm test"
+    "test": "cd ../.. && npm test",
+    "build": "coffee -m -o lib -c src"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,10 @@
   "dependencies": {
     "async": "^2.5.0",
     "nedb": "^1.8.0",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "tara-core": "^0.1.0"
+  },
+  "devDependencies": {
+    "coffeescript": "^2.1.1"
   }
 }

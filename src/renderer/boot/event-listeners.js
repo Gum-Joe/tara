@@ -4,8 +4,8 @@
 import { cyan, yellow } from "chalk";
 import electron from "electron"; // eslint-disable-line
 import * as listeners from "./ipc";
-import Logger from "../logger.ts";
-import TaraPlugin from "./plugin-init.ts";
+import Logger from "../../packages/tara-core/src/logger";
+import TaraPlugin from "../../packages/tara-core/src/plugin-init";
 
 const logger = new Logger({
   name: "ipc"

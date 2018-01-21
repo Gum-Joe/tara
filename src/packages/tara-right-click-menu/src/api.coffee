@@ -11,5 +11,5 @@ module.exports = {
   # @param {String} name Name of menu
   # @returns {Menu} Tara Menu class
   ###
-  createMenu: (name) => new Menu(name)
+  createMenu: (name) -> new Menu(name)
 }

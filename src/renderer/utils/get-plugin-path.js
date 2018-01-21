@@ -4,7 +4,7 @@
 import { yellow } from "chalk";
 import { join, resolve, normalize } from "path";
 const requireFoolWebpack = require("require-fool-webpack");
-import Logger from "../logger.ts";
+import Logger from "../../packages/tara-core/src/logger";
 import { PLUGIN_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_LOCATION, PLUGIN_CORE_CONFIG } from "../constants";
 
 const logger = new Logger({

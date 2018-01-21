@@ -7,8 +7,8 @@ import { join, resolve, normalize } from "path";
 import { app, protocol } from "electron"; // eslint-disable-line
 import sass from "node-sass";
 const requireFoolWebpack = require("require-fool-webpack");
-import { TARA_CONFIG, CONFIG_FILE } from "../constants";
-import Logger from "../logger.ts";
+import { TARA_CONFIG, CONFIG_FILE } from "../../packages/tara-core/src/constants";
+import Logger from "../../packages/tara-core/src/logger";
 import getPluginPath from "../utils/get-plugin-path";
 
 // Config

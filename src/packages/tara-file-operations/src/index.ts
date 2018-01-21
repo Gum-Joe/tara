@@ -4,7 +4,7 @@
  */
 import { ipcMain } from "electron";
 import { join } from "path";
-import Tara from "../../../renderer/boot/plugin-init";
+import { PluginInit as Tara } from "tara-core";
 import { FILE_OPS_GET_FILES, FILE_OPS_SEND_FILE_LIST_ITEM, FILE_OPT_OPEN_WINDOW } from "./constants";
 import getFiles from "./get-files";
 import load_window from "./window";

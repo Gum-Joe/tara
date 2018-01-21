@@ -6,8 +6,8 @@ import { eachSeries } from "async";
 import fs from "fs";
 import { join } from "path";
 const requireFoolWebpack = require("require-fool-webpack");
-import Logger from "../logger.ts";
-import { LAYOUT_LOCATION, LAYOUT_SETUP_DONE_LOCATION, PLUGIN_LOCATION, TYPE_PLUGIN, REGEN_LAYOUT_ARGS, LAYOUT_LOCATION_DEFAULT } from "../constants";
+import Logger from "../../packages/tara-core/src/logger";
+import { LAYOUT_LOCATION, LAYOUT_SETUP_DONE_LOCATION, PLUGIN_LOCATION, TYPE_PLUGIN, REGEN_LAYOUT_ARGS, LAYOUT_LOCATION_DEFAULT } from "../../packages/tara-core/src/constants";
 import { copy } from "../utils";
 // Location of layout files
 const setupDB = requireFoolWebpack(LAYOUT_SETUP_DONE_LOCATION);

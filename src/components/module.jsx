@@ -6,8 +6,8 @@ import { join } from "path";
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 const requireFoolWebpack = require("require-fool-webpack");
-import { PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_LOCATION } from "../renderer/constants";
-import TaraPlugin from "../renderer/boot/plugin-init";
+import { PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_LOCATION } from "../packages/tara-core/src/constants";
+import TaraPlugin from "../packages/tara-core/src/plugin-init";
 
 export default class Module extends Component {
   constructor(props) {

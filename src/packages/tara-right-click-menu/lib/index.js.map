@@ -1,10 +1,13 @@
 {
   "version": 3,
   "file": "index.js",
-  "sourceRoot": "",
+  "sourceRoot": "..",
   "sources": [
-    "..\\src\\index.coffee"
+    "src\\index.coffee"
   ],
   "names": [],
-  "mappings": ";AACA;;;;;AAAA;AAAA,MAAA;;EAIA,MAAkB,OAAA,CAAQ,UAAR,CAAlB,EAAE,aAAF,EAAO;;EACL,OAAS,OAAA,CAAQ,MAAR;;EACX,MAAA,GAAS,OAAA,CAAQ,QAAR;;EACP,kBAAoB,OAAA,CAAQ,6BAAR;;EACtB,IAAoB,OAAO,GAAP,KAAc,WAAlC;IAAA,GAAA,GAAM,MAAM,CAAC,IAAb;;;EAEA,MAAM,CAAC,OAAO,CAAC,IAAf,GAAsB,SAAC,IAAD;IACpB,IAAI,CAAC,MAAM,CAAC,KAAZ,CAAkB,+BAAlB;WACA,GAAG,CAAC,EAAJ,CAAO,mBAAP,EAA4B,SAAA;MAC1B,IAAI,CAAC,MAAM,CAAC,KAAZ,CAAkB,8BAAlB;aAEA,MAAM,CAAC,IAAP,CAAY,eAAZ;IAH0B,CAA5B;EAFoB;AAVtB"
+  "mappings": ";AAAA;EAAA;;;;;AAAA,MAAA,eAAA,EAAA,GAAA,EAAA,IAAA,EAAA,MAAA,EAAA;;EAKA,CAAA,CAAE,GAAF,EAAO,MAAP,CAAA,GAAkB,OAAA,CAAQ,UAAR,CAAlB;;EACA,CAAA,CAAE,IAAF,CAAA,GAAW,OAAA,CAAQ,MAAR,CAAX;;EACA,MAAA,GAAS,OAAA,CAAQ,QAAR;;EACT,CAAA,CAAE,eAAF,CAAA,GAAsB,OAAA,CAAQ,4BAAR,CAAtB;;EACA,IAAoB,OAAO,GAAP,KAAc,WAAlC;IAAA,GAAA,GAAM,MAAM,CAAC,IAAb;;;EAEA,MAAM,CAAC,OAAO,CAAC,IAAf,GAAsB,QAAA,CAAC,IAAD,CAAA;IACpB,IAAI,CAAC,MAAM,CAAC,KAAZ,CAAkB,+BAAlB;WACA,GAAG,CAAC,EAAJ,CAAO,mBAAP,EAA4B,QAAA,CAAA,CAAA;MAC1B,IAAI,CAAC,MAAM,CAAC,KAAZ,CAAkB,8BAAlB,EAAA;;aAEA,MAAM,CAAC,IAAP,CAAY,eAAZ;IAH0B,CAA5B;EAFoB;AAXtB",
+  "sourcesContent": [
+    "# out: ../lib/index.js, sourcemap: true\r\n###\r\n# @overview Contains the entry point for the right click context menu\r\n# @module tara-right-click-menu\r\n###\r\n{ app, remote } = require \"electron\"\r\n{ join } = require \"path\"\r\nrimraf = require \"rimraf\"\r\n{ TARA_CONFIG_DBS } = require \"tara-core/lib/constants.js\"\r\napp = remote.app if typeof app is \"undefined\"\r\n\r\nmodule.exports.main = (tara) ->\r\n  tara.logger.debug \"Loaded tara-right-click-menu.\"\r\n  app.on(\"window-all-closed\", () ->\r\n    tara.logger.debug \"Removing context menu dbs...\"\r\n    # Rm old stuff\r\n    rimraf.sync TARA_CONFIG_DBS\r\n  )\r\n"
+  ]
 }

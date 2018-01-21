@@ -7,9 +7,8 @@ import * as jquery from "jquery";
 import * as mkdirp from "mkdirp";
 import * as DB from "nedb";
 import { join } from "path";
-import Logger from "../../../renderer/logger";
-import Tara from "../../../renderer/boot/plugin-client";
-import { TARA_CONFIG_DBS } from "../../../renderer/constants";
+import { Logger, PluginClient as Tara } from "tara-core";
+import { TARA_CONFIG_DBS } from "tara-core/lib/constants";
 const pkgJSON = require("../package.json");
 
 // Logger

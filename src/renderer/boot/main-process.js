@@ -7,8 +7,8 @@ import electron from "electron"; // eslint-disable-line
 import path from "path";
 const requireFoolWebpack = require("require-fool-webpack");
 import addEventListeners from "./event-listeners";
-import Logger from "../logger.ts";
-import TaraPlugin from "./plugin-init.ts";
+import Logger from "../../packages/tara-core/src/logger";
+import TaraPlugin from "../../packages/tara-core/src/plugin-init";
 
 const logger = new Logger({
   name: "startup"

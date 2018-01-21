@@ -6,7 +6,7 @@
 { app, remote } = require "electron"
 { join } = require "path"
 rimraf = require "rimraf"
-{ TARA_CONFIG_DBS } = require "../../../renderer/constants"
+{ TARA_CONFIG_DBS } = require "tara-core/lib/constants.js"
 app = remote.app if typeof app is "undefined"
 
 module.exports.main = (tara) ->
@@ -15,4 +15,4 @@ module.exports.main = (tara) ->
     tara.logger.debug "Removing context menu dbs..."
     # Rm old stuff
     rimraf.sync TARA_CONFIG_DBS
-  );
+  )

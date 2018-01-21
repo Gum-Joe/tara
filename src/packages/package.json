@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "tara-core": "^0.1.0",
     "tara-explorer": "0.1.0",
     "tara-right-click-menu": "0.1.0",
     "tara-toolbar": "0.1.0",

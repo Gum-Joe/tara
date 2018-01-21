@@ -12,8 +12,8 @@ import { join, parse, relative } from "path";
 import { Grid, Progress as ProgressBar } from "semantic-ui-react";
 import DB from "nedb";
 import { FILE_OPS_GET_FILES, FILE_OPS_SEND_FILE_LIST_ITEM } from "../constants";
-import { TARA_CONFIG_DBS } from "../../../../renderer/constants";
-import Logger from "../../../../renderer/logger";
+import { TARA_CONFIG_DBS } from "tara-core/lib/constants";
+import { Logger } from "tara-core";
 
 const PREPARING_ICON = "<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>";
 

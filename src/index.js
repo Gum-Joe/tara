@@ -14,7 +14,7 @@ import reducers from "./reducers"; // eslint-disable-line
 import { App } from "./containers/app.jsx";
 
 // Add global tara object
-import Tara from "./renderer/boot/plugin-init.ts"; // eslint-disable-line
+import Tara from "./packages/tara-core/src/plugin-init"; // eslint-disable-line
 
 global.tara = Tara;
 

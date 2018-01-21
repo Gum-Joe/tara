@@ -3,9 +3,9 @@
  */
 import { join } from "path";
 const requireFoolWebpack = require("require-fool-webpack");
-import { PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION } from "../renderer/constants";
+import { PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION } from "../packages/tara-core/src/constants";
 import { getPluginPath } from "../renderer/utils";
-import getPlugins from "../renderer/boot/plugins";
+import getPlugins from "../packages/tara-core/src/plugins";
 
 /**
  * Gets reducers from plugins, by looking for the export file,

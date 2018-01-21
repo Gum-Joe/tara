@@ -6,8 +6,7 @@ import { eachSeries } from "async";
 import * as Electron from "electron";
 import * as fs from "fs";
 import { join, parse } from "path";
-import Tara from "../../../renderer/boot/plugin-init";
-import Logger from "../../../renderer/logger";
+import { Logger, PluginInit as Tara } from "tara-core";
 import { FILE_OPS_SEND_FILE_LIST_ITEM, FileToFrom } from "./constants";
 
 const logger = new Logger({

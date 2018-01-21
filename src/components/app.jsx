@@ -10,7 +10,7 @@ const requireFoolWebpack = require("require-fool-webpack");
 import Panel from "./panel";
 import { updateLayoutConfig, updateLayoutRender, addPlugin } from "../actions";
 import Module from "./module";
-import { PLUGIN_CONFIG, PLUGIN_LOCATION } from "../renderer/constants";
+import { PLUGIN_CONFIG, PLUGIN_LOCATION } from "../packages/tara-core/src/constants";
 // Plugin config file
 const plugins = requireFoolWebpack(PLUGIN_CONFIG);
 

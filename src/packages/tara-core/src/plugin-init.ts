@@ -62,7 +62,7 @@ export default class TaraPlugin {
    * @public
    */
   public getClient() {
-    const Client = require("./plugin-client.ts").default;
+    const Client = require("./plugin-client").default;
     return new Client(this.plugin, this.electron, this.logger);
   }
 

@@ -7,10 +7,12 @@
 import "@babel/polyfill"; // ES6 Polyfill
 import { app, BrowserWindow } from "electron"; // eslint-disable-line
 //import { enableLiveReload } from "electron-compile";
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEV_ENV } from "./constants";
-import installExtensions from "./install-extensions";
-import Logger from "./logger.ts";
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEV_ENV } from "../packages/tara-core/src/constants";
+import installExtensions from "../packages/tara-core/src/install-extensions";
+import Logger from "../packages/tara-core/src/logger";
 import startup from "./startup";
+
+const isProduction = process.env.NODE_ENV === "production"
 
 // Logger
 const logger = new Logger({
@@ -44,11 +46,11 @@ const createWindow = async () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadURL(`file://${__dirname}/../html/index.html`);
+  mainWindow.loadURL(isProduction ? `file://${__dirname}/index.html` : `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
   mainWindow.maximize();
 
   // Open the DevTools.
-  if (process.env.NODE_ENV === DEV_ENV && !process.argv.includes("--no-devtools")) {
+  if (isProduction === false && !process.argv.includes("--no-devtools")) {
     mainWindow.webContents.openDevTools();
   }
 
