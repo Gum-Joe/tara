@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
   resolve: {
@@ -6,7 +7,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.jsx?$/, loader: "babel-loader", options: { presets: ["react"] } }
+      { test: /\.jsx?$/, loader: "babel-loader", options: { presets: ["react"] } },
     ]
   },
   stats: "minimal",
@@ -16,6 +17,9 @@ module.exports = {
       title: "Tara",
       template: "src/html/index.html",
       hash: true
-    })
+    }),
+    new webpack.DefinePlugin({
+      "process.env.FORCE_COLOR": JSON.stringify(1)
+    }),
   ]
 };

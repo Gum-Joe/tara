@@ -41,4 +41,5 @@ export const WINDOW_TYPE: "WINDOW" = "WINDOW";
 export const WINDOW_SENT_TYPE: "WINDOW_SENT" = "WINDOW_SENT";
 export const PROCESS_TYPE: "PROCESS" = "PROCESS";
 export const LOGGER_WINDOW: "LOGGER_WINDOW" = "LOGGER_WINDOW";
+export const LOG_FILE: string = path.join(TARA_HOME, "log", "log.log");
 export const DEBUG: "debug" = "debug";

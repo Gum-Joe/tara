@@ -1,8 +1,11 @@
 /**
  * @overview React entry point
  */
-// Polyfill
+// Polyfills
 import "@babel/polyfill";
+import "jquery/dist/jquery.min.js";
+//import "bootstrap/dist/js/bootstrap.min.js";
+
 
 // From electron-compile README.md
 import React from "react";
@@ -17,6 +20,12 @@ import { App } from "./containers/app.jsx";
 import Tara from "./packages/tara-core/src/plugin-init"; // eslint-disable-line
 
 global.tara = Tara;
+
+// Import CSS
+import "font-awesome/css/font-awesome.min.css";
+// Styles inc. semantic UI
+import "./semantic/dist/semantic.min.css";
+import "./css/index.scss";
 
 const store = createStore(
   reducers,

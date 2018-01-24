@@ -122,6 +122,8 @@
     "mkdirp": "^0.5.1",
     "mocha": "^4.1.0",
     "require-fool-webpack": "^1.0.0",
+    "sass-loader": "^6.0.6",
+    "single-line-log": "^1.1.2",
     "source-map": "^0.6.1",
     "ts-loader": "^3.2.0",
     "tslint": "^5.9.1",

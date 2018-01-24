@@ -2,26 +2,30 @@
  * @overview Logging module for tara, from coapack
  * @module logger
  */
-import chalk from "chalk";
+import chalk, { Chalk } from "chalk";
 import { ipcRenderer as ipc } from "electron";
+import { createWriteStream, WriteStream } from "fs";
 import { Logger as LoggerArgs, LoggerTypes } from "./interfaces";
-import { DEBUG, WINDOW_TYPE, WINDOW_SENT_TYPE, PROCESS_TYPE, LOGGER_WINDOW } from "./constants";
+import { DEBUG, WINDOW_TYPE, WINDOW_SENT_TYPE, PROCESS_TYPE, LOGGER_WINDOW, LOG_FILE } from "./constants";
 
 export default class Logger {
   private args: LoggerArgs;
   private argv: string[];
   private isDebug: boolean;
   private type: "WINDOW" | "PROCESS" | "WINDOW_SENT";
-
+  private logFileStream: WriteStream;
+  private chalk: Chalk;
   constructor(args: LoggerArgs) {
     this.args = args || { name: "logger" };
     this.argv = process.argv;
     this.isDebug = this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v") || process.env.DEBUG;
+    this.chalk = new chalk.constructor();
     // Get type
     if (typeof window !== "undefined") {
       this.type = WINDOW_TYPE;
     } else {
       this.type = PROCESS_TYPE;
+      this.logFileStream = createWriteStream(LOG_FILE, { flags: "a" });
       // Start listening
       if (args.windowLogger) {
         const { ipcMain } = require("electron");
@@ -48,20 +52,26 @@ export default class Logger {
       // Add prefix
       let prefix = "";
       if (args.hasOwnProperty("name")) {
-        prefix = chalk.magenta(args.name) + " "; // eslint-disable-line prefer-template
+        prefix = this.chalk.magenta(args.name) + " "; // eslint-disable-line prefer-template
       }
       switch (type) {
         case PROCESS_TYPE:
-          prefix = `[${chalk.grey(PROCESS_TYPE)}] ${prefix}`;
+          prefix = `[${this.chalk.grey(PROCESS_TYPE)}] ${prefix}`;
           if (level !== DEBUG || this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v")) {
-            console.log(`${prefix}${chalk[colour](level)} ${text}`);
+            console.log(`${prefix}${this.chalk[colour](level)} ${text}`);
+            // this.logFileStream.write(`${prefix}${this.chalk[colour](level)} ${text}\n`, (err) => {
+            //   if (err) { throw err; }
+            // });
           }
           break;
         case WINDOW_SENT_TYPE:
           // From render window
-          prefix = `[${chalk.grey(WINDOW_TYPE)}] ${prefix}`;
+          prefix = `[${this.chalk.grey(WINDOW_TYPE)}] ${prefix}`;
           if (level !== DEBUG || this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v")) {
-            console.log(`${prefix}${chalk[colour](level)} ${text}`);
+            console.log(`${prefix}${this.chalk[colour](level)} ${text}`);
+            // this.logFileStream.write(`${prefix}${this.chalk[colour](level)} ${text}\n`, (err) => {
+            //   if (err) { throw err; }
+            // });
           }
           break;
         // Handle sending -> process
@@ -90,9 +100,9 @@ export default class Logger {
       // Add prefix
       let prefix = "";
       if (this.args.hasOwnProperty("name")) {
-        prefix = chalk.magenta(this.args.name) + " "; // eslint-disable-line prefer-template
+        prefix = this.chalk.magenta(this.args.name) + " "; // eslint-disable-line prefer-template
       }
-      console.warn(`${prefix}${chalk.yellow("warn")} ${text}`);
+      console.warn(`${prefix}${this.chalk.yellow("warn")} ${text}`);
     }
   }
   /*
@@ -105,9 +115,9 @@ export default class Logger {
       // Add prefix
       let prefix = "";
       if (this.args.hasOwnProperty("name")) {
-        prefix = chalk.magenta(this.args.name) + " "; // eslint-disable-line prefer-template
+        prefix = this.chalk.magenta(this.args.name) + " "; // eslint-disable-line prefer-template
       }
-      console.error(`${prefix}${chalk.red("err")} ${text}`);
+      console.error(`${prefix}${this.chalk.red("err")} ${text}`);
     }
   }
 

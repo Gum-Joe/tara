@@ -1,6 +1,7 @@
 /**
  * @overview Registers protocols for tara (such as tara://)
  */
+import "@babel/polyfill"; // ES6 Polyfill
 import { cyan, blue, red } from "chalk";
 import fs from "fs";
 import { join, resolve, normalize } from "path";
