@@ -31,7 +31,7 @@ import { EXPLORER_SELECT_FILE, EXPLORER_DESELECT_FILE } from "../constants";
      }
      break;
   case EXPLORER_DESELECT_FILE:
-    const newState = Array.concat([], state);
+    const newState = [...state];
     const index = newState.findIndex((file) => file === action.file);
     delete newState[index];
     return newState;

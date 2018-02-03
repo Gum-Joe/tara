@@ -1,8 +1,8 @@
 /**
  * @overview Plugins event listeners
  */
-import { IPC_GET_PLUGINS, IPC_SEND_PLUGINS, PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION } from "../../constants";
-import getPlugins from "../plugins";
+import { IPC_GET_PLUGINS, IPC_SEND_PLUGINS, PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION } from "../../../packages/tara-core/lib/constants";
+import getPlugins from "../../../packages/tara-core/lib/plugins";
 
 /**
  * Plugin event listener to send plugins.  Takes constants.IPC_GET_PLUGINS for receiving & sends back constants.IPC_SEND_PLUGINS

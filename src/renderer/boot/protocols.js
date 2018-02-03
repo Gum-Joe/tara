@@ -1,7 +1,6 @@
 /**
  * @overview Registers protocols for tara (such as tara://)
  */
-import "@babel/polyfill"; // ES6 Polyfill
 import { cyan, blue, red } from "chalk";
 import fs from "fs";
 import { join, resolve, normalize } from "path";
@@ -59,7 +58,7 @@ function registerTara() {
         const plugin = urlParts[1];
         if (urlParts[2] === "file") {
           // Handle file
-          const fileURLArray = Array.concat(urlParts);
+          const fileURLArray = [...urlParts];
           // Nullifiy parts we don't need
           fileURLArray[0] = "";
           fileURLArray[1] = "";

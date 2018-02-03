@@ -7,11 +7,11 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.jsx?$/, loader: "babel-loader", options: { presets: ["react"] } },
+     { test: /\.jsx?$/, loader: "babel-loader" },
     ]
   },
   stats: "minimal",
-  devtool: "source-map",
+  devtool: process.env.NODE_ENV === "production" ? "none" : "source-map",
   plugins: [
     new HtmlWebpackPlugin({
       title: "Tara",
@@ -19,7 +19,8 @@ module.exports = {
       hash: true
     }),
     new webpack.DefinePlugin({
-      "process.env.FORCE_COLOR": JSON.stringify(1)
+      "process.env.FORCE_COLOR": JSON.stringify(1),
+      "process.env.DEBUG": JSON.stringify(true)
     }),
   ]
 };

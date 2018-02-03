@@ -5,7 +5,7 @@ import { yellow } from "chalk";
 import { join, resolve, normalize } from "path";
 const requireFoolWebpack = require("require-fool-webpack");
 import Logger from "../../packages/tara-core/src/logger";
-import { PLUGIN_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_LOCATION, PLUGIN_CORE_CONFIG } from "../constants";
+import { PLUGIN_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_LOCATION, PLUGIN_CORE_CONFIG } from "../../packages/tara-core/src/constants";
 
 const logger = new Logger({
   name: "plugin:find"

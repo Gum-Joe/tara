@@ -6,7 +6,7 @@ import { blue, green, yellow } from "chalk";
 import fs from "fs";
 import { join, resolve } from "path";
 const requireFoolWebpack = require("require-fool-webpack");
-import Logger from "../logger.ts";
+import Logger from "../../packages/tara-core/src/logger";
 import { 
   TARA_CONFIG, 
   CONFIG_FILE, 
