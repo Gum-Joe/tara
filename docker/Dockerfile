@@ -6,8 +6,6 @@ WORKDIR /
 RUN git clone https://github.com/Gum-Joe/tara
 WORKDIR /tara
 
-RUN yarn
-RUN ./node_modules/.bin/lerna bootstrap
-RUN ./scripts/build-node-sass.sh
+RUN ./scripts/build.sh
 
 CMD yarn start

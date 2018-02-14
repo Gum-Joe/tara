@@ -28,3 +28,12 @@ yarn && yarn run build
 echo "Modules done, bootstrapping..."
 cd ../..
 yarn run bootstrap
+
+echo ""
+echo "Building semantic UI..."
+cp ./node_modules/semantic-ui/tasks ./src/semantic/tasks
+cd ./src/semantic
+../../node_modules/.bin/gulp build
+
+echo ""
+echO "Done!"

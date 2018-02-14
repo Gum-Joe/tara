@@ -118,6 +118,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.5.1",
+    "gulp": "^3.9.1",
     "html-webpack-plugin": "^2.30.1",
     "inquirer": "^5.0.0",
     "jsdoc-babel": "^0.3.0",
