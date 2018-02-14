@@ -36,4 +36,4 @@ cd ./src/semantic
 ../../node_modules/.bin/gulp build
 
 echo ""
-echO "Done!"
+echo "Done!"
