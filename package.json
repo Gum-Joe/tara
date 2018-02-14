@@ -6,6 +6,7 @@
   "main": "src/renderer/index.js",
   "scripts": {
     "start": "./node_modules/.bin/electron-webpack dev",
+    "bootstrap": "lerna bootstrap",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "build": "electron-webpack",

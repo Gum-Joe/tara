@@ -5,7 +5,8 @@
  "main": "./lib/index",
  "types": "./lib/index.d.ts",
  "scripts": {
-  "test": "cd ../.. && npm test"
+  "test": "cd ../.. && npm test",
+  "build": "tsc"
  },
  "repository": {
   "type": "git",
@@ -30,5 +31,8 @@
   "electron": "^1.7.10",
   "electron-devtools-installer": "^2.2.3",
   "require-fool-webpack": "^1.0.0"
+ },
+ "devDependencies": {
+     "typescript": "^2.6.2"
  }
 }
