@@ -5,7 +5,8 @@ ENV NODE_ENV development
 WORKDIR /
 RUN git clone https://github.com/Gum-Joe/tara
 WORKDIR /tara
+RUN git checkout move-to-electron-webpack
 
-RUN ./scripts/build.sh
+RUN git pull && ./scripts/build.sh
 
 CMD yarn start

@@ -16,17 +16,17 @@ ls
 echo ""
 cd tara-address-bar
 yarn && yarn run build
-cd tara-core
+cd ../tara-core
 yarn && yarn run build
-cd tara-explorer
+cd ../tara-explorer
 yarn && yarn run build
-cd tara-file-operations
+cd ../tara-file-operations
 yarn && yarn run build
-cd tara-right-click-menu
+cd ../tara-right-click-menu
 yarn && yarn run build
 
 echo "Modules done, bootstrapping..."
-cd ../..
+cd ../../..
 yarn run bootstrap
 
 echo ""
