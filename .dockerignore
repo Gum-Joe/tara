@@ -1,0 +1,8 @@
+# Files for docker to ignore
+node_modules
+src/packages/*/node_modules
+dist
+log
+.vs
+.cache
+.vscode
