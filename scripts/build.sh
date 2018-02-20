@@ -16,15 +16,20 @@ echo "Packages:"
 ls
 echo ""
 cd tara-address-bar
-npm install && yarn run build
+npm install
+yarn build
 cd ../tara-core
-npm install && yarn run build
+npm install
+yarn build
 cd ../tara-explorer
-npm install && yarn run build
+npm install
+yarn build
 cd ../tara-file-operations
-npm install && yarn run build
+npm install 
+yarn build
 cd ../tara-right-click-menu
-npm install && yarn run build
+npm install
+yarn build
 
 echo "Modules done, bootstrapping..."
 cd ../../..
