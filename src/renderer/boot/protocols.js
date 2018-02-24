@@ -6,10 +6,11 @@ import fs from "fs";
 import { join, resolve, normalize } from "path";
 import { app, protocol } from "electron"; // eslint-disable-line
 import sass from "node-sass";
-const requireFoolWebpack = require("require-fool-webpack");
-import { TARA_CONFIG, CONFIG_FILE } from "../../packages/tara-core/src/constants";
-import Logger from "../../packages/tara-core/src/logger";
+import { TARA_CONFIG, CONFIG_FILE } from "../../packages/tara-core/src/constants.ts";
+import Logger from "../../packages/tara-core/src/logger.ts";
 import getPluginPath from "../utils/get-plugin-path";
+import compileTheme from "./compile-theme";
+const requireFoolWebpack = require("require-fool-webpack");
 
 // Config
 const config = requireFoolWebpack(join(TARA_CONFIG, CONFIG_FILE));
@@ -27,7 +28,7 @@ function registerTara() {
   logger.debug(`Registering file protocol ${cyan("tara://")}`);
   protocol.registerStandardSchemes(["tara"]);
   app.on("ready", () => {
-    protocol.registerBufferProtocol("tara", (req, callback) => {
+    protocol.registerBufferProtocol("tara", async (req, callback) => {
       // Handle requests
       // TODO: Refactor into a router
       // Hande theme
@@ -36,6 +37,10 @@ function registerTara() {
       logger.debug(`Route: ${cyan(url)}`);
       if (url === "theme.scss/") {
         logger.debug("Theme requested.  Sending...");
+        const theme = await compileTheme();
+        callback({ data: theme.css, mimeType: "text/css" });
+
+        /* Old code:
         const pluginPath = getPluginPath(config.theme);
         // Get theme entry
         const pluginPkgJSON = requireFoolWebpack(join(pluginPath, "package.json"));
@@ -51,7 +56,7 @@ function registerTara() {
           } else {
             callback({ data: result.css, mimeType: "text/css" });
           }
-        });
+        }); */
       } else if (url.split("/")[0] === "plugin") {
         // Plugin requested
         const urlParts = url.split("/");

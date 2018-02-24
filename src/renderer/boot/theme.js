@@ -5,8 +5,7 @@
 import { blue, green, yellow } from "chalk";
 import fs from "fs";
 import { join, resolve } from "path";
-const requireFoolWebpack = require("require-fool-webpack");
-import Logger from "../../packages/tara-core/src/logger";
+import Logger from "../../packages/tara-core/src/logger.ts";
 import { 
   TARA_CONFIG, 
   CONFIG_FILE, 
@@ -16,8 +15,10 @@ import {
   PLUGIN_CORE_LOCATION, 
   PLUGIN_CORE_CONFIG, 
   THEME_FILE_CONTENTS_DEFAULT
-} from "../../packages/tara-core/src/constants";
+} from "../../packages/tara-core/src/constants.ts";
 import getPluginPath from "../utils/get-plugin-path";
+
+const requireFoolWebpack = require("require-fool-webpack");
 
 // Config
 const config = requireFoolWebpack(join(TARA_CONFIG, CONFIG_FILE));

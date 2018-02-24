@@ -57,7 +57,7 @@ export default class Logger {
       switch (type) {
         case PROCESS_TYPE:
           prefix = `[${this.chalk.grey(PROCESS_TYPE)}] ${prefix}`;
-          if (level !== DEBUG || this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v")) {
+          if (level !== DEBUG || this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v") || process.env.NODE_ENV === "development") {
             console.log(`${prefix}${this.chalk[colour](level)} ${text}`);
             // this.logFileStream.write(`${prefix}${this.chalk[colour](level)} ${text}\n`, (err) => {
             //   if (err) { throw err; }
@@ -67,7 +67,7 @@ export default class Logger {
         case WINDOW_SENT_TYPE:
           // From render window
           prefix = `[${this.chalk.grey(WINDOW_TYPE)}] ${prefix}`;
-          if (level !== DEBUG || this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v")) {
+          if (level !== DEBUG || this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v") || process.env.NODE_ENV === "development") {
             console.log(`${prefix}${this.chalk[colour](level)} ${text}`);
             // this.logFileStream.write(`${prefix}${this.chalk[colour](level)} ${text}\n`, (err) => {
             //   if (err) { throw err; }

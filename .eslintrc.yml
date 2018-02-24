@@ -21,9 +21,11 @@ rules:
   import/extensions: 1
   import/prefer-default-export: 1
   import/no-mutable-exports: 1
+  import/newline-after-import: 0
   indent:
-    - 1
-    - 2
+    - 0
+    - 4
+  react/jsx-indent: 0
   linebreak-style: 0
   jsx-a11y/no-noninteractive-element-interactions: 1
   quotes:
@@ -44,6 +46,7 @@ rules:
   camelcase: 0
   operator-linebreak: 0
   no-return-await: 0
+  eol-last: 0
   valid-jsdoc:
     - 1
     - prefer:

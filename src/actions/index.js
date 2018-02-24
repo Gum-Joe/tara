@@ -11,6 +11,10 @@ export const UPDATE_LAYOUT_RENDER = "UPDATE_LAYOUT_RENDER";
 export const ADD_PLUGIN = "ADD_PLUGIN";
 export const REMOVE_PLUGIN = "REMOVE_PLUGIN";
 
+// Theme
+export const UPDATE_THEME = "UPDATE_THEME";
+export const FETCH_THEME = "FETCH_THEME";
+
 // Actions
 // Creaye rendered layout
 export const createLayoutRender = (config) => {
@@ -38,7 +42,8 @@ export const updateLayoutRender = (render) => {
 
 /**
  * Adds a plugin
- * @param plugin {Object} Plugin's package.json
+ * @param {Object} plugin Plugin's package.json
+ * @returns {void}
  */
 export const addPlugin = (plugin) => {
   return {
@@ -49,11 +54,24 @@ export const addPlugin = (plugin) => {
 
 /**
  * Removes a plugin
- * @param plugin {Object} Plugin's package.json
+ * @param {Object} plugin Plugin's package.json
+ * @returns {void}
  */
 export const removePlugin = (plugin) => {
   return {
     type: REMOVE_PLUGIN,
     plugin
+  };
+};
+
+/**
+ * Update the theme
+ * @param {String} theme Theme css
+ * @returns {void}
+ */
+export const updateTheme = (theme) => {
+  return {
+    type: UPDATE_THEME,
+    theme
   };
 };

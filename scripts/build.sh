@@ -30,6 +30,9 @@ yarn build
 cd ../tara-right-click-menu
 npm install
 yarn build
+cd ../one-fluent-theme
+npm install
+yarn build
 
 echo "Modules done, bootstrapping..."
 cd ../../..

@@ -8,16 +8,20 @@ module.exports = {
   module: {
     rules: [
      { test: /\.jsx?$/, loader: "babel-loader" },
+     { test: /\.js$/, loader: "babel-loader" },
     ]
   },
   stats: "minimal",
   devtool: process.env.NODE_ENV === "production" ? "none" : "source-map",
   plugins: [
-    new HtmlWebpackPlugin({
+    /**
+    https://github.com/electron-userland/electron-webpack/issues/101
+    new HtmlWebpackPlugin({ // 
       title: "Tara",
       template: "src/html/index.html",
       hash: true
     }),
+    */
     new webpack.DefinePlugin({
       "process.env.FORCE_COLOR": JSON.stringify(1),
       "process.env.DEBUG": JSON.stringify(true)
