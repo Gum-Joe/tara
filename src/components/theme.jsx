@@ -11,7 +11,6 @@ export default class Theme extends Component {
    async componentDidMount() {
         // Setup theme
         const theme = await compileTheme();
-        console.log(theme.html);
         this.props.dispatch(updateTheme({
             css: theme.css,
             html: theme.html,

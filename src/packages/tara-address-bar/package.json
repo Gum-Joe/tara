@@ -7,7 +7,7 @@
     "client": "lib/containers/index.js"
   },
   "scripts": {
-    "build": "babel src -d lib"
+    "build": "babel src -d lib -s"
   },
   "dependencies": {
     "jquery": "^3.2.1",

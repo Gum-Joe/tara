@@ -137,7 +137,7 @@ export default class Tara extends Component {
     return (
       <Theme>
         <div>
-          { /* createFragment(this.props.layout.rendered) */ }
+          { createFragment(this.props.layout.rendered) }
         </div>
       </Theme>
     );

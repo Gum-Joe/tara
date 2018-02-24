@@ -3,15 +3,20 @@
  * @module explorer
  */
 import React, { Component } from "react";
+import catchAwaitErr from "await-to-js";
 import jquery from "jquery";
 import camelcase from "camelcase";
 import PropTypes from "prop-types";
 import { join } from "path";
-import { readdir, statSync } from "fs";
+import { readdir, statSync, stat as fsStat } from "fs";
+import { promisify } from "util";
 import { Grid } from "semantic-ui-react";
 import FontAwesome from "react-fontawesome";
 import { Redirect } from "react-router-dom";
 import { updateDir as chdir, selectFile, deselectFile } from "../actions";
+
+// Promisify stat
+const stat = promisify(fsStat);
 
 // NOTE: From https://stackoverflow.com/questions/1828613/check-if-a-key-is-down
 const keys = {};
@@ -76,10 +81,45 @@ export default class Dir extends Component {
     super(props);
     this.state = {
       contents: [],
-      redirect: ""
+      contentsReact: [],
+      redirect: "",
     };
     props.dispatch(chdir(props.match.params.dir));
   }
+  /**
+   * Handle mapping files to react components
+   * @returns {void}
+   */
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      contentsReact: this.state.contents.map(async file => {
+        const [err, fileStat] = await catchAwaitErr(stat(file));
+        if (err) {
+          throw err;
+        }
+        console.log(fileStat);
+        if (fileStat.isDirectory()) {
+          return (
+            <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file))} onClick={this.handleOnClick(normalise(file))}>
+              <FontAwesome name="folder" />
+              <p>{getFileName(file)}</p>
+            </div>
+          );
+        } else if (!fileStat.isDirectory()) {
+          return (
+            <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
+              <FontAwesome name="file" />
+              <p>{getFileName(file)}</p>
+            </div>
+          );
+        } else {
+          throw new Error(`File ${file} is neither a directory or file!`)
+        }
+      })
+    });
+  }
+
   componentWillReceiveProps(props) {
     // Update dir
     if (props.dir.dir !== props.match.params.dir) {
@@ -94,7 +134,7 @@ export default class Dir extends Component {
    * @returns {undefined} Nothing
    */
   getFiles(dir) {
-    readdir(dir, (err, files) => {
+    readdir(dir, async (err, files) => {
       if (err) {
         throw err;
       } else {
@@ -105,7 +145,8 @@ export default class Dir extends Component {
         });
         // Check for double click
         for (let file of files) {
-          if (statSync(join(dir, file)).isDirectory()) {
+          const fileStat = await stat(join(dir, file));
+          if (fileStat.isDirectory()) {
             jquery(`#${normalise(file)}`).dblclick(() => {
               const newDir = join(this.props.dir.dir, file);
               process.chdir(newDir);
@@ -145,6 +186,7 @@ export default class Dir extends Component {
       }
     };
   }
+
   render() {
     return (
       <div>
@@ -155,22 +197,7 @@ export default class Dir extends Component {
           <Grid className="files">
             <Grid.Row>
               <Grid.Column size={2}>
-                {
-                  this.state.contents.map(file => (statSync(join(this.props.match.params.dir, file)).isDirectory() ? // Check if path is dir
-                    <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file))} onClick={this.handleOnClick(normalise(file))}>
-                      <FontAwesome name="folder" />
-                      <p>{getFileName(file)}</p>
-                    </div>
-                  : null))
-                }
-                {
-                  this.state.contents.map(file => (!statSync(join(this.props.match.params.dir, file)).isDirectory() ? // Check if path is file
-                    <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
-                      <FontAwesome name="file" />
-                      <p>{getFileName(file)}</p>
-                    </div>
-                  : null))
-                }
+                { this.state.contentsReact }
               </Grid.Column>
             </Grid.Row>
           </Grid>
