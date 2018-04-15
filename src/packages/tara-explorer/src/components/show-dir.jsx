@@ -17,6 +17,7 @@ import { updateDir as chdir, selectFile, deselectFile } from "../actions";
 
 // Promisify stat
 const stat = promisify(fsStat);
+const readdirAsync = promisify(readdir);
 
 // NOTE: From https://stackoverflow.com/questions/1828613/check-if-a-key-is-down
 const keys = {};
@@ -90,16 +91,32 @@ export default class Dir extends Component {
    * Handle mapping files to react components
    * @returns {void}
    */
-  componentDidMount() {
-    this.setState({
-      ...this.state,
-      contentsReact: this.state.contents.map(async file => {
-        const [err, fileStat] = await catchAwaitErr(stat(file));
-        if (err) {
-          throw err;
+  async componentDidMount() {
+    try {
+      // Get files
+      const files = await readdirAsync(this.props.match.params.dir);
+      // Mapper
+      const filesReactMapper = async file => {
+        let fileStat;
+        try {
+          fileStat = await stat(join(this.props.match.params.dir, file));
+        } catch (err) {
+          console.error(err.stack);
+          return;
+          //throw err;
         }
-        console.log(fileStat);
         if (fileStat.isDirectory()) {
+          // Handle double click
+          console.log("Adding double click event for #" + normalise(file));
+          jquery(`#${normalise(file)} span`).dblclick(() => {
+            console.log("Detected double click event");
+            //const newDir = join(this.props.match.params.dir, file);
+            //process.chdir(newDir);
+            //this.props.dispatch(deselectFile(normalise(file)));
+            //global.explorerHistory.push(`/dir/${newDir}`);
+            //this.props.dispatch(chdir(newDir));
+          });
+          // React code
           return (
             <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file))} onClick={this.handleOnClick(normalise(file))}>
               <FontAwesome name="folder" />
@@ -114,10 +131,29 @@ export default class Dir extends Component {
             </div>
           );
         } else {
-          throw new Error(`File ${file} is neither a directory or file!`)
+          throw new Error(`File ${file} is neither a directory or file!`);
         }
-      })
-    });
+      };
+      // Create grid
+      files.forEach(async file => {
+        try {
+          const fileReact = await filesReactMapper(file);
+          this.setState({
+            ...this.state,
+            contentsReact: [...this.state.contentsReact, fileReact]
+          });
+        } catch (err) {
+          throw err;
+        }
+      });
+      /**console.log(filesReact);
+      this.setState({
+        ...this.state,
+        contentsReact: filesReact
+      });*/
+    } catch (err) {
+      throw err;
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -126,40 +162,26 @@ export default class Dir extends Component {
       props.dispatch(chdir(props.match.params.dir));
     }
     // Get dirs
-    this.getFiles(props.match.params.dir);
+    // this.getFiles(props.match.params.dir);
   }
   /**
    * Gets files in a dir & sets it to state
    * @param {String} dir dir to look
    * @returns {undefined} Nothing
    */
-  getFiles(dir) {
-    readdir(dir, async (err, files) => {
-      if (err) {
-        throw err;
-      } else {
-        this.setState({
-          ...this.state,
-          contents: files,
-          dir: dir
-        });
-        // Check for double click
-        for (let file of files) {
-          const fileStat = await stat(join(dir, file));
-          if (fileStat.isDirectory()) {
-            jquery(`#${normalise(file)}`).dblclick(() => {
-              const newDir = join(this.props.dir.dir, file);
-              process.chdir(newDir);
-              this.props.dispatch(deselectFile(normalise(file)));
-              global.explorerHistory.push(`/dir/${newDir}`);
-              this.props.dispatch(chdir(newDir));
-            });
-          } else {
-            // Handle file opening
-          }
-        }
-      }
-    });
+  async getFiles(dir) {
+    try {
+      const files = await readdirAsync(dir);
+      //debugger;
+      //this.setState({
+      //  ...this.state,
+      //  contents: files,
+      //  dir: dir
+      //});
+      return files;
+    } catch (err) {
+      throw err;
+    }
   }
   /**
    * Handle the onClick event

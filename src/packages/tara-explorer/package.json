@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "cd ../.. && npm test",
-    "build": "babel src -d lib -s"
+    "build": "babel src -d lib -s",
+    "watch": "babel --watch src -d lib -s"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
   "dependencies": {
     "await-to-js": "^2.0.1",
     "camelcase": "^4.1.0",
+    "ffi": "git+https://github.com/node-ffi/node-ffi.git",
     "history": "^4.6.1",
     "icon-extractor": "^1.0.3",
     "jquery": "^3.2.1",

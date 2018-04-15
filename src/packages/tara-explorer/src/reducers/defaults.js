@@ -5,7 +5,7 @@ import { homedir } from "os";
 import { join } from "path";
 
 export const dir = {
-  dir: homedir()
+  dir: "C:\\" // homedir()
 };
 
 export const selectedFiles = [];

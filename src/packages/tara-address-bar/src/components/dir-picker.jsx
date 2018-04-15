@@ -37,10 +37,10 @@ export default class DirPicker extends Component {
    */
   handleClick() {
     if (this.state.changeTo) {
-      this.setState({
-        ...this.state,
-        urlPicked: true
-      });
+      //this.setState({
+      //  ...this.state,
+      //  urlPicked: true
+      //});
       this.props.setDir(this.state.changeTo);
     }
   }

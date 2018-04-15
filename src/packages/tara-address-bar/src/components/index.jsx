@@ -32,9 +32,10 @@ export default class TaraAddressBar extends Component {
    * @returns {undefined} Nothing
    */
   changeDir(dir) {
+    console.log("Chdir....");
     this.props.tara.getPlugin("tara-explorer")
       .then((explorer) => this.props.dispatch(explorer.actions.updateDir(dir)));
-    global.explorerHistory.push(`/dir/${dir}`);
+    global.explorerHistory.push(`/explorer/dir/${dir}`);
     this.setState({
       picker: null
     });

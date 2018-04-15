@@ -3,6 +3,12 @@
   "configurations": [
     {
       "type": "node",
+      "request": "attach",
+      "name": "Attach",
+      "port": 5858
+    },
+    {
+      "type": "node",
       "request": "launch",
       "name": "Electron Main",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron-forge-vscode-nix",

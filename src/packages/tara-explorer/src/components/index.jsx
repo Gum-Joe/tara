@@ -34,7 +34,7 @@ export default class Explorer extends Component {
           </Route>
           <Switch>
             <Route path="/default-page"><DefaultPage /></Route>
-            <Route path="/dir/home"><HomeDir /></Route>
+            { /* <Route path="/dir/home"><HomeDir /></Route> */ }
             <Route path="/dir/:dir" component={Browser} />
           </Switch>
         </div>

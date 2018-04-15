@@ -9,6 +9,11 @@ module.exports = {
     rules: [
      { test: /\.jsx?$/, loader: "babel-loader" },
      { test: /\.js$/, loader: "babel-loader" },
+     {
+       test: /\.jsx?$/,
+       use: ["source-map-loader"],
+       enforce: "pre"
+     }
     ]
   },
   stats: "minimal",
