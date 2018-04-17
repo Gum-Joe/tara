@@ -87,75 +87,15 @@ export default class Dir extends Component {
     };
     props.dispatch(chdir(props.match.params.dir));
   }
-  /**
-   * Handle mapping files to react components
-   * @returns {void}
-   */
   async componentDidMount() {
     try {
-      // Get files
-      const files = await readdirAsync(this.props.match.params.dir);
-      // Mapper
-      const filesReactMapper = async file => {
-        let fileStat;
-        try {
-          fileStat = await stat(join(this.props.match.params.dir, file));
-        } catch (err) {
-          console.error(err.stack);
-          return;
-          //throw err;
-        }
-        if (fileStat.isDirectory()) {
-          // Handle double click
-          console.log("Adding double click event for #" + normalise(file));
-          jquery(`#${normalise(file)} span`).dblclick(() => {
-            console.log("Detected double click event");
-            //const newDir = join(this.props.match.params.dir, file);
-            //process.chdir(newDir);
-            //this.props.dispatch(deselectFile(normalise(file)));
-            //global.explorerHistory.push(`/dir/${newDir}`);
-            //this.props.dispatch(chdir(newDir));
-          });
-          // React code
-          return (
-            <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file))} onClick={this.handleOnClick(normalise(file))}>
-              <FontAwesome name="folder" />
-              <p>{getFileName(file)}</p>
-            </div>
-          );
-        } else if (!fileStat.isDirectory()) {
-          return (
-            <div data-file={join(this.props.match.params.dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
-              <FontAwesome name="file" />
-              <p>{getFileName(file)}</p>
-            </div>
-          );
-        } else {
-          throw new Error(`File ${file} is neither a directory or file!`);
-        }
-      };
-      // Create grid
-      files.forEach(async file => {
-        try {
-          const fileReact = await filesReactMapper(file);
-          this.setState({
-            ...this.state,
-            contentsReact: [...this.state.contentsReact, fileReact]
-          });
-        } catch (err) {
-          throw err;
-        }
-      });
-      /**console.log(filesReact);
-      this.setState({
-        ...this.state,
-        contentsReact: filesReact
-      });*/
+      await this.generateReactGrid(this.props.match.params.dir);
+      global.explorerGenReactGrid = this.generateReactGrid.bind(this);
     } catch (err) {
+      console.error(err.stack);
       throw err;
     }
   }
-
   componentWillReceiveProps(props) {
     // Update dir
     if (props.dir.dir !== props.match.params.dir) {
@@ -165,20 +105,91 @@ export default class Dir extends Component {
     // this.getFiles(props.match.params.dir);
   }
   /**
-   * Gets files in a dir & sets it to state
-   * @param {String} dir dir to look
-   * @returns {undefined} Nothing
+   * Handle mapping files to react components
+   * @param {String} dir Direactory to generate files for
+   * @returns {void}
    */
-  async getFiles(dir) {
+  async generateReactGrid(dir) {
     try {
+      if (typeof dir !== "string") {
+        throw new TypeError("Directory was not specified!");
+      }
+      console.log(`DEBUG: Generating grid for dir ${dir}`);
+      // Clear state
+      this.setState({
+        ...this.state,
+        contentsReact: []
+      });
+      // Get files
       const files = await readdirAsync(dir);
-      //debugger;
-      //this.setState({
-      //  ...this.state,
-      //  contents: files,
-      //  dir: dir
-      //});
-      return files;
+      // Mapper
+      const filesReactMapper = async file => {
+        let fileStat;
+        try {
+          fileStat = await stat(join(dir, file));
+        } catch (err) {
+          console.error(err.stack);
+          return;
+          //throw err;
+        }
+        if (fileStat.isDirectory()) {
+          // Handle double click
+          console.log(`Adding double click event for #${normalise(file)}`);
+          jquery(`#${normalise(file)}`).dblclick(() => {
+            console.log("Detected double click event");
+            //const newDir = join(this.props.match.params.dir, file);
+            //process.chdir(newDir);
+            //this.props.dispatch(deselectFile(normalise(file)));
+            //global.explorerHistory.push(`/dir/${newDir}`);
+            //this.props.dispatch(chdir(newDir));
+          });
+          // React code
+          const reactCode = (
+            <div data-file={join(dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file))} onClick={this.handleOnClick(normalise(file))}>
+              <FontAwesome name="folder" />
+              <p>{getFileName(file)}</p>
+            </div>
+          );
+          console.log(`Adding react code for ${normalise(file)}`);
+          this.setState({
+            ...this.state,
+            contentsReact: [...this.state.contentsReact, reactCode]
+          });
+          return reactCode;
+        } else if (!fileStat.isDirectory()) {
+          const reactCode = (
+            <div data-file={join(dir, file)} id={normalise(file)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file))}>
+              <FontAwesome name="file" />
+              <p>{getFileName(file)}</p>
+            </div>
+          );
+          console.log(`Adding react code for ${normalise(file)}`);
+          this.setState({
+            ...this.state,
+            contentsReact: [...this.state.contentsReact, reactCode]
+          });
+          return reactCode;
+        } else {
+          throw new Error(`File ${file} is neither a directory or file!`);
+        }
+      };
+      // Create grid
+      files.forEach(async file => {
+        try {
+          const fileReact = await filesReactMapper(file);
+          //this.setState({
+          //  ...this.state,
+          //  contentsReact: [...this.state.contentsReact, fileReact]
+          //});
+        } catch (err) {
+          throw err;
+        }
+      });
+      /**console.log(filesReact);
+      this.setState({
+        ...this.state,
+        contentsReact: filesReact
+      });*/
     } catch (err) {
       throw err;
     }
