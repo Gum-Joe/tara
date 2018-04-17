@@ -25,7 +25,7 @@
   "homepage": "https://github.com/Gum-Joe/tara#readme",
   "tara": {
     "type": "plugin",
-    "client": "lib/containers/index.js",
+    "client": "lib/components/index.js",
     "reducers": "lib/reducers/index.js"
   },
   "dependencies": {

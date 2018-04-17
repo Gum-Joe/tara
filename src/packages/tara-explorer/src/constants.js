@@ -6,6 +6,8 @@ export const TARA_GET_DIR = "TARA_GET_DIR";
 export const EXPLORER_SEND_DIR = "EXPLORER_SEND_DIR";
 export const EXPLORER_SELECT_FILE = "EXPLORER_SELECT_FILE";
 export const EXPLORER_DESELECT_FILE = "EXPLORER_DESELECT_FILE";
+export const EXPLORER_TYPE_DIR = "dir";
+export const EXPLORER_TYPE_FILE = "file";
 
 export default {
   TARA_UPDATE_DIR,
