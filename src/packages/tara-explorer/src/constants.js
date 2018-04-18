@@ -8,6 +8,7 @@ export const EXPLORER_SELECT_FILE = "EXPLORER_SELECT_FILE";
 export const EXPLORER_DESELECT_FILE = "EXPLORER_DESELECT_FILE";
 export const EXPLORER_TYPE_DIR = "dir";
 export const EXPLORER_TYPE_FILE = "file";
+export const EXPLORER_TYPE_UNKNOWN = "unknown";
 
 export default {
   TARA_UPDATE_DIR,
