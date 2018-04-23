@@ -22,7 +22,27 @@ window.onkeyup = event => keys[event.keyCode] = false;
 window.onkeydown = event => keys[event.keyCode] = true;
 
 /**
- * Normalises a Filename
+ * Truncates a filename if nescessary
+ * @param {String} file Filename to truncate
+ * @returns {String} Filename, truncated
+ */
+function truncateName(file) {
+  const TRIM_LENGTH = 10;
+  const TRIM_CAPS_LENGTH = 7;
+  if (file.length > TRIM_LENGTH) {
+    if (file.substring(0, TRIM_LENGTH).toUpperCase() === file.substring(0, TRIM_LENGTH)) {
+      // Caps
+      return `${file.substring(0, TRIM_CAPS_LENGTH)}...`;
+    } else {
+      return `${file.substring(0, TRIM_LENGTH)}...`;
+    }
+  } else {
+    return file;
+  }
+}
+
+/**
+ * Normalises/sanitises a Filename
  * @param {String} filename File path to normalize
  * @returns {String} Normalised file name
  */
@@ -62,20 +82,30 @@ export default class Files extends Component {
       files: [], // [{ name: x, type: TARA_EXPLORER_DIR/TARA_EXPLORER_FILE }]
     }
   }
+
   componentDidMount() {
-    this.getFiles();
+    this.getFiles(this.props.dir);
+    // Assign global method to refresh
+    global.explorerRefresh = async (dir) => {
+      this.getFiles(dir);
+    }
   }
   
-  async getFiles() {
+  /**
+   * Gets and sets the files list
+   * @param {String} dir Directory to index
+   * @returns {Promise} Async/await promise
+   */
+  async getFiles(dir) {
     // Create files list & grid
     const dirsWithMeta = [];
     const filesWithMeta = [];
     try {
-      const files = await readdirAsync(this.props.dir); // Get files list
+      const files = await readdirAsync(dir); // Get files list
       // Get meta data for each
       for (const file of files) {
         try {
-          const info = await statAsync(join(this.props.dir, file));
+          const info = await statAsync(join(dir, file));
           if (info.isDirectory()) {
             dirsWithMeta.push({
             name: file,
@@ -148,16 +178,24 @@ export default class Files extends Component {
                   this.state.files.map(file => {
                     if (file.type === EXPLORER_TYPE_DIR) {
                       return (
-                        <div data-file={join(this.props.dir, file.name)} id={normalise(file.name)} role="presentation" className="file-wrapper" onContextMenu={this.handleOnClick(normalise(file.name))} onClick={this.handleOnClick(normalise(file.name))}>
+                        <div
+                          data-file={join(this.props.dir, file.name)}
+                          id={normalise(file.name)}
+                          role="presentation"
+                          className="file-wrapper"
+                          onContextMenu={this.handleOnClick(normalise(file.name))}
+                          onClick={this.handleOnClick(normalise(file.name))}
+                          onDoubleClick={() => { this.props.dispatch(chdir(join(this.props.dir, file.name))); global.explorerRefresh(join(this.props.dir, file.name)); }}
+                        >
                           <FontAwesome name="folder" />
-                          <p>{file.name}</p>
-                        </div>
+                          <p>{truncateName(file.name)}</p>
+                        </div> 
                       );
                     } else if (file.type === EXPLORER_TYPE_FILE) {
                       return (
                         <div data-file={join(this.props.dir, file.name)} id={normalise(file.name)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file.name))}>
                           <FontAwesome name="file" />
-                          <p>{file.name}</p>
+                          <p>{truncateName(file.name)}</p>
                         </div>
                       );
                     } else {

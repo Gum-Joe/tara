@@ -7,7 +7,7 @@ import { join } from "path";
 export const dir = {
   // Controls the default dir to open
   // Should be config.user.openTo
-  dir: homedir()
+  dir: "C:\\" // homedir()
 };
 
 export const selectedFiles = [];
