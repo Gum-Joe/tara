@@ -6,7 +6,7 @@
 
 // Address bar
 .tara-address-bar {
-  @include background-opacity($accent-address-bar, $address-bar-opacity);
+  //@include background-opacity($accent-address-bar, $address-bar-opacity);
   text-align: center;
   .current-dir {
     display: inline-block;
@@ -34,9 +34,10 @@
 
   // Address bar picker styles
   .address-bar-picker {
-    height: 30px;
     margin-top: -2px;
     width: 80%;
+    border: solid 1px $address-bar-border-colour;
+    border-radius: 10px;
     input {
       @include background-opacity($accent-address-bar, $address-bar-picker-opacity);
       color: $accent-text-colour;
@@ -50,15 +51,16 @@
       color: $accent-text-colour;
     }
     .address-bar-button {
-      @include background-opacity($accent, $address-bar-picker-button-opacity);
+      @include background-opacity($accent-address-bar, $address-bar-picker-button-opacity);
+
       color: $accent-text-colour;
       padding-top: 8.5px !important;
     }
     .address-bar-button:hover {
-      @include background-opacity($accent, $address-bar-picker-button-opacity-hover);
+      @include background-opacity($accent-address-bar, $address-bar-picker-button-opacity-hover);
     }
     .address-bar-button:active {
-      @include background-opacity($accent, $address-bar-picker-button-opacity-active);
+      @include background-opacity($accent-address-bar, $address-bar-picker-button-opacity-active);
     }
   }
 }

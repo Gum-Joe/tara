@@ -136,7 +136,7 @@ export default class Tara extends Component {
   render() {
     return (
       <Theme>
-        <div>
+        <div className="tara-div-roots">
           { createFragment(this.props.layout.rendered) }
         </div>
       </Theme>

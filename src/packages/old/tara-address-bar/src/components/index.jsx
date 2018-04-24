@@ -21,9 +21,15 @@ export default class TaraAddressBar extends Component {
     // Handle action click
     jquery(".tara-address-bar .fa-arrow-left").click(() => {
       global.explorerHistory.goBack();
+      global.explorerGenReactGrid(global.explorerHistory.location.pathname.splice(15));
+      this.props.tara.getPlugin("tara-explorer")
+        .then((explorer) => this.props.dispatch(explorer.actions.updateDir(global.explorerHistory.location.pathname.splice(15))));
     });
     jquery(".tara-address-bar .fa-arrow-right").click(() => {
       global.explorerHistory.goForward();
+      global.explorerGenReactGrid(global.explorerHistory.location.pathname.splice(15));
+      this.props.tara.getPlugin("tara-explorer")
+        .then((explorer) => this.props.dispatch(explorer.actions.updateDir(global.explorerHistory.location.pathname.splice(15))));
     });
   }
   /**
@@ -32,10 +38,11 @@ export default class TaraAddressBar extends Component {
    * @returns {undefined} Nothing
    */
   changeDir(dir) {
-    console.log("Chdir....");
+    console.log(`Chdir ${dir}....`);
     this.props.tara.getPlugin("tara-explorer")
       .then((explorer) => this.props.dispatch(explorer.actions.updateDir(dir)));
     global.explorerHistory.push(`/explorer/dir/${dir}`);
+    global.explorerGenReactGrid(dir);
     this.setState({
       picker: null
     });

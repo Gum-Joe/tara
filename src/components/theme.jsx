@@ -19,7 +19,7 @@ export default class Theme extends Component {
 
     render() {
         return (
-            <div>
+            <div className="tara-div-roots">
                 <style>
                     { this.props.theme.css }
                 </style>
