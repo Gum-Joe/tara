@@ -30,7 +30,7 @@ export default class AddressBar extends Component {
           ...this.state,
           display: true,
           newDir: this.props.dir,
-        })
+        });
       }
     };
     document.body.addEventListener("click", offClickListener, true);

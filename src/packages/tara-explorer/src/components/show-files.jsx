@@ -123,7 +123,8 @@ export default class Files extends Component {
           // Some files the stats can't be read i.e. system files
           // so the program errors
           if (err.code !== "EBUSY") {
-            throw err;
+            continue; // Unable to throw error as loop locks up
+            // throw err;
           } else {
             // Stick a question mark
             filesWithMeta.push({
@@ -199,7 +200,12 @@ export default class Files extends Component {
                         </div>
                       );
                     } else {
-                      
+                      return (
+                        <div data-file={join(this.props.dir, file.name)} id={normalise(file.name)} role="presentation" className="file-wrapper" onClick={this.handleOnClick(normalise(file.name))}>
+                          <FontAwesome name="question-circle " />
+                          <p>{truncateName(file.name)}</p>
+                        </div>
+                      );
                     }
                   })
                 }
