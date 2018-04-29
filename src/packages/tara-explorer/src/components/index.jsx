@@ -11,9 +11,9 @@ export default class Explorer extends Component {
   render() {
     return (
       <Provider store={global.store}>
-        <div>
-          <AddressBar dir={this.props.dir.dir} dispatch={this.props.dispatch} />
-          <Files fs dir={this.props.dir.dir} dispatch={this.props.dispatch} />
+        <div className="tara-explorer-wrapper">
+          <AddressBar dir={this.props.dir} dispatch={this.props.dispatch} />
+          <Files fs dir={this.props.dir.present.dir} dispatch={this.props.dispatch} />
         </div>
       </Provider>
     )

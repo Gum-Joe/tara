@@ -10,6 +10,9 @@ $file-width: map-get($file-wrapper-spacing, accross) * $zoom-level + $icon-base 
   @include background-opacity($accent-explorer, $explorer-opacity);
   @include maximise;
   overflow-y: scroll;
+  .tara-explorer-wrapper {
+    margin-top: -20px;
+  }
   .file-wrapper {
     display: inline-block;
     margin-top: map-get($file-wrapper-spacing, down) * $zoom-level;

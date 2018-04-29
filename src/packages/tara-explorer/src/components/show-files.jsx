@@ -101,6 +101,10 @@ export default class Files extends Component {
     const dirsWithMeta = [];
     const filesWithMeta = [];
     try {
+      if (typeof dir !== "string") {
+        throw new TypeError(`Expected a string for dir param, but got ${dir} of type ${typeof dir}`);
+      }
+
       const files = await readdirAsync(dir); // Get files list
       // Get meta data for each
       for (const file of files) {
@@ -135,7 +139,7 @@ export default class Files extends Component {
         }
       }
     } catch (err) {
-      console.error(`An error occured in the tara-explorer when getting the files list: ${err}`);
+      console.error(`An error occured in the tara-explorer when getting the files list:\n ${err.stack}`);
       throw err;
     } finally {
       // Update state

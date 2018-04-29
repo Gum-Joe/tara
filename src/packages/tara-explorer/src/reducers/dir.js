@@ -1,8 +1,10 @@
 /**
  * @overview Dir reducer.  Stores dir as dir: {string}
  */
-import { TARA_UPDATE_DIR } from "../constants";
+import ReduxUndo from "redux-undo";
+import { TARA_UPDATE_DIR, TARA_DIR_BACK, TARA_DIR_FORWARD } from "../constants";
 import { dir as defaultState } from "./defaults";
+import undoable from "redux-undo";
 
 /**
  * Dir reducer.
@@ -17,15 +19,17 @@ import { dir as defaultState } from "./defaults";
  * @param {Object} action Action object
  */
 
-export default (state = defaultState, action) => {
+const reducer = (state = defaultState, action) => {
   switch (action.type) {
   case TARA_UPDATE_DIR:
     return {
       ...state,
-      dir: action.dir
+      dir: action.dir,
     };
     break;
   default:
     return state;
   }
 };
+
+export default undoable(reducer);
