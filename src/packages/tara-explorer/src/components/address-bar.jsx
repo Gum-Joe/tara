@@ -26,14 +26,15 @@ export default class AddressBar extends Component {
 
     // Handle off click
     const offClickListener = (event) => {
+      event.preventDefault();
       if (!event.target.parentElement.className.includes("address-bar-picker") && !event.target.parentElement.className.includes("address-bar-button")) {
         // Off clicked
-        document.body.removeEventListener("click", offClickListener, true);
         this.setState({
           ...this.state,
           display: true,
           newDir: this.props.dir.present.dir,
         });
+        // document.body.removeEventListener("click", offClickListener, true);
       }
     };
     document.body.addEventListener("click", offClickListener, true);
@@ -50,7 +51,7 @@ export default class AddressBar extends Component {
   }
   render() {
     return (
-      <div className="tara-address-bar">
+      <div className={`tara-address-bar ${this.state.display ? "" : "tara-address-bar-active"}`}>
         <FontAwesome name="arrow-left" onClick={() => { this.props.dispatch(ActionCreators.undo()); global.explorerRefresh(this.props.dir.past[this.props.dir.past.length - 1].dir); }} />
         <FontAwesome name="arrow-right" onClick={() => { this.props.dispatch(ActionCreators.redo()); global.explorerRefresh(this.props.dir.future[this.props.dir.future.length - 1].dir); }} />
         {
