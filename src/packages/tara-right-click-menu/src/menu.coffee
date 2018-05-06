@@ -6,7 +6,7 @@
 { Menu, MenuItem, remote } = require "electron" if typeof window == "undefined"
 { join } = require "path"
 { eachSeries } = require "async"
-{ TARA_CONFIG_DBS } = require "../../../renderer/constants"
+{ TARA_CONFIG_DBS } = require "tara-core/lib/constants.js"
 DB = require "nedb"
 if typeof window != "undefined"
   { remote } = require "electron"

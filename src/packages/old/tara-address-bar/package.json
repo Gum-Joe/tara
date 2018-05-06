@@ -1,0 +1,23 @@
+{
+  "name": "tara-address-bar",
+  "main": "lib/index.js",
+  "version": "0.1.0",
+  "tara": {
+    "type": "plugin",
+    "client": "lib/containers/index.js"
+  },
+  "scripts": {
+    "build": "babel src -d lib -s"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-fontawesome": "^1.6.1",
+    "react-redux": "^5.0.5",
+    "semantic-ui-react": "^0.68.5"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  }
+}

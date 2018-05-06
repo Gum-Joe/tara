@@ -4,10 +4,15 @@
  */
 import { ipcMain } from "electron";
 import { join } from "path";
-import Tara from "../../../renderer/boot/plugin-init";
+import { PluginInit as Tara } from "tara-core";
 import { FILE_OPS_GET_FILES, FILE_OPS_SEND_FILE_LIST_ITEM, FILE_OPT_OPEN_WINDOW } from "./constants";
 import getFiles from "./get-files";
 import load_window from "./window";
+
+interface FilesOBJ {
+  files: string[];
+  dest: string;
+}
 
 // Items
 const items = [
@@ -20,23 +25,26 @@ const items = [
   { label: "Delete", click: join(__dirname, "delete.ts"), id: 6 },
 ];
 
-export function main(tara: Tara) {
+export async function main(tara: Tara) {
   tara.logger.debug("Loading menu items...");
-  tara.getPlugin("tara-right-click-menu")
-    .then((api) => api.createMenu("explorer-files"))
-    .then(async (menu) => {
-      for (let item of items) {
-        await menu.append(item);
-      }
-    });
+  try {
+    const api = await tara.getPlugin("tara-right-click-menu");
+    const menu = api.createMenu("explorer-files");
+    for (let item of items) {
+      menu.append(item);
+    }
+  } catch (err) {
+    console.error(err.stack);
+    throw err;
+  }
 
   // Listeners
-  ipcMain.on(FILE_OPT_OPEN_WINDOW, (event) => {
+  ipcMain.on(FILE_OPT_OPEN_WINDOW, (event: Event) => {
     event.preventDefault();
     load_window(tara);
   });
 
-  ipcMain.on(FILE_OPS_GET_FILES, (event, files) => {
+  ipcMain.on(FILE_OPS_GET_FILES, (event: Electron.Event, files: FilesOBJ) => {
     event.preventDefault();
     getFiles(event, files.files, files.dest, "", (filesIndex, totalSizeBytes) => {
       event.sender.send(FILE_OPS_SEND_FILE_LIST_ITEM, {

@@ -2,7 +2,7 @@
  * @overview Container for app
  */
 import { connect } from "react-redux";
-import Tara from "../components/app";
+import Tara from "../components/app.jsx";
 
 const mapStateToProps = (state) => {
   return state;

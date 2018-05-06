@@ -1,10 +1,13 @@
 {
   "version": 3,
   "file": "api.js",
-  "sourceRoot": "",
+  "sourceRoot": "..",
   "sources": [
-    "..\\src\\api.coffee"
+    "src\\api.coffee"
   ],
   "names": [],
-  "mappings": ";AACA;;;;;AAAA;AAAA,MAAA;;EAIA,IAAA,GAAO,OAAA,CAAQ,QAAR;;EAEP,MAAM,CAAC,OAAP,GAAiB;;AACf;;;;;IAKA,UAAA,EAAY,CAAA,SAAA,KAAA;aAAA,SAAC,IAAD;eAAU,IAAI,IAAJ,CAAS,IAAT;MAAV;IAAA,CAAA,CAAA,CAAA,IAAA,CANG;;AANjB"
+  "mappings": ";AAAA;EAAA;;;;;AAAA,MAAA;;EAKA,IAAA,GAAO,OAAA,CAAQ,QAAR;;EAEP,MAAM,CAAC,OAAP,GAAiB,CAAA;;;;;;IAMf,UAAA,EAAY,QAAA,CAAC,IAAD,CAAA;aAAU,IAAI,IAAJ,CAAS,IAAT;IAAV;EANG;AAPjB",
+  "sourcesContent": [
+    "# out: ../lib/api.js, sourcemap: true\r\n###\r\n# @overview Api for context menu\r\n# @module tara-right-click-menu\r\n###\r\nMenu = require \"./menu\"\r\n\r\nmodule.exports = {\r\n  ###\r\n  # Create a menu\r\n  # @param {String} name Name of menu\r\n  # @returns {Menu} Tara Menu class\r\n  ###\r\n  createMenu: (name) -> new Menu(name)\r\n}\r\n"
+  ]
 }

@@ -6,7 +6,8 @@
 
 // Address bar
 .tara-address-bar {
-  @include background-opacity($accent-address-bar, $address-bar-opacity);
+  // @include background-opacity($accent-address-bar, $address-bar-opacity);
+  height: 38px; // Keep height constant so the picker doesn't push the files grid down when activated
   text-align: center;
   .current-dir {
     display: inline-block;
@@ -19,8 +20,9 @@
     left: 9px;
     padding: 7px;
     position: absolute;
-    top: 8px;
+    // top: 8px;
     width: 30px;
+    margin-top: 3.1px;
   }
   .fa:hover {
     @include background-opacity($accent-address-bar, $address-bar-icons-opacity-hover);
@@ -34,9 +36,10 @@
 
   // Address bar picker styles
   .address-bar-picker {
-    height: 30px;
     margin-top: -2px;
     width: 80%;
+    border: solid 1px $address-bar-border-colour;
+    border-radius: 10px;
     input {
       @include background-opacity($accent-address-bar, $address-bar-picker-opacity);
       color: $accent-text-colour;
@@ -50,15 +53,21 @@
       color: $accent-text-colour;
     }
     .address-bar-button {
-      @include background-opacity($accent, $address-bar-picker-button-opacity);
+      @include background-opacity($accent-address-bar, $address-bar-picker-button-opacity);
+
       color: $accent-text-colour;
       padding-top: 8.5px !important;
     }
     .address-bar-button:hover {
-      @include background-opacity($accent, $address-bar-picker-button-opacity-hover);
+      @include background-opacity($accent-address-bar, $address-bar-picker-button-opacity-hover);
     }
     .address-bar-button:active {
-      @include background-opacity($accent, $address-bar-picker-button-opacity-active);
+      @include background-opacity($accent-address-bar, $address-bar-picker-button-opacity-active);
     }
   }
+}
+
+// Class for when the picker (textbox) is in use
+.tara-address-bar-active {
+  margin-top: 25px;
 }

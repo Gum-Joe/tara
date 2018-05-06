@@ -10,7 +10,7 @@
       "ordered-imports": false,
       "member-ordering": true,
       "no-console": false,
-      "max-line-length": false
+      "no-var-requires": false
     },
     "rulesDirectory": []
 }

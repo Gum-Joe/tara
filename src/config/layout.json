@@ -1,21 +1,4 @@
 {
-  "horizontal": {
-    "down": {
-      "module": "tara-explorer",
-      "name": "explorer",
-      "contents": {
-        "module": "tara-explorer",
-        "name": "explorer"
-      }
-    },
-    "up": {
-      "contents": {
-        "module": "tara-address-bar"
-      },
-      "name": "tara-address-bar",
-      "height": 45,
-      "minHeight": 45,
-      "maxHeight": 45
-    }
-  }
+  "module": "tara-explorer",
+  "name": "explorer"
 }

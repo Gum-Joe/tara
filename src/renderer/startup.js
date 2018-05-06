@@ -2,9 +2,9 @@
  * @overview Runs startup scripts, such as plugin load & updater
  */
 import { series } from "async";
-import Logger from "./logger";
+import Logger from "../packages/tara-core/src/logger";
 import { genLayout, loadPlugins, mainProcess, loadProtocols } from "./boot";
-import { PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION } from "./constants";
+import { PLUGIN_CONFIG, PLUGIN_LOCATION, PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION } from "../packages/tara-core/src/constants";
 
 const logger = new Logger({
   name: "startup"

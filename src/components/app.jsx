@@ -1,5 +1,6 @@
 /**
  * @overview Tara's main react entry point for components
+ * Sets up layout
  */
 import React, { Component } from "react";
 import createFragment from "react-addons-create-fragment";
@@ -9,9 +10,13 @@ import jquery from "jquery";
 import Panel from "./panel";
 import { updateLayoutConfig, updateLayoutRender, addPlugin } from "../actions";
 import Module from "./module";
-import { PLUGIN_CONFIG, PLUGIN_LOCATION } from "../renderer/constants";
+import { PLUGIN_CONFIG, PLUGIN_LOCATION } from "../packages/tara-core/src/constants";
+import Theme from "../containers/theme";
+
+const requireFoolWebpack = require("require-fool-webpack");
+
 // Plugin config file
-const plugins = require(PLUGIN_CONFIG);
+const plugins = requireFoolWebpack(PLUGIN_CONFIG);
 
 /**
  * Tara entry point
@@ -31,7 +36,7 @@ export default class Tara extends Component {
     for (let plugin in plugins.dependencies) {
       if (plugins.dependencies.hasOwnProperty(plugin)) {
         // Require
-        const pluginJSON = require(join(PLUGIN_LOCATION, plugin, "package.json"));
+        const pluginJSON = requireFoolWebpack(join(PLUGIN_LOCATION, plugin, "package.json"));
         // ...and store
         this.props.dispatch(addPlugin(pluginJSON));
       }
@@ -46,11 +51,11 @@ export default class Tara extends Component {
     /**
      * Children function
      * @description Reurns children to render (panels)
-     * @param layout {Object} Layout config
-     * @param type {String} Type of split
-     * @return {Object}
-     * @return children {Object} Children of panel
-     * @return params {Object} Params for panel
+     * @param {Object} layout Layout config
+     * @param {String} type Type of split
+     * @returns {Object}
+     * @returns {Object} children Children of panel
+     * @returns {Object} params Params for panel
      */
     const children = (layout, type) => {
       if (layout.hasOwnProperty("vertical") || layout.hasOwnProperty("horizontal")) {
@@ -105,8 +110,9 @@ export default class Tara extends Component {
 
     /**
      * Gets split to do
-     * @param children {Function} Function that returns what to put in panel
-     * @param config {Object} Layout config
+     * @param {Function} children Function that returns what to put in panel
+     * @param {Object} config Layout config
+     * @returns {Object} Panel JSX or the children of the panel
      */
     const getSplit = (children, config) => {
       if (config.hasOwnProperty("vertical")) {
@@ -129,9 +135,11 @@ export default class Tara extends Component {
 
   render() {
     return (
-      <div>
-        { createFragment(this.props.layout.rendered) }
-      </div>
+      <Theme>
+        <div className="tara-div-roots">
+          { createFragment(this.props.layout.rendered) }
+        </div>
+      </Theme>
     );
   }
 }

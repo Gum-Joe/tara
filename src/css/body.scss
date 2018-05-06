@@ -11,7 +11,7 @@ body, h1, h2, h4, h5, h5, h6, p {
 }
 
 // Make divs 100%
-#main, div[data-reactroot] {
+#app, #app .tara-div-roots {
   height: 100%;
   width: 100%;
 }

@@ -4,9 +4,9 @@
  */
 import { app, BrowserWindow } from "electron";
 import { enableLiveReload } from "electron-compile";
-import TaraPlugin from "../../../renderer/boot/plugin-init";
-import { DEV_ENV } from "../../../renderer/constants";
-import installExtensions from "../../../renderer/install-extensions";
+import { PluginInit as TaraPlugin } from "tara-core";
+import { DEV_ENV } from "tara-core/lib/constants";
+import { installExtensions } from "tara-core";
 
 /**
  * Creates copy/delete/move window.

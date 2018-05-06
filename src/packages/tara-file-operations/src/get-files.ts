@@ -6,8 +6,7 @@ import { eachSeries } from "async";
 import * as Electron from "electron";
 import * as fs from "fs";
 import { join, parse } from "path";
-import Tara from "../../../renderer/boot/plugin-init";
-import Logger from "../../../renderer/logger";
+import { Logger, PluginInit as Tara } from "tara-core";
 import { FILE_OPS_SEND_FILE_LIST_ITEM, FileToFrom } from "./constants";
 
 const logger = new Logger({
@@ -22,7 +21,7 @@ const logger = new Logger({
  * @param {Function} callback callback
  * @returns {Array<Object>} Array of object { to: x, from: y } in callback
  */
-export default function getFiles(event: Electron.Event, files: string[], dest: string, append: string = "", callback: (filesArray: Array, totalSizeBytes: number) => void) {
+export default function getFiles(event: Electron.Event, files: string[], dest: string, append: string = "", callback: (filesArray: FileToFrom[], totalSizeBytes: number) => void) {
   logger.debug("Generating list of files...");
   logger.debug(`Files: ${files}`);
   let filesArray: FileToFrom[] = [];
@@ -53,7 +52,7 @@ export default function getFiles(event: Electron.Event, files: string[], dest: s
               // Destiation: original destination + append + parent dir
               // Append is parent dir
               getFiles(event, filesInFolder, join(dest, fileName), "", (filesList, totalSubSize) => {
-                filesArray = Array.concat(filesArray, filesList);
+                filesArray = new Array().concat(filesArray, filesList);
                 totalSizeBytes += totalSubSize;
                 cb();
               });

@@ -5,9 +5,10 @@ import { cyan } from "chalk";
 import fs from "fs";
 import electron from "electron"; // eslint-disable-line
 import path from "path";
+const requireFoolWebpack = require("require-fool-webpack");
 import addEventListeners from "./event-listeners";
-import Logger from "../logger.ts";
-import TaraPlugin from "./plugin-init.ts";
+import Logger from "../../packages/tara-core/src/logger";
+import TaraPlugin from "../../packages/tara-core/src/plugin-init";
 
 const logger = new Logger({
   name: "startup"
@@ -36,13 +37,13 @@ export const startMainProcessPlugins = (plugins, location) => {
     const taraPluginClass = new TaraPlugin(plugin, electron);
     if (plugin.tara.hasOwnProperty("mainProcess")) {
       logger.debug("Using a custom script.");
-      const main = require(path.join(location, plugin.name, plugin.tara.mainProcess));
+      const main = requireFoolWebpack(path.join(location, plugin.name, plugin.tara.mainProcess));
       // Run
       main(taraPluginClass);
     } else {
       fs.access(path.join(location, plugin.name, plugin.main), (err) => {
-        if (!err && require(path.join(location, plugin.name, plugin.main)).hasOwnProperty("main")) {
-          const { main } = require(path.join(location, plugin.name, plugin.main));
+        if (!err && requireFoolWebpack(path.join(location, plugin.name, plugin.main)).hasOwnProperty("main")) {
+          const { main } = requireFoolWebpack(path.join(location, plugin.name, plugin.main));
           // Run
           main(taraPluginClass);
         } else {

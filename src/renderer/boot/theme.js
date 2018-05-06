@@ -5,12 +5,23 @@
 import { blue, green, yellow } from "chalk";
 import fs from "fs";
 import { join, resolve } from "path";
-import Logger from "../logger";
-import { TARA_CONFIG, CONFIG_FILE, THEME_FILE, PLUGIN_LOCATION, PLUGIN_CONFIG, PLUGIN_CORE_LOCATION, PLUGIN_CORE_CONFIG, THEME_FILE_CONTENTS_DEFAULT } from "../constants";
+import Logger from "../../packages/tara-core/src/logger.ts";
+import { 
+  TARA_CONFIG, 
+  CONFIG_FILE, 
+  THEME_FILE, 
+  PLUGIN_LOCATION, 
+  PLUGIN_CONFIG, 
+  PLUGIN_CORE_LOCATION, 
+  PLUGIN_CORE_CONFIG, 
+  THEME_FILE_CONTENTS_DEFAULT
+} from "../../packages/tara-core/src/constants.ts";
 import getPluginPath from "../utils/get-plugin-path";
 
+const requireFoolWebpack = require("require-fool-webpack");
+
 // Config
-const config = require(join(TARA_CONFIG, CONFIG_FILE));
+const config = requireFoolWebpack(join(TARA_CONFIG, CONFIG_FILE));
 
 const logger = new Logger({
   name: "theme"
@@ -52,7 +63,7 @@ export default () => {
     logger.debug(`Old Theme: ${yellow(currentTheme)}`);
     const pluginPath = getPluginPath(config.theme);
     // Get theme entry
-    const pluginPkgJSON = require(join(pluginPath, "package.json"));
+    const pluginPkgJSON = requireFoolWebpack(join(pluginPath, "package.json"));
     const themeFile = join(pluginPath, pluginPkgJSON.tara.theme);
     logger.debug(`Using theme file ${blue(join(themeFile))}.`);
     const newTheme = `${THEME_FILE_CONTENTS_DEFAULT} "${config.theme}"\n@import ${JSON.stringify(themeFile)}\n`;

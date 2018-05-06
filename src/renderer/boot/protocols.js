@@ -6,12 +6,14 @@ import fs from "fs";
 import { join, resolve, normalize } from "path";
 import { app, protocol } from "electron"; // eslint-disable-line
 import sass from "node-sass";
-import { TARA_CONFIG, CONFIG_FILE } from "../constants";
-import Logger from "../logger";
+import { TARA_CONFIG, CONFIG_FILE } from "../../packages/tara-core/src/constants.ts";
+import Logger from "../../packages/tara-core/src/logger.ts";
 import getPluginPath from "../utils/get-plugin-path";
+import compileTheme from "./compile-theme";
+const requireFoolWebpack = require("require-fool-webpack");
 
 // Config
-const config = require(join(TARA_CONFIG, CONFIG_FILE));
+const config = requireFoolWebpack(join(TARA_CONFIG, CONFIG_FILE));
 
 const logger = new Logger({
   name: "protocol"
@@ -26,7 +28,7 @@ function registerTara() {
   logger.debug(`Registering file protocol ${cyan("tara://")}`);
   protocol.registerStandardSchemes(["tara"]);
   app.on("ready", () => {
-    protocol.registerBufferProtocol("tara", (req, callback) => {
+    protocol.registerBufferProtocol("tara", async (req, callback) => {
       // Handle requests
       // TODO: Refactor into a router
       // Hande theme
@@ -35,9 +37,13 @@ function registerTara() {
       logger.debug(`Route: ${cyan(url)}`);
       if (url === "theme.scss/") {
         logger.debug("Theme requested.  Sending...");
+        const theme = await compileTheme();
+        callback({ data: theme.css, mimeType: "text/css" });
+
+        /* Old code:
         const pluginPath = getPluginPath(config.theme);
         // Get theme entry
-        const pluginPkgJSON = require(join(pluginPath, "package.json"));
+        const pluginPkgJSON = requireFoolWebpack(join(pluginPath, "package.json"));
         const themeFile = join(pluginPath, pluginPkgJSON.tara.theme);
         logger.debug(`Using theme file ${blue(join(themeFile))}.`);
         // Compile
@@ -50,14 +56,14 @@ function registerTara() {
           } else {
             callback({ data: result.css, mimeType: "text/css" });
           }
-        });
+        }); */
       } else if (url.split("/")[0] === "plugin") {
         // Plugin requested
         const urlParts = url.split("/");
         const plugin = urlParts[1];
         if (urlParts[2] === "file") {
           // Handle file
-          const fileURLArray = Array.concat(urlParts);
+          const fileURLArray = [...urlParts];
           // Nullifiy parts we don't need
           fileURLArray[0] = "";
           fileURLArray[1] = "";
