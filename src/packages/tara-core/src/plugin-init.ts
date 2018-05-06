@@ -112,37 +112,26 @@ export default class TaraPlugin {
    */
   public static async getPlugin(plugin: string) {
     let location;
-    // HACK: I know it is bad to repeat, but it has to be done here
     if (getPlugins(PLUGIN_CORE_CONFIG, PLUGIN_CORE_LOCATION, "name").includes(plugin)) {
       location = PLUGIN_CORE_LOCATION;
-
-      // Load
-      const pluginJSON = requireFoolWebpack(join(location, plugin, "package.json"));
-      let pluginFile: string;
-      if (pluginJSON.hasOwnProperty("tara") && pluginJSON.tara.hasOwnProperty("api")) {
-        pluginFile = join(location, plugin, pluginJSON.tara.api);
-        // Require it & return
-        return await requireFoolWebpack(pluginFile);
-      } else {
-        pluginFile = join(location, plugin, pluginJSON.main);
-        // Require it & return
-        return await requireFoolWebpack(pluginFile).api;
-      }
     } else if (getPlugins(PLUGIN_CONFIG, PLUGIN_LOCATION, "name").includes(plugin)) {
       location = PLUGIN_LOCATION;
+    } else {
+      // Unable to find plugin
+      throw new Error(`ENOENT: Could not find plugin ${plugin}!`);
+    }
 
-      // Load
-      const pluginJSON = requireFoolWebpack(join(location, plugin, "package.json"));
-      let pluginFile: string;
-      if (pluginJSON.hasOwnProperty("tara") && pluginJSON.tara.hasOwnProperty("api")) {
-        pluginFile = join(location, plugin, pluginJSON.tara.api);
-        // Require it & return
-        return await requireFoolWebpack(pluginFile);
-      } else {
-        pluginFile = join(location, plugin, pluginJSON.main);
-        // Require it & return
-        return await requireFoolWebpack(pluginFile).api;
-      }
+    // Load
+    const pluginJSON = requireFoolWebpack(join(location, plugin, "package.json"));
+    let pluginFile: string;
+    if (pluginJSON.hasOwnProperty("tara") && pluginJSON.tara.hasOwnProperty("api")) {
+      pluginFile = join(location, plugin, pluginJSON.tara.api);
+      // Require it & return
+      return requireFoolWebpack(pluginFile);
+    } else {
+      pluginFile = join(location, plugin, pluginJSON.main);
+      // Require it & return
+      return requireFoolWebpack(pluginFile).api;
     }
   }
 

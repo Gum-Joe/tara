@@ -1,14 +1,15 @@
 /**
  * @overview Entry point for file operations JSX
  */
-import React, { Component } from "react";
+import * as React from "react";
+import { Component } from "react";
 import ReactDOM from "react-dom";
 import { AppContainer } from "react-hot-loader";
-import Header from "../src/components/header";
-import Progress from "../src/components/progress";
+import Header from "./header";
+import Progress from "./progress";
 
 class FileOps extends Component {
-  render() {
+  public render() {
     return (
       <div id="tara-file-operations">
         <Progress />

@@ -5,6 +5,7 @@ import { ActionCreators } from "redux-undo";
 import jquery from "jquery";
 import { Input, Icon, Button } from "semantic-ui-react";
 import { updateDir as chdir, forwardDir as forward, backDir as back } from "../actions";
+import { DH_NOT_SUITABLE_GENERATOR } from "constants";
 
 
 export default class AddressBar extends Component {

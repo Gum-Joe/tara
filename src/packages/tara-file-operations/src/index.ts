@@ -25,15 +25,18 @@ const items = [
   { label: "Delete", click: join(__dirname, "delete.ts"), id: 6 },
 ];
 
-export function main(tara: Tara) {
+export async function main(tara: Tara) {
   tara.logger.debug("Loading menu items...");
-  tara.getPlugin("tara-right-click-menu")
-    .then((api) => api.createMenu("explorer-files"))
-    .then(async (menu) => {
-      for (let item of items) {
-        await menu.append(item);
-      }
-    });
+  try {
+    const api = await tara.getPlugin("tara-right-click-menu");
+    const menu = api.createMenu("explorer-files");
+    for (let item of items) {
+      menu.append(item);
+    }
+  } catch (err) {
+    console.error(err.stack);
+    throw err;
+  }
 
   // Listeners
   ipcMain.on(FILE_OPT_OPEN_WINDOW, (event: Event) => {

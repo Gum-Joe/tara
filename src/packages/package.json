@@ -3,6 +3,7 @@
     "tara-core": "^0.1.0",
     "tara-explorer": "0.1.0",
     "one-fluent-theme": "0.1.0",
-    "tara-file-operations": "0.1.0"
+    "tara-file-operations": "0.1.0",
+    "tara-right-click-menu": "0.1.0"
   }
 }

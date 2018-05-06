@@ -5,7 +5,7 @@ import { join } from "path";
 const requireFoolWebpack = require("require-fool-webpack");
 
 /**
- * Loads plugins
+ * Loads plugins based off the master package.json that contains the installed plugins
  * @param {String} config Location of config
  * @param {String} location location of plugins
  * @param {String} prop (optional) Prop to return in array

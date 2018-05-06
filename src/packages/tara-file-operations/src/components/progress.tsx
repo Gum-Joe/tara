@@ -2,7 +2,9 @@
  * @overview File ops status area
  * @module tara-file-operations
  */
-import React, { Component } from "react";
+// TODO: Add interfaces for components, i.e. state and function, such as handleCopy()
+import * as React from "react";
+import { Component } from "react";
 import FontAwesome from "react-fontawesome";
 import { Circle } from "react-progressbar.js";
 import { ipcRenderer } from "electron";
@@ -23,10 +25,10 @@ const PREPARING_ICON = "<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>";
  * @param {Number} size Size in bytes
  * @param {String} units units (MB, GB, TB, PB, etc). Default: B (bytes)
  */
-function determineSizeUnits(size, units = "B") {
+function determineSizeUnits(size: number, units: string = "B") {
   // Just in case
-  const MAX_SIZE = 1024;
-  const UNITS = [
+  const MAX_SIZE: number = 1024;
+  const UNITS: string[] = [
     // Units in order of increasing size
     "B",
     "KB",
@@ -36,7 +38,7 @@ function determineSizeUnits(size, units = "B") {
     "PB", // Petabyte
     "EB", // Exabyte
     "ZB", // Zetabyte
-    "ZoB", //Zotabyte
+    "ZoB", // Zotabyte
     "BB", // Brontbyte
   ]
 
@@ -45,7 +47,7 @@ function determineSizeUnits(size, units = "B") {
     return `${size.toFixed(2)} ${units}`;
   } else {
     // 1 of bigger unit or more. Recall function with next units
-    const newSize = size / MAX_SIZE // Divide to get bigger unit
+    const newSize = size / MAX_SIZE; // Divide to get bigger unit
     const newUnits = UNITS[UNITS.indexOf(units) + 1]; // Get new units by getting index of old ones and going one up
     return determineSizeUnits(newSize, newUnits); // Recall function
   }
@@ -56,10 +58,20 @@ function determineSizeUnits(size, units = "B") {
  * @param {Number} size Size in seconds
  * @param {String} units. Default: seconds
  */
-function determineSizeUnitsTime(size, units = "seconds") {
+function determineSizeUnitsTime(size: number, units: string = "seconds") {
+  /**
+   * Unit interface
+   * @interface
+   * @param {string} unit Time unit (i.e. mins, secs)
+   */
+  interface Unit {
+    units: string;
+    max: number;
+  }
+
   // Just in case
-  const MAX_SIZE = 60;
-  const UNITS = [
+  const MAX_SIZE: number = 60;
+  const UNITS: Unit[] = [
     // Units in order of increasing size
     { units: "seconds", max: 60 },
     { units: "minutes", max: 60 },
@@ -67,24 +79,15 @@ function determineSizeUnitsTime(size, units = "seconds") {
     { units: "days", max: 7 },
     { units: "weeks", max: 4.34524 } /* From Google */,
     { units: "months", max: 12 },
-    { units: "years", max: Infinity }
+    { units: "years", max: Infinity },
   ];
 
-  /**
-   * Round function (to 0.d.p)
-   * @param {Number} n Number to round
-   * @return n.toLowerCase()
-   */
-  function round(n) {
-    return n.toLowerCase();
-  }
-
   // Decapitalise units to ensure consistency
-  unitsToUse = units.lowercase();
+  let unitsToUse: string = units.toLowerCase();
 
   // First off, if units is UNITS[UNITS.length - 1].units (years) then just return rounded
   if (unitsToUse === UNITS[UNITS.length - 1].units) {
-    return `${round(size)} ${unitsToUse}`;
+    return `${Math.round(size)} ${unitsToUse}`;
   }
 
   // New Size
@@ -95,10 +98,10 @@ function determineSizeUnitsTime(size, units = "seconds") {
   // TODO: Sort out relooping
   for (let unit of UNITS) {
     // If it's the right unit, check if it is greater than or equal to unit.max
-    if (unit.unit === unitsToUse && size >= unit.max) {
-      newUnitOBJ = UNITS[UNITS.indexOf(unit) + 1];
-      unitsToUse = newUnitOBJ.unit;
-      newSize = round(newSize / unit.max);
+    if (unit.units === unitsToUse && size >= unit.max) {
+      const newUnitOBJ = UNITS[UNITS.indexOf(unit) + 1];
+      unitsToUse = newUnitOBJ.units;
+      newSize = Math.round(newSize / unit.max);
       break; // Loop not needed anymore
     }
   }
@@ -108,25 +111,41 @@ function determineSizeUnitsTime(size, units = "seconds") {
 }
 
 export default class Progress extends Component {
-  constructor() {
-    super();
+  private db: DB;
+  public state: {
+    currentFile: string;
+    done: string; // String version with units
+    doneBytes: number;
+    message: string;
+    state: string;
+    eta: number;
+    speed: string;
+    totalSize: string; // String version with units
+    totalSizeBytes: number;
+    percentDone: number; // Stored as value between 0 and 1
+    percentDoneFile: number; // Stored as value between 0 and 1
+    numberOfFiles: 0;
+  }
+
+  constructor(props) {
+    super(props);
     this.state = {
-      message: "Preparing...",
-      state: "Discovering files...", // Show below message
       currentFile: "Generating file list...", // Show below "File status"
-      eta: 0, // in secs
-      speed: "0 MB/s",
-      totalSize: "0 MB",
-      totalSizeBytes: 0,
       done: "0 MB",
       doneBytes: 0,
+      eta: 0, // in secs
+      message: "Preparing...",
+      numberOfFiles: 0, // Handy counter to make determining percentDone easier
       percentDone: 0,
       percentDoneFile: 0,
-      numberOfFiles: 0 // Handy counter to make determining percentDone easier
+      speed: "0 MB/s",
+      state: "Discovering files...", // Show below message
+      totalSize: "0 MB",
+      totalSizeBytes: 0,
     }
     this.db = new DB({ filename: join(TARA_CONFIG_DBS, "file-operations", "tmp.db"), autoload: true });
   }
-  componentWillMount() {
+  public componentWillMount() {
     // Here we get the action to to do
     this.db.find({}, (err, docs) => {
       if (err) {
@@ -148,7 +167,7 @@ export default class Progress extends Component {
    * by getting of bytes done in last 500ms
    * @param {Number} start UNIX time when action was started
    */
-  startSpeedEstimater(start) {
+  private startSpeedEstimater(start: number) {
     const startTime = Date.now();
     setInterval(() => {
       // store bytes
@@ -162,7 +181,7 @@ export default class Progress extends Component {
         // Set state
         this.setState({
           ...this.state,
-          speed: `${determineSizeUnits(deltaBytes)}/s`
+          speed: `${determineSizeUnits(deltaBytes)}/s`,
         });
         // Get ETA with average
         const nowTime = Date.now();
@@ -185,7 +204,7 @@ export default class Progress extends Component {
    * @param {Object} action Files to copy
    * @returns {void} Nothing
    */
-  handleCopy(action) {
+  private handleCopy(action) {
     const logger = new Logger({ name: "copy" });
     const dest = action.dest;
     logger.debug("Preparing to copy files...");
@@ -252,7 +271,7 @@ export default class Progress extends Component {
     });
   }
 
-  render() {
+  public render() {
     return (
       <div className="file-ops-status">
         <Grid columns={3}>

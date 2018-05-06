@@ -20,7 +20,7 @@
   "homepage": "https://github.com/Gum-Joe/tara#readme",
   "tara": {
     "type": "plugin",
-    "api": "lib/api"
+    "api": "lib/api.js"
   },
   "dependencies": {
     "async": "^2.5.0",
