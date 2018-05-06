@@ -106,7 +106,7 @@
     "babel-preset-react": "^6.24.1",
     "coffeelint": "^2.1.0",
     "devtron": "^1.4.0",
-    "electron": "^1.8.1",
+    "electron": "^2.0.0-beta.8",
     "electron-builder": "^19.53.7",
     "electron-compile": "^6.4.2",
     "electron-compilers": "^5.9.0",

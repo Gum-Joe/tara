@@ -40,5 +40,8 @@ jspm_packages
 dist
 out
 
-# Builds
-src/packages/*/lib
+# Files to ignore for semantic
+src/semantic/dist
+src/semantic/tasks
+src/semantic/src/themes
+src/semantic/src/definitions
