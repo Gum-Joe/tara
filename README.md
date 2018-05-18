@@ -8,5 +8,5 @@ I was tired of the lack of features in Windows's file explorer, whether that be 
 At the moment, only Windows is supported to speed up development.  Linux builds should follow once the main feature set is in.
 
 # Building
-`./scripts/build.sh`
+`yarn && ./script/build-modules.sh` (Requires Git Bash)
 **Note**: Currently there are issues building tara.  This will be resolved at a later date.

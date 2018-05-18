@@ -18,7 +18,7 @@ export default class Logger {
   constructor(args: LoggerArgs) {
     this.args = args || { name: "logger" };
     this.argv = process.argv;
-    this.isDebug = this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v") || process.env.DEBUG;
+    this.isDebug = this.argv.includes("--debug") || this.argv.includes("--verbose") || this.argv.includes("-v") || process.env.DEBUG === "true";
     this.chalk = new chalk.constructor();
     // Get type
     if (typeof window !== "undefined") {

@@ -13,6 +13,12 @@
     "strict": false,
     "noImplicitAny": false,
     "preserveConstEnums": true,
-    "outDir": "./lib"
-  }
+    "outDir": "./lib",
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules/electron/electron.d.ts",
+  ],
 }

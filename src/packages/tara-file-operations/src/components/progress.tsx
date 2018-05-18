@@ -4,7 +4,6 @@
  */
 // TODO: Add interfaces for components, i.e. state and function, such as handleCopy()
 import * as React from "react";
-import { Component } from "react";
 import FontAwesome from "react-fontawesome";
 import { Circle } from "react-progressbar.js";
 import { ipcRenderer } from "electron";
@@ -12,12 +11,28 @@ import * as fs from "fs";
 import mkdirp from "mkdirp";
 import { join, parse, relative } from "path";
 import { Grid, Progress as ProgressBar } from "semantic-ui-react";
-import DB from "nedb";
+import * as DB from "nedb";
 import { FILE_OPS_GET_FILES, FILE_OPS_SEND_FILE_LIST_ITEM } from "../constants";
 import { TARA_CONFIG_DBS } from "tara-core/lib/constants";
 import { Logger } from "tara-core";
 
 const PREPARING_ICON = "<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>";
+
+interface ProgressState {
+  currentFile?: string;
+  done?: string; // String version with units
+  doneBytes?: number;
+  message?: string;
+  state?: string;
+  eta?: string;
+  speed?: string;
+  totalSize?: string; // String version with units
+  totalSizeBytes?: number;
+  percentDone?: number; // Stored as value between 0 and 1
+  percentDoneFile?: number; // Stored as value between 0 and 1
+  numberOfFiles?: 0;
+  startTime?: number; // UNIX time
+}
 
 // TODO: Refactor next two functions into one
 /**
@@ -92,7 +107,7 @@ function determineSizeUnitsTime(size: number, units: string = "seconds") {
 
   // New Size
   let newSize = size;
-  
+
   // Then loop and check
   // NOTE: Might want to use binary search instead
   // TODO: Sort out relooping
@@ -110,22 +125,9 @@ function determineSizeUnitsTime(size: number, units: string = "seconds") {
   return `${newSize} ${unitsToUse}`;
 }
 
-export default class Progress extends Component {
+export default class Progress extends React.Component<any, any> {
   private db: DB;
-  public state: {
-    currentFile: string;
-    done: string; // String version with units
-    doneBytes: number;
-    message: string;
-    state: string;
-    eta: number;
-    speed: string;
-    totalSize: string; // String version with units
-    totalSizeBytes: number;
-    percentDone: number; // Stored as value between 0 and 1
-    percentDoneFile: number; // Stored as value between 0 and 1
-    numberOfFiles: 0;
-  }
+  public state: ProgressState;
 
   constructor(props) {
     super(props);
@@ -133,7 +135,7 @@ export default class Progress extends Component {
       currentFile: "Generating file list...", // Show below "File status"
       done: "0 MB",
       doneBytes: 0,
-      eta: 0, // in secs
+      eta: "0", // in secs
       message: "Preparing...",
       numberOfFiles: 0, // Handy counter to make determining percentDone easier
       percentDone: 0,
@@ -156,7 +158,7 @@ export default class Progress extends Component {
         // TODO: Add other methods
         if (action.action === "copy") {
           // Handle copy action
-          this.handleCopy(action)
+          this.handleCopy(action);
         }
       }
     });
@@ -258,10 +260,10 @@ export default class Progress extends Component {
             // Set
             this.setState({
               ...this.state,
-              percentDoneFile: (bytesCopied / file.size).toFixed(2),
+              percentDoneFile: parseInt((bytesCopied / file.size).toFixed(2)),
               doneBytes: this.state.doneBytes + buffer.length,
               done: determineSizeUnits(this.state.doneBytes + buffer.length),
-              percentDone: ((this.state.doneBytes + buffer.length) / this.state.totalSizeBytes).toFixed(2)
+              percentDone: parseInt(((this.state.doneBytes + buffer.length) / this.state.totalSizeBytes).toFixed(2))
             });
           })
           read.on("end", () => {});

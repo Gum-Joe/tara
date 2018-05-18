@@ -1,11 +1,15 @@
 {
   "presets": [
-    "env",
+    ["env", {
+      "targets": {
+        "electron": "2.0.0"
+      }
+    }],
     "react"
   ],
   "plugins": [
     "transform-async-to-generator",
     "transform-object-rest-spread",
     "transform-export-extensions"
-  ]
+  ],
 }

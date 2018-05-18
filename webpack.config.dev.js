@@ -13,7 +13,7 @@ module.exports = {
        test: /\.jsx?$/,
        use: ["source-map-loader"],
        enforce: "pre"
-     }
+     },
     ]
   },
   stats: "minimal",

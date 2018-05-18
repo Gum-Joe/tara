@@ -15,7 +15,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import "font-awesome/css/font-awesome.min.css";
 import reducers from "./reducers"; // eslint-disable-line
-import { App } from "./containers/app.jsx";
+import { App } from "./containers/app";
 
 // Styles inc. semantic UI
 import "./semantic/dist/semantic.min.css";

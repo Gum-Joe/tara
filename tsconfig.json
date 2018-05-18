@@ -12,6 +12,6 @@
     "allowJs": true,
     "strict": false,
     "noImplicitAny": false,
-    "preserveConstEnums": true,
+    "preserveConstEnums": true
   }
 }

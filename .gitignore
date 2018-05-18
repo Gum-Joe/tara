@@ -42,3 +42,6 @@ out
 
 # Files to ignore for semantic
 src/semantic
+
+# Library builds
+lib
