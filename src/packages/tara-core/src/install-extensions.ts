@@ -18,8 +18,8 @@ export default function installExtensions() {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((name) => logger.info(`Added Extension:  ${chalk.blue(name)}`))
       .catch((err) => logger.throw(err));
-    installExtension(REDUX_DEVTOOLS)
-      .then((name) => logger.info(`Added Extension:  ${chalk.blue(name)}`))
-      .catch((err) => logger.throw(err));
+    // installExtension(REDUX_DEVTOOLS)
+    //   .then((name) => logger.info(`Added Extension:  ${chalk.blue(name)}`))
+    //   .catch((err) => logger.throw(err));
   }
 }

@@ -13,7 +13,7 @@ export default class Logger {
   private argv: string[];
   private isDebug: boolean;
   private type: "WINDOW" | "PROCESS" | "WINDOW_SENT";
-  private logFileStream: WriteStream;
+  // private logFileStream: WriteStream;
   private chalk: Chalk;
   constructor(args: LoggerArgs) {
     this.args = args || { name: "logger" };
@@ -25,7 +25,7 @@ export default class Logger {
       this.type = WINDOW_TYPE;
     } else {
       this.type = PROCESS_TYPE;
-      this.logFileStream = createWriteStream(LOG_FILE, { flags: "a" });
+      // this.logFileStream = createWriteStream(LOG_FILE, { flags: "a" });
       // Start listening
       if (args.windowLogger) {
         const { ipcMain } = require("electron");

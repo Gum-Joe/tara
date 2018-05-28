@@ -2,7 +2,8 @@
   "theme": "one-fluent-theme",
   "window": {
     "scripts": [
-      "D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-explorer\\browser\\index.js"
+      "D:\\Users\\Kishan\\Documents\\Projects\\tara\\src\\packages\\tara-explorer\\browser\\index.js",
+      "D:\\Users\\Kishan\\Documents\\Projects\\tara-2\\src\\packages\\tara-explorer\\browser\\index.js"
     ]
   }
 }

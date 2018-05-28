@@ -10929,6 +10929,12 @@ node-abi@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-2.0.2.tgz#00f3e0a58100eb480133b48c99a32cc1f9e6c93e"
 
+node-abi@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/node-abi/-/node-abi-2.4.1.tgz#7628c4d4ec4e9cd3764ceb3652f36b2e7f8d4923"
+  dependencies:
+    semver "^5.4.1"
+
 node-dir@0.1.8:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/node-dir/-/node-dir-0.1.8.tgz#55fb8deb699070707fb67f91a460f0448294c77d"

@@ -45,3 +45,6 @@ src/semantic
 
 # Library builds
 lib
+
+# Node-sass backup
+.node-sass-vendor
