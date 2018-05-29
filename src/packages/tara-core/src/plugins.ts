@@ -11,7 +11,7 @@ const requireFoolWebpack = require("require-fool-webpack");
  * @param {String} prop (optional) Prop to return in array
  * @returns {Array} Array of plugins
  */
-export default (config, location, prop = null) => {
+export default (config: string, location: string, prop = null) => {
   // Plugin config file
   const plugins = requireFoolWebpack(config);
 

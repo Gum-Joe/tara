@@ -5,14 +5,13 @@ import { DEBUG } from "./constants";
 
 export interface PackageJSON {
   name: string;
-  version: string;
-  description: string;
   main: string;
-  scripts: {
-    test: string;
-  };
   tara: {
     type: string;
+    client: string; // React component to put into layout (panel)
+    mainProcess: string; // Code to run on main process (the renderer/loader)
+    script: string; // Code to run on client (window) that is not a react components
+    api: string // Location of api code to load
   };
 }
 

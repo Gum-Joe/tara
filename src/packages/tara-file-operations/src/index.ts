@@ -16,16 +16,16 @@ interface FilesOBJ {
 
 // Items
 const items = [
-  { label: "Open", click: join(__dirname, "open.ts"), id: 0 },
-  { label: "Open in new window", click: join(__dirname, "open-window.ts"), id: 1 },
+  { label: "Open", click: join(__dirname, "open.js"), id: 0 },
+  { label: "Open in new window", click: join(__dirname, "open-window.js"), id: 1 },
   { type: "separator", id: 2 },
-  { label: "Cut", click: join(__dirname, "cut.ts"), id: 3 },
-  { label: "Copy", click: join(__dirname, "copy.ts"), id: 4 },
-  { label: "Paste", click: join(__dirname, "paste/index.ts"), id: 5 },
-  { label: "Delete", click: join(__dirname, "delete.ts"), id: 6 },
+  { label: "Cut", click: join(__dirname, "cut.js"), id: 3 },
+  { label: "Copy", click: join(__dirname, "copy.js"), id: 4 },
+  { label: "Paste", click: join(__dirname, "paste/index.js"), id: 5 },
+  { label: "Delete", click: join(__dirname, "delete.js"), id: 6 },
 ];
 
-export async function main(tara: Tara) {
+export async function script(tara: Tara) {
   tara.logger.debug("Loading menu items...");
   try {
     const api = await tara.getPlugin("tara-right-click-menu");
@@ -33,11 +33,15 @@ export async function main(tara: Tara) {
     for (let item of items) {
       menu.append(item);
     }
+    menu.listen();
   } catch (err) {
     console.error(err.stack);
     throw err;
   }
+}
 
+export function main(tara: Tara) {
+  tara.logger.debug("Starting listenners for file operations..");
   // Listeners
   ipcMain.on(FILE_OPT_OPEN_WINDOW, (event: Event) => {
     event.preventDefault();
@@ -53,5 +57,4 @@ export async function main(tara: Tara) {
       });
     });
   });
-
 }

@@ -30,6 +30,7 @@
   "chalk": "^2.3.0",
   "electron": "^2.0.0-beta.8",
   "electron-devtools-installer": "^2.2.4",
+  "electron-is-dev": "^0.3.0",
   "require-fool-webpack": "^2.0.0"
  },
  "devDependencies": {

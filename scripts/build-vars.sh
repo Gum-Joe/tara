@@ -15,3 +15,4 @@ export npm_config_build_from_source=true
 export electron_id=57
 # Package dir
 export PACKAGE_DIR=src/packages
+  

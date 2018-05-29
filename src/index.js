@@ -16,6 +16,7 @@ import { createStore } from "redux";
 import "font-awesome/css/font-awesome.min.css";
 import reducers from "./reducers"; // eslint-disable-line
 import { App } from "./containers/app";
+import { loadScripts } from "./packages/tara-core";
 
 // Styles inc. semantic UI
 import "./semantic/dist/semantic.min.css";
@@ -32,6 +33,9 @@ const store = createStore(
 
 // Keep global reference
 global.store = store;
+
+// Load scripts
+loadScripts();
 
 const render = Component => {
   // NB: We have to re-require MyApp every time or else this won't work
