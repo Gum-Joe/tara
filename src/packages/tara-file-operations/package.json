@@ -5,7 +5,8 @@
  "main": "lib/index.js",
  "scripts": {
   "test": "cd ../.. && npm test",
-  "build": "tsc"
+  "build": "tsc && webpack",
+  "webpack": "webpack"
  },
  "repository": {
   "type": "git",
@@ -36,8 +37,8 @@
   "@types/react": "^16.3.14",
   "@types/semantic-ui": "^2.2.6",
   "async": "^2.6.0",
+  "babel-preset-env": "^1.7.0",
   "electron": "^2.0.0-beta.8",
-  "electron-compile": "^6.4.2",
   "mkdirp": "^0.5.1",
   "nedb": "^1.8.0",
   "prop-types": "^15.6.1",
@@ -50,6 +51,9 @@
   "tara-core": "^0.1.0"
  },
  "devDependencies": {
-  "typescript": "^2.8.3"
+  "babel-loader": "^7.1.4",
+  "ts-loader": "^4.3.0",
+  "typescript": "^2.8.3",
+  "webpack": "^4.10.2"
  }
 }

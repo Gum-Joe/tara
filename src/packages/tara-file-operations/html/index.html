@@ -21,11 +21,12 @@
     <!-- Our stuff -->
     <script type="text/javascript">
       // Put tara into the global namespace
-      global.tara = require("../../../renderer/boot/plugin-init").default;
+      global.tara = require("../../tara-core/lib/plugin-init").default;
+      global.exports = {};
     </script>
     <!-- Load scripts -->
     <!--<script async src="../../renderer/load-scripts.js" charset="utf-8"></script>-->
     <!-- And now load operation UI -->
-    <script async src="/" charset="utf-8"></script>
+    <script async src="../lib/components/index.js" charset="utf-8"></script>
   </body>
 </html>

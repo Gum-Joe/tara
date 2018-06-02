@@ -3,7 +3,6 @@
  * @module tara-file-operations/paste
  */
 import { app, BrowserWindow } from "electron";
-import { enableLiveReload } from "electron-compile";
 import { PluginInit as TaraPlugin } from "tara-core";
 import { DEV_ENV } from "tara-core/lib/constants";
 import { installExtensions } from "tara-core";
@@ -22,13 +21,13 @@ export default (tara: TaraPlugin) => {
    * @function createWindow
    * @returns {undefined} Nothing
    */
-  const createWindow = async () => {
+  const createWindow = () => {
     tara.logger.info("Creating window for file action status...");
 
     // Create the browser window.
     mainWindow = new BrowserWindow({
-      width: 857,
       height: 325,
+      width: 857,
     });
 
     // and load the index.html of the app.
@@ -56,9 +55,4 @@ export default (tara: TaraPlugin) => {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   createWindow();
-
-  // Enable HMR
-  if (process.env.NODE_ENV === DEV_ENV) {
-    enableLiveReload({ strategy: "react-hmr" });
-  }
 };
